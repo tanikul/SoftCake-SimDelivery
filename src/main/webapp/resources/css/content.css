@@ -1,0 +1,267 @@
+ @font-face {
+    font-family: 'cs_chatthairegular';
+    src: url('../fonts/CSChatThai/cschatthai-webfont.woff2') format('woff2'),
+         url('../fonts/CSChatThai/cschatthai-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'cs_chatthaiuiregular';
+    src: url('../fonts/CSChatThai/cschatthaiui-webfont.woff2') format('woff2'),
+         url('../fonts/CSChatThai/cschatthaiui-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+} 
+@font-face {
+    font-family: 'quarkbold';
+    src: url('../fonts/Quark/quark-bold-webfont.woff2') format('woff2'),
+         url('../fonts/Quark/quark-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'quarklight';
+    src: url('../fonts/Quark/quark-light-webfont.woff2') format('woff2'),
+         url('../fonts/Quark/quark-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/* @font-face {
+    font-family: 'bangna_newregular';
+    src: url('../fonts/Bangna/bangna-new-webfont.woff2') format('woff2'),
+         url('../fonts/Bangna/bangna-new-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+} */
+@font-face {
+    font-family: 'waffle_lightregular';
+    src: url('../fonts/Waffle/waffle_light-webfont.woff2') format('woff2'),
+         url('../fonts/Waffle/waffle_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'waffle_regularregular';
+    src: url('../fonts/Waffle/waffle_regular-webfont.woff2') format('woff2'),
+         url('../fonts/Waffle/waffle_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body{
+	font-family: 'quarkbold';
+} 
+
+.number-panel {
+    text-align: center;
+    margin-bottom: 50px;
+    word-wrap: break-word;
+}
+.panel-round-bd {
+    border: 1px solid #cccccc;
+    border-radius: 25px;
+    min-height: 120px;
+    padding: 30px;
+    position: relative;
+}
+.number-panel {
+    color: #333;
+}
+#cont_mobile_list {
+    margin: 10px 0px;
+    font-size: 16px;
+}
+.number {
+    text-align: center;
+    width: 14.66667%;
+}
+.number, .selected-panel .selected-item {
+    background: #E6E6E6;
+    border-radius: 30px;
+    color: #ed6d12;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    margin: 13px 5px;
+    padding: 15px;
+    font-weight: 600;
+}
+.txt-pink {
+    color: #eb232a !important;
+}
+.paginations-block {
+    position: relative;
+}
+.paginations {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.paginations .page {
+    float: inherit;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 50%;
+    color: #d58512;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    height: 30px;
+    line-height: 1;
+    margin: 0 3px;
+    padding-top: 7px;
+    text-align: center;
+    text-decoration: none;
+    width: 30px;
+}
+.btn-lg.btn-round-bd, .btn-lg.btn-round-solid, .btn-lg.btn-number-format {
+	font-size: 20px;
+    border-top-right-radius: 35px !important;
+    border-top-left-radius: 35px !important;
+    border-bottom-right-radius: 35px !important;
+    border-bottom-left-radius: 35px !important;
+}
+[class^=btn] .badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 35px;
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 9px;
+    margin-right: 10px;
+}
+.bg-gd-pnk, [class^=btn] .badge, .btn-cart {
+    background: linear-gradient(-90deg, #fcfcfc, #f29335, #ea7909);
+    border: 0;
+    border-bottom: 3px solid #e8850b;
+}
+.btn-select-num {
+    text-align: left;
+    width: 260px;
+}
+.btn-round-solid {
+    color: #fff;
+}
+.btn-round-bd, .btn-round-solid, .btn-number-format {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+.paginations .page.active, .paginations .page:hover {
+    border: 2px solid #092247;
+    color: #092247;
+}
+.number-panel .active.number, .selected-panel .active.selected-item, .number-panel .number:hover, .selected-panel .selected-item:hover {
+    background: rgba(9, 34, 71, 0.85);
+    color: #fff;
+}
+.number-panel .disable.number, .selected-panel .disable.selected-item {
+    opacity: .5;
+    cursor: not-allowed;
+}
+.bg-blue-weight {
+    background: #444444;
+    color: #ffffff;
+}
+.x_title h3 {
+	font-size:22px;
+	color: #827f7f;
+	font-weight: bold;
+	font-family: 'cs_chatthaiuiregular';
+}
+.top-nav span {
+	font-size: 0.8em;
+	padding-left: 10px;
+	color: #999;
+}
+.orange-button {
+    background-color: #F5911D;
+}
+.button-flex {
+    min-width: 90px;
+    width: auto;
+    height: 35px;
+    border-radius: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.selected-panel .head {
+    font-size: 16px;
+    margin: 0px 20px 35px 25px;
+    color: #827f7f;
+}
+.number-panel .disable.number:hover, .selected-panel .disable.selected-item:hover {
+    /* background: #f2f3f6;
+    color: #00adef; */
+}
+.selected-panel .selected-item {
+    position: relative;
+    width: 100%;
+    margin: 8px 30px 0 0;
+    border-radius: 20px;
+    padding: 20px;
+}
+.option-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    transition: all 0.15s ease-out 0;
+    position: absolute;
+    top: 50%;
+    margin-top: -17px !important;
+    left: -15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    z-index: 1;
+}
+.txt-close i {
+	cursor: pointer;
+	font-size: 24px;
+}
+
+.bg-gd-submit {
+    background: linear-gradient(-90deg, rgba(244, 54, 117, 0.91), rgba(247, 61, 68, 0.99), rgba(245, 16, 16, 0.84));
+    border: 0;
+    border-bottom: 3px solid #ef3510;
+}
+.bg-gd-submit:hover {
+    background: red;
+    border: 0;
+    border-bottom: 3px solid #ef3510;
+}
+.help-block {
+	color: #eb232a !important;
+}
+.top-right-menu {
+	margin-top: 20px;
+}
+.top-right-menu > a > span {
+	font-size: 0.8em;
+    margin-left: 10px;
+    color: #848484;
+    font-weight: bold;
+}
+.x_panel {
+	margin-top: 20px;
+}
