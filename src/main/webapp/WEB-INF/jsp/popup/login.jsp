@@ -150,7 +150,7 @@
 							<label><b>Password</b></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="text" id="password" class="form-control" />
+							<input type="password" id="password" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
@@ -222,20 +222,24 @@
 	      </div>
 	      <div id="signin">
 	     <%--  <c:if test="${login ne null}"> --%>
-		      <springForm:form id="loginForm" action="${loginUrl}" method="POST" commandName="login">
-			      	<div class="form-group">
-			      		<springForm:input path="username" cssClass="input_form_sign d_block active_inp" placeholder="USERNAME" />
-				      	<div class="help-block active_inp"></div>
-				      </div>
-				      <div class="form-group">
-				 	  	<springForm:input path="password" cssClass="input_form_sign d_block active_inp" placeholder="PASSWORD" />
-				      	<div class="help-block active_inp"></div>
-				      </div>
-				      <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a>  
-				      <div class="cont_btn" style="margin-left: 100px;margin-top: 20px;">
-				     	<input type="submit" class="btn_sign" id="btn_signin" value="SIGN IN">
-				    </div>
-			    </springForm:form>
+		      <%-- <springForm:form id="loginForm" action="${loginUrl}" method="POST" commandName="login">   --%>
+				<div class="form-group">
+					<div class="help-block with-errors signin-display-error" id="display_error"></div>
+				</div>
+				  <div class="form-group">
+		      		<input type="text" name="username" id="username" class="input_form_sign d_block active_inp" placeholder="USERNAME" />
+			      	<div class="help-block active_inp"></div>
+			      </div>
+			      <div class="form-group">
+			 	  	<input type="password" name="password" id="password" class="input_form_sign d_block active_inp" placeholder="PASSWORD" />
+			      	<div class="help-block active_inp"></div>
+			      </div>
+			      <a href="#" class="link_forgot_pass d_block" >Forgot Password ?</a>  
+			      
+			      <div class="cont_btn" style="margin-left: 100px;margin-top: 20px;">
+			     	<input type="button" class="btn_sign" id="btn_signin" value="SIGN IN">
+			    </div>
+		   <%--  </springForm:form> --%>
 		    <%-- </c:if> --%>
 	      </div>
 	    </div>

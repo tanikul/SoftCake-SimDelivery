@@ -75,7 +75,7 @@ function sendPostAjax(url, params, funcName){
 			}
 			$('.tooltip').remove();
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
+		error: function (jqXHR, textStatus, errorThrown) {console.log(jqXHR);
 			if(jqXHR.status !== 200){
 				if(typeof jqXHR.responseJSON != 'undefined'){
 					if(typeof jqXHR.responseJSON.errorMessage != 'undefined'){
@@ -84,6 +84,7 @@ function sendPostAjax(url, params, funcName){
 							 $("#logoutForm").submit();
 							 return false;
 						}
+						$('.modal').modal('hide');
 						$("#dialog-confirm").dialog('close');
 						$("#dialog-message").dialog('close');
 						alertModal('Warning', jqXHR.responseJSON.errorMessage);
@@ -91,6 +92,7 @@ function sendPostAjax(url, params, funcName){
 					}
 				}else{
 					if(typeof jqXHR.statusText != 'undefined'){
+						$('.modal').modal('hide');
 						$("#dialog-confirm").dialog('close');
 						$("#dialog-message").dialog('close');
 						alertModal('Error', jqXHR.status + ' ' +  jqXHR.statusText);
@@ -116,11 +118,13 @@ function sendGetAjax(url, funcName){
 		success: function (data) {
 			if(data.hasOwnProperty('success') && data.hasOwnProperty('message')){
 				if(!data.success){
+					$('.modal').modal('hide');
 					$("#dialog-confirm").dialog('close');
 					$("#dialog-message").dialog('close');
 					alertModal('Warning', data.message);
 					$('.tooltip').remove();
 				}else{
+					$('.modal').modal('hide');
 					$("#dialog-confirm").dialog('close');
 					$("#dialog-message").dialog('close');
 					alertModal('Alert', data.message);

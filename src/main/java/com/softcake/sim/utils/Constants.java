@@ -17,8 +17,10 @@ public class Constants {
 	public static final String ACCESS_MAKER = "hasRole({@props.maker})";
 	public static final String ACCESS_CHECKER = "hasRole({@props.checker})";
 	public static final String ACCESS_VIEWER = "hasRole({@props.viewer})";
-	public static final String ROLE_ADMIN = "ADMIN";
+	public static final String ROLE_ADMIN = "Admin";
 	public static final String ROLE_USER = "USER";
+	public static final String ROLE_SUPERADMIN = "Super Admin";
+	public static final String ROLE_DATAENTRY = "Data Entry";
 	
 	private Constants() {
 	}

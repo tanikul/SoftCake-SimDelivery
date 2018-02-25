@@ -7,53 +7,50 @@
 <t:master>
 	<jsp:body>
 	<script src="<c:url value="/js/sim.js" />"></script>
-	<br/>
-	<br/>
-	<br/>
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				 <div class="x_panel panel-round-bd">
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				    	<label for="exampleInputName2" class="control-label">ระบุเลขนำหน้าที่ต้องการ</label>
-				    	<select class="form-control" id="exampleInputName2">
-				    		<option value="">ทั้งหมด</option>
-				    	</select>
-				  	</div>
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				    	<label for="exampleInputName2" class="control-label">ระบุหมายเลข</label>
-				    	<select class="form-control" id="exampleInputName2">
-				    		<option value="">ทั้งหมด</option>
-				    	</select>
-				  	</div>
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				    	<label for="exampleInputName2" class="control-label">ระบุเลขที่ต้องการ</label>
-				    	<div class="form-inline">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">	
-				    	</div>
-				  	</div>
-					<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				    	<label for="exampleInputName2" class="control-label">ระบุเลขที่ไม่ต้องการ</label>
-				    	<div class="form-inline">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">
-				    		<input type="text" class="input-one" id="exampleInputName2">	
-				    	</div>
-				  	</div>
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				    	<label for="exampleInputName2" class="control-label">ผลรวมของเบอร์</label>
-				    	<input type="text" class="form-control" />
-				  	</div>
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-				  	
-  		 			 	<button class="btn btn-warning button-flex orange-button" style="margin-top:24px;">ค้นหา</button>
-  		 			</div>
-				 </div>
-			</div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			 <div class="x_panel panel-round-bd">
+			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
+			    	<label for="exampleInputName2" class="control-label">ระบุเลขนำหน้าที่ต้องการ</label>
+			    	<select class="form-control" id="exampleInputName2">
+			    		<option value="">ทั้งหมด</option>
+			    	</select>
+			  	</div>
+			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			    	<label for="exampleInputName2" class="control-label">ระบุหมายเลข</label>
+			    	<select class="form-control" id="exampleInputName2">
+			    		<option value="">ทั้งหมด</option>
+			    	</select>
+			  	</div>
+			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			    	<label for="exampleInputName2" class="control-label">ระบุเลขที่ต้องการ</label>
+			    	<div class="form-inline">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">	
+			    	</div>
+			  	</div>
+				<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			    	<label for="exampleInputName2" class="control-label">ระบุเลขที่ไม่ต้องการ</label>
+			    	<div class="form-inline">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">
+			    		<input type="text" class="input-one" id="exampleInputName2">	
+			    	</div>
+			  	</div>
+			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			    	<label for="exampleInputName2" class="control-label">ผลรวมของเบอร์</label>
+			    	<input type="text" class="form-control" />
+			  	</div>
+			  	<div class="form-group col-md-1 col-sm-1 col-xs-1">
+			  	
+ 		 			 	<button class="btn btn-warning button-flex orange-button" style="margin-top:24px;">ค้นหา</button>
+ 		 			</div>
+			 </div>
 		</div>
+	</div>
 	<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel tile overflow_hidden">
