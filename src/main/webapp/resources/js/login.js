@@ -57,8 +57,9 @@ $(document).ready(function(){
 	if($('body').find('.cont_centrar').length > 0){
 		document.querySelector('.cont_centrar').className = "cont_centrar cent_active";
 	}
-	var $form = $('#loginForm');
-	$form.bind('submit', function(e) {
+	
+	$('#btn_signin').click(function(){
+		var $form = $('#loginForm');
 		var username = $('#signin #username');
 		var password = $('#signin #password');
 		var chk = true;
@@ -86,41 +87,92 @@ $(document).ready(function(){
 				password.parent().find('.help-block').html('');
 			});
 		}
-		if(!chk){
-			$form.unbind('submit');
-			e.preventDefault();
-			return false;
+		if(chk){
+			$.ajax({
+				url: GetSiteRoot() + '/j_spring_security_check',
+				method: "POST",
+				dataType: "json",
+				data: {
+					username: $('input[name="username"]').val(),
+					password: $('input[name="password"]').val()
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+				},
+				cache: false,
+				success: function (data) {
+					if(data != null){
+						location.reload();
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if(jqXHR.status !== 200){
+						if(typeof jqXHR.statusText != 'undefined'){
+							$('#display_error').html(jqXHR.responseText);
+						}
+					}
+				}
+			});
 		}
 	});
 	
 	$('#btn_signup').click(function(){
 		if(checkValidate('user')){
-			var obj = { firstName: $('#signup #firstName').val(),
-				lastName: $('#signup #lastName').val(),
-				userId: $('#signup #username').val(),
-				password: $('#signup #password').val(),
-				address: $('#signup #address').val(),
-				province: $('#signup #province').val(),
-				postcode: $('#signup #postcode').val(),
-				mobile: $('#signup #mobile').val(),
-				email: $('#signup #email').val()
-			};
-			sendPostAjax('/User/Signup', obj, function(data){
+			sendPostAjax('/User/CheckDuplicateUser', {userId: $('#signup #username').val()}, function(data){
 				if(data == 1){
-					alertModal('', 'กรุณายืนยัน Email');
-					$("#dialog-message").dialog({
-						  modal: true,
-						  buttons: {
-							Ok: function() {
-							  $(this).dialog("close");
-							  closeOverlay();
-							  //location.href = GetSiteRoot() + '/MasterSetup/Client';
-							}
-						  }
-					});
+					$('#signup #username').next().html('Username นี้มีในระบบแล้ว');
+				}else{
+					var email = $('#signup #email').val().trim();
+					if(!validateEmail($('#signup #email'))){
+						$('#signup #email').next().html('รูปแบบ email ไม่ถูกต้อง');
+					}	
+					
+					var obj = { firstName: $('#signup #firstName').val().trim(),
+						lastName: $('#signup #lastName').val().trim(),
+						userId: $('#signup #username').val().trim(),
+						password: $('#signup #password').val().trim(),
+						address: $('#signup #address').val().trim(),
+						province: $('#signup #province').val().trim(),
+						postcode: $('#signup #postcode').val().trim(),
+						mobile: $('#signup #mobile').val().trim(),
+						email: email,
+						prefix: $('#signup #prefix').val()
+					};
+					sendPostAjax('/User/Signup', obj, function(data){
+						if(data == 1){
+							$('.modal').modal('hide');
+							alertModal('', 'กรุณายืนยันตัวตนของท่านที่ Email ' + email);
+							$("#dialog-message").dialog({
+								  modal: true,
+								  buttons: {
+									Ok: function() {
+									  $(this).dialog("close");
+									  closeOverlay();
+									  //location.href = GetSiteRoot() + '/MasterSetup/Client';
+									}
+								  }
+							});
+						}
+					});	
 				}
 			});
 		}
 	});
+	
+	$('#signup #username').blur(function(){
+		sendPostAjax('/User/CheckDuplicateUser', {userId: this.value}, function(data){
+			if(data == '1'){
+				$('#signup #username').next().html('Username นี้มีในระบบแล้ว');
+			}
+		});
+	});
+	$('#signup #email').blur(function(){
+		if(!validateEmail($('#signup #email'))){
+			$('#signup #email').next().html('รูปแบบ email ไม่ถูกต้อง');
+		}	
+	});
+	$('#signup #postcode').mask('00000');
+	$('#signup #mobile').mask('0000000000');
 });
 

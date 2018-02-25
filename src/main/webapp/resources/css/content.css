@@ -54,9 +54,9 @@
     font-style: normal;
 
 }
-body{
+/* body{
 	font-family: 'quarkbold';
-} 
+}  */
 
 .number-panel {
     text-align: center;
@@ -254,14 +254,23 @@ body{
 	color: #eb232a !important;
 }
 .top-right-menu {
-	margin-top: 20px;
+	margin-top: 25px;
+}
+.top-right-menu > ul > li > ul > li > a {
+	padding: 10px 20px;
 }
 .top-right-menu > a > span {
-	font-size: 0.8em;
     margin-left: 10px;
+    color: #848484;
+    font-weight: bold;
+}
+.top-right-menu > ul > li > a {
     color: #848484;
     font-weight: bold;
 }
 .x_panel {
 	margin-top: 20px;
+}
+.signin-display-error {
+	margin-left: 15px;
 }

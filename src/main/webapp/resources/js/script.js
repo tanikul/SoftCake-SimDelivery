@@ -250,3 +250,19 @@ function parseCommas(str){
 	}
 	return parseFloat(str.replace(/,/g , ""));
 }
+
+confirmModal = function(title, msg){
+	if(title == null || title == ''){
+		title = 'Confirm Alert'
+	}
+	var str = '<div id="dialog-confirm" title="' + title + '" style="display:none;">';
+	str += '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:2px 12px 11px 0;"></span>' + msg + '</p>';
+	str += '</div>';
+	$('body').find('#dialog-confirm').remove();
+	$('body').append(str);
+}
+
+function validateEmail(obj){
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test($(obj).val());
+}

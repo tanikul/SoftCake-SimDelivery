@@ -25,10 +25,11 @@
 	
 		<form-login 
 		    login-page="/" 
-		    authentication-failure-url="/login?error" 
+			password-parameter="password"
 			username-parameter="username"
 			authentication-success-handler-ref="customAuthenticationSuccessHandler"
-			password-parameter="password" />
+			authentication-failure-handler-ref="customFailureHandler" 
+			/>
 		<logout logout-success-url="/login?logout"
 			delete-cookies="JSESSIONID" 
 			invalidate-session="true"/> 
