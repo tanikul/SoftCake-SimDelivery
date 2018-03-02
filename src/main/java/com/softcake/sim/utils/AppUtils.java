@@ -45,6 +45,9 @@ public class AppUtils {
 	@Value("${web.api.url}") 
 	private String apiUrl;
     
+	@Value("${web.default.url}") 
+	private String webUrl;
+	
 	public String post(String path){
 		String output = "";
 		try {
@@ -352,6 +355,13 @@ public class AppUtils {
 	public void setApiUrl(String apiUrl) {
 		this.apiUrl = apiUrl;
 	}
-	
 
+	public String getWebUrl() {
+		return webUrl;
+	}
+
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
+	}
+	
 }

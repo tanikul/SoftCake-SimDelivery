@@ -24,6 +24,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.softcake.sim.beans.JsonMapper;
+import com.softcake.sim.beans.ListPrivileges;
+import com.softcake.sim.beans.PrivilegeJson;
+import com.softcake.sim.beans.User;
+import com.softcake.sim.utils.AppUtils;
+
 
 @WebFilter(urlPatterns={"/"})
 public class RequestFilter implements Filter {
@@ -34,8 +40,8 @@ public class RequestFilter implements Filter {
 	
 	
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-	        Arrays.asList("", "Welcome", "Logout", "bootstrap", "dashboard", "font-awesome", "jquery", "jquery-ui",
-	        		"js", "plugins", "css", "dist")));
+	        Arrays.asList("", "Profile", "Logout", "fonts", "font-awesome", "vendors", "images",
+	        		"js", "css")));
 	
 	@Override
     public void destroy() {
@@ -64,13 +70,28 @@ public class RequestFilter implements Filter {
         	SecurityContextHolder.clearContext();
         	request.getRequestDispatcher("/login").forward(request, response);	
         }*/
+        if(request.getSession().getAttribute("generateMenu") == null){
+        	 AppUtils app = (AppUtils) ApplicationContextHolder.getContext().getBean("app");
+			 String str = "";
+			 try {
+				str = app.getWithoutAuthen("/user/getRightUserDefault");
+				JsonMapper<ListPrivileges> result = new JsonMapper<>(str, ListPrivileges.class);
+				 //List<PrivilegeJson> list = (List<PrivilegeJson>) new JsonMapper<List<PrivilegeJson>>(str, app.convertListClass(PrivilegeJson.class)).getResult();
+				 GenerateMenu menu = (GenerateMenu) ApplicationContextHolder.getContext().getBean("generateMenu");
+				 menu.genMenu(result.getResult().getList());
+				 request.getSession().setAttribute("generateMenu", menu.getMenu());
+			 } catch (Exception e) {
+				e.printStackTrace();
+			 }
+			 
+		 }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        /*boolean chk = true;
+        boolean chk = true;
         if(authentication != null){
         	if(authentication.getDetails() != null){
-        		if(authentication.getDetails() instanceof UserLogin){
+        		if(authentication.getDetails() instanceof User){
         			boolean accessDenied = false;
-        			UserLogin user = (UserLogin) authentication.getDetails();
+        			User user = (User) authentication.getDetails();
 	            	List<GrantedAuthority> grantedAuths = new ArrayList<>();
 	            	String path = ((HttpServletRequest) request).getServletPath();
 	            	for(PrivilegeJson privilege : user.getPrivilegeJsons()){
@@ -92,7 +113,7 @@ public class RequestFilter implements Filter {
 	            	
 	            	if(!accessDenied){
 	            		String[] arrPath = path.substring(1, path.length()).split("/");
-	            		if (!ALLOWED_PATHS.contains(arrPath[0]) && !path.startsWith("/MasterSetup/Service")){
+	            		if (!ALLOWED_PATHS.contains(arrPath[0]) && !path.startsWith("/MasterSetup")){
 	            			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 	            			request.getRequestDispatcher("/errors").forward(request, response);
 		            		chk = false;
@@ -101,19 +122,18 @@ public class RequestFilter implements Filter {
         		}
         	}
         }
-        */
-       // if(chk) chain.doFilter(req, res);
-        chain.doFilter(req, res);
+        
+        if(chk) chain.doFilter(req, res);
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-    	/*PropertyHolderSystem bean = (PropertyHolderSystem) WebApplicationContextUtils.
+    	PropertyHolderSystem bean = (PropertyHolderSystem) WebApplicationContextUtils.
 				  getRequiredWebApplicationContext(filterConfig.getServletContext()).
 				  getBean(PropertyHolderSystem.class);
     	this.setChecker(bean.getChecker());
 		this.setMaker(bean.getMaker());
-		this.setViewer(bean.getViewer());*/
+		this.setViewer(bean.getViewer());
     }
 
 	public String getViewer() {

@@ -3,6 +3,8 @@ package com.softcake.sim.common;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.utils.Constants;
 
@@ -32,12 +35,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		ServletException {
 		User user = (User) authentication.getDetails();
 		request.getSession().setAttribute("userInfo", user);
-		/*UserLogin user = (UserLogin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-		request.getSession().setMaxInactiveInterval(60 * Integer.parseInt(sessionTimeout));
+		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+		//request.getSession().setMaxInactiveInterval(60 * Integer.parseInt(sessionTimeout));
+		GenerateMenu menu = (GenerateMenu) ApplicationContextHolder.getContext().getBean("generateMenu");
+		menu.init();
 		request.getSession().setAttribute("generateMenu", menu.getMenu());
 		request.getSession().setAttribute("userInfo", user);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		/*SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		if(user!=null && user.getLastLogin()!=null) {
 			String lastLogin = dateFormat.format(user.getLastLogin());
 			request.getSession().setAttribute("lastLogin", lastLogin);
@@ -45,14 +50,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		//String targetUrl = determineTargetUrl(authentication); 
 		//redirectStrategy.sendRedirect(request, response, targetUrl);
-		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("programType", user.getPrivilegeJsons().get(0).getProgramJson().getProgramType());
+		map.put("redirect", user.getPrivilegeJsons().get(0).getProgramJson().getProgramRef());
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		response.setStatus(HttpStatus.OK.value());
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			out.println(Constants.SUCCESS);
+			Gson gson = new Gson();
+			out.println(gson.toJson(map));
 			out.close();
 		} catch (IOException e1) {
 		}

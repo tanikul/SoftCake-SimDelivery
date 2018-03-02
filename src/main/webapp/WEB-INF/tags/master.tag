@@ -166,22 +166,23 @@
  					</div>
  					<div class="bottom-menu-wrapper"> <div class="wrapper clearfix"> 
  						<nav class="main-nav"> 
-	  					<ul class="clearfix"> 
-		  					<li class="current"><a href="<c:url value="/" />">เบอร์สวยคัดพิเศษ</a></li>
-		  					<li><a href="<c:url value="/" />">ขอเบอร์ที่ไม่มีในระบบ</a></li>
-		  					<li><a href="<c:url value="/Predict" />">คำนวณผลรวมเบอร์</a></li>
-		  					<li><a href="<c:url value="/Predict" />">คำนวณผลรวมเบอร์</a>
-		  						<div class="sub-menu"><ul class="list-bl-grey"><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-086-t-https://www.dtac.co.th/postpaid/products/new-number.html'});" href="https://www.dtac.co.th/postpaid/products/new-number.html">เปิดเบอร์ใหม่</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-054-t-https://www.dtac.co.th/mnp/'});" href="https://www.dtac.co.th/mnp/">ย้ายเครือข่ายเบอร์เดิม</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-051-t-https://www.dtac.co.th/postpaid/products/go-no-limit.html'});" href="https://www.dtac.co.th/postpaid/products/go-no-limit.html">แพ็กเกจหลัก</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-052-t-https://www.dtac.co.th/postpaid/products/recommended-add-on-package.html'});" href="https://www.dtac.co.th/postpaid/products/recommended-add-on-package.html">แพ็กเกจเสริม</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-053-t-https://my.dtac.co.th/esv/quickPayment'});" href="https://my.dtac.co.th/esv/quickPayment">ชำระค่าบริการรายเดือน</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-057-t-https://www.dtac.co.th/campaign/pre-to-post.html#Tab2'});" href="https://www.dtac.co.th/campaign/pre-to-post.html#Tab2">เปลี่ยนจากเติมเงินเป็นรายเดือน</a></li></ul></div>
-		  					</li>
-		  					<li><a href="#">จัดการผู้ใช้นะบบ</a>
-		  						<div class="sub-menu">
-		  							<ul class="list-bl-grey">
-		  								<li><a onclick="" href="<c:url value="/Admin/RoleAndPrivilege" />">เปิดเบอร์ใหม่</a></li>
-		  							</ul>
-		  						</div>
-		  					</li>
-	  					</ul>
-  					</nav> 
+		  					<ul class="clearfix"> 
+			  					<%-- <li class="current"><a href="<c:url value="/" />">เบอร์สวยคัดพิเศษ</a></li>
+			  					<li><a href="<c:url value="/" />">ขอเบอร์ที่ไม่มีในระบบ</a></li>
+			  					<li><a href="<c:url value="/Predict" />">คำนวณผลรวมเบอร์</a></li>
+			  					<li><a href="<c:url value="/Predict" />">คำนวณผลรวมเบอร์</a>
+			  						<div class="sub-menu"><ul class="list-bl-grey"><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-086-t-https://www.dtac.co.th/postpaid/products/new-number.html'});" href="https://www.dtac.co.th/postpaid/products/new-number.html">เปิดเบอร์ใหม่</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-054-t-https://www.dtac.co.th/mnp/'});" href="https://www.dtac.co.th/mnp/">ย้ายเครือข่ายเบอร์เดิม</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-051-t-https://www.dtac.co.th/postpaid/products/go-no-limit.html'});" href="https://www.dtac.co.th/postpaid/products/go-no-limit.html">แพ็กเกจหลัก</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-052-t-https://www.dtac.co.th/postpaid/products/recommended-add-on-package.html'});" href="https://www.dtac.co.th/postpaid/products/recommended-add-on-package.html">แพ็กเกจเสริม</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-053-t-https://my.dtac.co.th/esv/quickPayment'});" href="https://my.dtac.co.th/esv/quickPayment">ชำระค่าบริการรายเดือน</a></li><li><a onclick="dataLayer.push({'event':'click','EventAction':'click','EventCategory':'hh-รายเดือน','EventLabel':'th-dt-hh-mm-057-t-https://www.dtac.co.th/campaign/pre-to-post.html#Tab2'});" href="https://www.dtac.co.th/campaign/pre-to-post.html#Tab2">เปลี่ยนจากเติมเงินเป็นรายเดือน</a></li></ul></div>
+			  					</li>
+			  					<li><a href="#">จัดการผู้ใช้</a>
+			  						<div class="sub-menu">
+			  							<ul class="list-bl-grey">
+			  								<li><a href="<c:url value="/Admin/RolePrivilege" />">กำหนดสิทธิ์</a></li>
+			  							</ul>
+			  						</div>
+			  					</li> --%>
+			  					<%=request.getSession().getAttribute("generateMenu") %>
+		  					</ul>
+	  					</nav> 
  					</div>
  					</div>
   			</header>

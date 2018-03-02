@@ -51,4 +51,17 @@ public class MasterSetupController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "LoadRole", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String loadRole(final HttpServletResponse response) throws SoftcakeException  {
+		String result = null;
+		try {
+			result = app.getWithoutAuthen("/masterSetup/loadRole");
+		} catch (Exception e) {
+			logger.error(e);
+			throw new SoftcakeException(e, response);
+		}
+		return result;
+	}
 }

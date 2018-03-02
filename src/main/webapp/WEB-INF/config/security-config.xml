@@ -42,6 +42,7 @@
 	<beans:bean id="customFailureHandler" class="com.softcake.sim.common.CustomAuthenticationFailureHandler" />
 	<beans:bean id="app" class="com.softcake.sim.utils.AppUtils">
 		<beans:property name="apiUrl" value="${web.api.url}" />
+		<beans:property name="webUrl" value="${web.default.url}" />
 	</beans:bean>
 	<beans:bean id="userDetailService" class="com.softcake.sim.common.UserDetailService">
 		<beans:property name="app" ref="app" />
@@ -52,14 +53,17 @@
 		</authentication-provider>
 	</authentication-manager>  -->
 	
+	<beans:bean id="generateMenu" class="com.softcake.sim.common.GenerateMenu">
+		<beans:property name="url" value="${web.default.url}" />
+	</beans:bean>
 	
 	<beans:bean id="authenticationManager" class="com.softcake.sim.common.LoginAuthenticationProvider">
 		<beans:property name="app" ref="app" />
 	</beans:bean>
-<authentication-manager>
-    <authentication-provider ref="authenticationManager" />
-        <!-- <password-encoder hash="bcrypt" /> -->
-    <!-- </authentication-provider> -->
-  </authentication-manager>
+	<authentication-manager>
+	    <authentication-provider ref="authenticationManager" />
+	        <!-- <password-encoder hash="bcrypt" /> -->
+	    <!-- </authentication-provider> -->
+	  </authentication-manager>
 
 </beans:beans>

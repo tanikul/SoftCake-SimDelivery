@@ -31,8 +31,8 @@
 							</label>
 						</div>
 						<div id="type_input_1">
-							 <form method="POST" enctype="multipart/form-data" action="<c:url value="/Admin/UploadExcelFile" />">
-								  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							 <form method="POST" id="uploadForm" enctype="multipart/form-data" action="<c:url value="/Admin/ManageData/UploadExcelFile"/>">
+								  <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
 								 <div class="row">
 									<div class="col-md-4 col-sm-4 col-xs-4">
 										<div class="form-group">
@@ -100,7 +100,7 @@
 		              <div class="x_panel tile overflow_hidden">
 						<div class="row">
 							<div class="col-md-12">
-						        <table id="example" class="table table-bordered table-striped" cellspacing="0" width="100%">
+						        <table id="simTable" class="table table-bordered table-striped" cellspacing="0" width="100%">
 							        <thead>
 							            <tr>
 							                <th class="text-center">เบอร์โทรศัพท์</th>
@@ -142,6 +142,149 @@
 			    format: 'mm/dd/yyyy',
 			    startDate: '-3d'
 			});
+		
+	        $('form').on('submit', uploadFiles);
+			$('input[type=file]').on('change', prepareUpload);
+		
+			function uploadFiles(event)
+			{
+			    event.stopPropagation(); // Stop stuff happening
+			    event.preventDefault(); // Totally stop stuff happening
+			
+			    var form = document.forms[1];
+    			var formData = new FormData(form);
+			    $.ajax({
+			        url: $('#uploadForm').attr('action'),
+			        type: 'POST',
+			        data: formData,
+			        cache: false,
+			        dataType: 'json',
+			        processData: false, // Don't process the files
+			        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			        beforeSend: function (xhr) {
+						xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+						$.LoadingOverlay("show");
+						lastActivity = new Date().getTime();
+					},
+			        success: function(data, textStatus, jqXHR)
+			        {
+			            if(data == 1){
+			            	$.LoadingOverlay("hide");
+			            }
+			        },
+			        error: function(jqXHR, textStatus, errorThrown)
+			        {
+			            displayErrorAjax(jqXHR, textStatus, errorThrown);
+			        }
+			    });
+			}
+			function prepareUpload(event)
+			{
+			  files = event.target.files;
+			}
+			function searchSim(params) {
+				if ($.fn.DataTable.isDataTable('#simTable')) {
+					$('#simTable').DataTable().destroy();
+				}
+				$('#simTable tbody').empty();
+				var url = '/Admin/ManageData/SearchSim';
+				var table = $('#simTable').DataTable(
+				{
+					"searching" : true,
+					"processing" : true,
+					"serverSide" : true,
+					"ajax" : {
+						"contentType" : "application/json; charset=utf-8",
+						"dataType" : "json",
+						"beforeSend" : function(xhr) {
+							xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+						},
+						"data" : function(d) {
+							d.dataSearch = params;
+						},
+						"url" : GetSiteRoot() + url,
+						"type" : "POST",
+						"error" : function(jqXHR, textStatus, errorThrown) {
+							$("#dialog-confirm").dialog('close');
+							 $("#dialog-message").dialog('close');
+							 closeOverlay();
+							 $('.tooltip').remove();
+							 if(typeof jqXHR.responseJSON != 'undefined'){
+								 if(typeof jqXHR.responseJSON.errorMessage != 'undefined'){
+									 $("#dialog-confirm").dialog('close');
+									 $("#dialog-message").dialog('close');
+									 alertModal('Warning', jqXHR.responseJSON.errorMessage);
+									 $("#dialog-message").dialog({
+										  modal: true,
+										  buttons: {
+											Ok: function() {
+											  $(this).dialog("close");
+											  closeOverlay();
+											}
+										  },
+										  close: function(){
+											  closeOverlay();
+										  }
+									});
+								}
+							}
+						}
+					},
+					"columns" : [ {
+						"data" : "simNumber"
+					}, {
+						"data" : "price"
+					}, {
+						"data" : "activeFlag"
+					}, {
+						"data" : "effectiveDate"
+					}, {
+						"data" : "merchantId"
+					}, {
+						"data" : "activeStatus"
+					}, {
+						"data" : "activeStatus"
+					} ],
+					"initComplete" : function(settings, json) {
+						
+					},
+					"drawCallback" : function() {
+						
+					},
+					"columnDefs" : [ {
+						"className" : "dt-left",
+						"targets" : [1]
+					}, {
+						"className" : "dt-right",
+						"targets" : [ ]
+					}, {
+						"className" : "dt-center",
+						"targets" : [ 0, 2, 3, 5 ]
+					}],
+					"order" : [],
+					"fnRowCallback" : function(nRow, aData, index) {
+						var edit = "";
+						var del = "";
+						var view = "";
+						
+						/* view = "<a href=\"javascript:viewRole('" + aData.roleId+ "','" + aData.roleName + "');\">" + aData.roleName + "</a>"
+						if('${role}' == '<spring:message code="role.maker" />'){
+							edit = "<a href=\"javascript:editRole('" + aData.roleId+ "','" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Edit Role\"><i class=\"fas fa-pencil-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	 
+							if (aData.disableDeleteFlg == true) {
+								del = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fas fa-trash-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></span>";
+							} else {
+								del = "<a href=\"javascript:deleteRole('" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fas fa-trash-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
+							}
+						}
+						var setting = this.fnSettings();
+						$('td:eq(0)', nRow).html("<center>" + (setting._iDisplayStart + index + 1) + "<center>");
+						$('td:eq(1)', nRow).html(view);
+						$('td:eq(2)', nRow).html("<center>" + edit + '&nbsp;&nbsp;'+ del + "</center>"); */
+						return nRow;
+					}
+				});
+			}
+			searchSim({});
 	    });
 	    </script>
 	</jsp:body>

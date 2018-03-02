@@ -7,54 +7,42 @@
 <spring:message code="role.viewer" var="viewer"/>
 <t:master>
 	<jsp:body>
-		<div class="content-wrapper">
-			<section class="content-header">
-				<h1 class="page-header">
-					<i class="fa fa-address-book-o"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" ></label>
-				</h1>
-			</section>
-			 <input type="hidden" id="roleGroup" value=""> 
-		   	 <input type="hidden" id="roleTitle" value="Role and Privilege"> 
-			<section class="content">
-		
-				<!-- left column -->
-				<div class="row">
-				<div class="col-md-12">
-					<!-- programPrivilege info form elements -->
-					<div class="box box-success" id="programPrivilege">
-						<div class="box-body">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Role Name: <span class="mandatory">*</span></label>
-										<input type="text" class="form-control" id="roleNameText" maxlength="255" />
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="box-header">
-							<h3 class="box-title">Privilege</h3>
-						</div>
-		
-						<div class="box-body">
-							<table id="privilegeTbl" class="table table-bordered table-striped" >
-								<thead>
-									<tr style="background:#def2e9" >
-										<th width="50%">Program</th>
-										<th width="10%">None</th>
-										<th width="10%">View</th>
-										<th width="15%">Add/Edit/Delete</th>
-										<th width="15%">Approve/Reject</th>
-										<th>GroupLevel</th>
-									</tr>
-								</thead>
-		
-							</table>
+	   <div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+           <div class="x_panel tile overflow_hidden">
+             <div class="x_content">
+               <div class="panel-round-bd">
+	               <div class="row">
+	               	<div class="col-md-12">
+						<h3 class="pull-left"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
+	               	</div>
+	            </div>
+               	<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Role Name: <span class="mandatory">*</span></label>
+							<input type="text" class="form-control" id="roleNameText" maxlength="255" />
+							<div class="help-block with-errors"></div>
 						</div>
 					</div>
-					
-							<!-- Customer info form elements -->
+				</div>
+				<div class="box-header">
+					<h3 class="box-title">Privilege</h3>
+				</div>
+
+				<div class="box-body">
+					<table id="privilegeTbl" class="table table-bordered table-striped" >
+						<thead>
+							<tr style="background:#def2e9" >
+								<th width="50%">Program</th>
+								<th width="10%">None</th>
+								<th width="10%">View</th>
+								<th width="15%">Add/Edit/Delete</th>
+								<th width="15%">Approve/Reject</th>
+								<th>GroupLevel</th>
+							</tr>
+						</thead>
+					</table>
 					<div class="box box-success" id="userPrivilegeBox">
 						<div class="box-header">
 							<h3 class="box-title">User</h3>
@@ -73,25 +61,14 @@
 								</table>
 						</div>
 					</div>
-					<div class="row">
-						<div class="box-body">
-							<c:choose>
-								<c:when test="${role eq maker}">
-									<button class="btn btn-success" id="save-btn" style="width: 100px;" disabled="disabled">Save</button>
-									<button class="btn btn-default" id="cancel-bnt" style="width: 100px;">Cancel</button>
-								</c:when>
-								<c:otherwise>
-									<button class="btn btn-default" id="cancel-bnt" style="width: 100px;">Back</button>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</div>
-		
+					<button class="btn btn-success" id="save-btn" style="width: 100px;" disabled="disabled">Save</button>
+					<button class="btn btn-default" id="cancel-bnt" style="width: 100px;">Cancel</button>
 				</div>
-				</div>
-		
-			</section>
-		</div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
 		
 		<script type="text/javascript">
 			errMsg.addRole = {
@@ -106,17 +83,12 @@
 			var roleId = '${roleId}';
 			var roleName = '${roleName}';
 			roleName = decodeURIComponent(escape(roleName));
-			$('#roleGroup').val('${roleGroup}');
-			
-		//	if('${role}' == '<spring:message code="role.maker" />'){
-				$('#add-data').show();
-		//	}
+			$('#add-data').show();
 		
 			function searchUserByUserRole(pUserName) {		
-				var vRoleGroup = $('#roleGroup').val();
 				var params = {
 					userId : pUserName,
-					userRole: roleId
+					role: roleId
 				}
 				if ($.fn.DataTable.isDataTable('#userTbl')) {
 					$('#userTbl').DataTable().destroy();
@@ -124,11 +96,7 @@
 				$('#userTbl tbody').empty();
 				addNewIdModal = 'AddRoleAndPrivilege';
 				var url = '';
-				if(vRoleGroup == 'BANK'){
-					url = '/UserManagement/RolePrivilege/SearchUserByUserRole';	
-				}else{
-					url = '/MasterSetup/RolePrivilege/SearchUserByUserRole';
-				}
+				url = '/Admin/RolePrivilege/SearchUserByUserRole';	
 				
 				var table = $('#userTbl').DataTable(
 				{
@@ -141,7 +109,6 @@
 						"crossDomain" : true,
 						"beforeSend" : function(xhr) {
 							xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
-							checkTimeOut();
 						},
 						"data" : function(d) {
 							d.dataSearch = params;
@@ -191,7 +158,7 @@
 						}
 					},
 					"drawCallback" : function() {
-						setHeightSideBar();
+						
 					},
 					"columnDefs" : [ 
 						{ "targets" : [0, 3], "orderable" : false }, 
@@ -212,7 +179,6 @@
 			}
 			
 			function searchPrivilegeProgram(roleMode) {
-				var vRoleGroup = $('#roleGroup').val();
 				var params = { 
 						 mode: roleMode ,
 						 roleId : roleId
@@ -222,11 +188,7 @@
 				}
 				$('#privilegeTbl tbody').empty();
 				addNewIdModal = '';
-				if(vRoleGroup == 'BANK'){
-					var url = '/UserManagement/RolePrivilege/SearchProgramMaster';	
-				}else{
-					var url = '/MasterSetup/RolePrivilege/SearchProgramMaster';	
-				}
+				var url = '/Admin/RolePrivilege/SearchProgramMaster';	
 				var columnGroup = 5;	
 				var table = $('#privilegeTbl').DataTable( {
 				    "paging":   false,
@@ -240,7 +202,6 @@
 						"dataType" : "json",
 						"beforeSend" : function(xhr) {
 							xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
-							checkTimeOut();
 						},
 						"data" : function(d) {
 							d.dataSearch = params;
@@ -293,9 +254,6 @@
 						$('td', row).eq(5).html('<b>'+ data.programGroup +'</b>');
 						programList[index] = data.programId;
 					 } ,
-					 "drawCallback": function(){
-						setHeightSideBar();
-					},
 					"initComplete" : function(settings, json) {
 						$(json.data).each(function(i, item) {
 							/*** check disabled radio group */
@@ -333,7 +291,7 @@
 						
 					},
 					"drawCallback" : function() {
-						setHeightSideBar();
+						
 						var api = this.api();
 						var rows = api.rows( {page:'current'} ).nodes();
 						var last=null;
@@ -385,14 +343,7 @@
 			}
 			
 			$('#cancel-bnt').on('click', function(){
-				var vRoleGroup = $('#roleGroup').val();
-				
-				if("BANK" == vRoleGroup){
-					window.location.href = GetSiteRoot() + '/UserManagement/RolePrivilege';
-				}else if("CORP" == vRoleGroup){
-					window.location.href = GetSiteRoot() + '/MasterSetup/RolePrivilege';
-				}	
-				
+				window.location.href = GetSiteRoot() + '/Admin/RolePrivilege';
 			});
 			
 			$('#roleNameText').blur(function(){
@@ -421,7 +372,6 @@
 			} );
 			
 			$('#save-btn').on('click', function(){
-				var vRoleGroup = $('#roleGroup').val();
 				//if(checkValidate('addRole')){
 					var data = [];
 					for(var i = 0; i < programList.length; i++) {
@@ -439,11 +389,7 @@
 						mode : roleMode
 					}
 					var url = '';
-					if(vRoleGroup == 'BANK'){
-						url = '/UserManagement/RolePrivilege/SaveRoleAndPrivilege';
-					}else{
-						url = '/MasterSetup/RolePrivilege/SaveRoleAndPrivilege';
-					}
+					url = '/Admin/RolePrivilege/SaveRoleAndPrivilege';
 					sendPostAjax(url, parameter, function(data){
 						if(data == 1){
 							alertModal('', 'Save Role Successful.');
@@ -453,11 +399,7 @@
 									Ok: function() {
 									  $(this).dialog("close");
 									  closeOverlay();
-										if("BANK" == vRoleGroup){
-										  location.href = GetSiteRoot() + '/UserManagement/RolePrivilege';
-										}else if("CORP" == vRoleGroup){
-										  location.href = GetSiteRoot() + '/MasterSetup/RolePrivilege';
-										}			
+										  location.href = GetSiteRoot() + '/Admin/RolePrivilege';			
 									}
 								  }
 								});

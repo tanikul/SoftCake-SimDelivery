@@ -6,56 +6,47 @@
 <spring:message code="role.maker" var="maker"/>
 <t:master>
 	<jsp:body>
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			 <input type="hidden" id="roleTitle" value="Role and Privilege"> 
-			<section class="content-header">
-				<h1 class="page-header" id="page-header">
-					<i class="fa fa-address-book-o"></i>&nbsp;&nbsp;<label for="roleTitle" style="vertical-align: middle" ></label>
-				</h1>
-			</section>
-			<section class="content">
-				<div class="row">
-					<!-- left column -->
-					<div class="col-xs-12">
-						<div class="box box-success">
-							<div class="box-header">
-								<ul class="nav">
-									<li style="float: right;">
-										<button class="btn btn-default"
-											onclick="openModalAdd('AddRolePrivilege');">
-											<i class="fa fa-plus-circle green"></i>&nbsp;&nbsp; Add Role
-										</button>
-									</li>
-								</ul>
-		
-							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<div class="row">
-									<div class="col-md-12">
-										<table id="roleTbl" class="table table-bordered table-striped"
-											style="width:100%">
-											<thead>
-												<tr  style="background:#def2e9"  >
-													<th width="20%">No</th>
-													<th style="text-align: center;">Role</th>
-													<th width="20%">Action</th>
-												</tr>
-											</thead>
-										</table>
-									</div>
-								</div>
-							</div>
+	
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+           <div class="x_panel tile overflow_hidden">
+             <div class="x_content">
+               <div class="panel-round-bd">
+	               <div class="row">
+		               	<div class="col-md-12">
+							<h3 class="pull-left"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
+		               	</div>
+		            </div>
+	               <div class="row">
+		               	<div class="col-md-12">
+			               	<div class="pull-right">
+			               		<button class="btn btn-default"
+									onclick="openModalAdd('AddRolePrivilege');">
+									<i class="fa fa-plus-circle green"></i>&nbsp;&nbsp; Add Role
+								</button>
+			               	</div>
+		               	</div>
+	               </div>
+	               <br/>
+	               	<div class="row">
+		               	<div class="col-md-12">
+			               	<table id="roleTbl" class="table table-bordered table-striped" style="width:100%">
+								<thead>
+									<tr  style="background:#def2e9"  >
+										<th width="20%" style="text-align: center;">No</th>
+										<th style="text-align: center;">Role</th>
+										<th width="20%">Action</th>
+									</tr>
+								</thead>
+							</table>
 						</div>
 					</div>
-				</div>
-			</section>
-			<div id="img-out"></div>
-		</div>
-		
-		<script type="text/javascript">
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+        <script type="text/javascript">
 		
 			addNewIdModal = 'roleAndPrivilege';
 			var oldValueSearch = '';
@@ -160,17 +151,17 @@
 						
 						view = "<a href=\"javascript:viewRole('" + aData.roleId+ "','" + aData.roleName + "');\">" + aData.roleName + "</a>"
 						if('${role}' == '<spring:message code="role.maker" />'){
-							edit = "<a href=\"javascript:editRole('" + aData.roleId+ "','" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Edit Role\"><i class=\"fa fa-pencil fa-2x\"></i></a>";	
+							edit = "<a href=\"javascript:editRole('" + aData.roleId+ "','" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Edit Role\"><i class=\"fas fa-pencil-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	 
 							if (aData.disableDeleteFlg == true) {
-								del = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fa fa-trash fa-2x fa-disabled\"></i></span>";
+								del = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fas fa-trash-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></span>";
 							} else {
-								del = "<a href=\"javascript:deleteRole('" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fa fa-trash fa-2x\"></i></a>";
+								del = "<a href=\"javascript:deleteRole('" + aData.roleName + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Delete Role\"><i class=\"fas fa-trash-alt\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
 							}
 						}
 						var setting = this.fnSettings();
 						$('td:eq(0)', nRow).html("<center>" + (setting._iDisplayStart + index + 1) + "<center>");
 						$('td:eq(1)', nRow).html(view);
-						$('td:eq(2)', nRow).html("<center>" + edit + del + "</center>");
+						$('td:eq(2)', nRow).html("<center>" + edit + '&nbsp;&nbsp;'+ del + "</center>");
 						return nRow;
 					}
 				});

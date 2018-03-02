@@ -14354,9 +14354,9 @@
 		/* Features */
 		"sWrapper": "dataTables_wrapper",
 		"sFilter": "dataTables_filter",
-		"sInfo": "dataTables_info",
+		"sInfo": "dataTables_info pull-left",
 		"sPaging": "dataTables_paginate paging_", /* Note that the type is postfixed */
-		"sLength": "dataTables_length",
+		"sLength": "dataTables_length pull-left",
 		"sProcessing": "dataTables_processing",
 	
 		/* Sorting */

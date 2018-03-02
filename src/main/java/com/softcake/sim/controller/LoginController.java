@@ -1,12 +1,6 @@
 package com.softcake.sim.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,25 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.softcake.sim.beans.JsonMapper;
+import org.springframework.web.servlet.view.RedirectView;
 import com.softcake.sim.beans.LoginValidator;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.CustomAuthenticationSuccessHandler;
-import com.softcake.sim.common.CustomUsernamePasswordAuthenticationToken;
 import com.softcake.sim.common.LoginAuthenticationProvider;
 import com.softcake.sim.common.SoftcakeException;
 import com.softcake.sim.utils.AppUtils;
@@ -164,23 +151,18 @@ public class LoginController {
 		return result;
 	}
 	
-	/*@RequestMapping(value = "/UploadExcelFile", method = RequestMethod.POST)
-	public String uploadFilea(@RequestParam("file") MultipartFile file) throws IOException {
-	    InputStream in = null;
-	    File currDir = new File(".");
-	    String path = currDir.getAbsolutePath();
-	    //String fileLocation = path.substring(0, path.length() - 1) + file.getOriginalFilename();
-	    //FileOutputStream f = new FileOutputStream(fileLocation);
-	    int ch = 0;
-	    while ((ch = in.read()) != -1) {
-	        f.write(ch);
-	    }
-	    f.flush();
-	    f.close();
-	    //model.addAttribute("message", "File: " + file.getOriginalFilename() 
-	     // + " has been uploaded successfully!");
-	    return "excel";
-	}*/
+	 @RequestMapping(value = "/activateEmail",method = RequestMethod.GET)
+	 public RedirectView activateEmail(@RequestParam("userId") String userId,
+			 @RequestParam("activateEmail") String activateEmail,
+			 final HttpServletResponse response) throws SoftcakeException {
+		try {
+			app.getWithoutAuthen("/activateEmail?userId=" + userId + "&activateEmail=" + activateEmail);
+		}catch(Exception ex){
+			 logger.error(ex);
+			 throw new SoftcakeException(ex, response);
+		}
+		return new RedirectView(app.getWebUrl());
+    }
 	
 	@RequestMapping(value = "/Logout", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody

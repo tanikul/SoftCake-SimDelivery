@@ -1,6 +1,5 @@
 package com.softcake.sim.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -8,18 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.softcake.sim.beans.JsonMapper;
 import com.softcake.sim.beans.LoginValidator;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.SoftcakeException;
+import com.softcake.sim.datatable.DataTable;
+import com.softcake.sim.datatable.SearchDataTable;
 import com.softcake.sim.utils.AppUtils;
 
 @Controller
+@RequestMapping("/Admin")
 @PreAuthorize("isAuthenticated()")
 public class UserController {
 
@@ -28,22 +30,33 @@ public class UserController {
 	@Autowired
 	private AppUtils app;
 	
-	 @RequestMapping(value = "/Profile", method = RequestMethod.GET)
-	 public ModelAndView profile(HttpServletRequest request) throws SoftcakeException {
-		 ModelAndView model = new ModelAndView();
-		 try{
-			 String str = app.get("/apis/user/loadUserById/" + app.getUserLogin().getUserId());
-			 model.addObject("data", str);
-			 model.addObject("login", new LoginValidator());
-			 model.setViewName("member/profile");
-		 }catch(Exception ex){
-			 logger.error(ex);
-			 throw new SoftcakeException(ex);
-		 }
-        return model;
-    }
-	 
-	@RequestMapping(value = "/User/LoadUserById/{userId}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@RequestMapping(value = "ManageUser", method = RequestMethod.GET)
+	public ModelAndView manageUser() throws SoftcakeException {
+		ModelAndView model = new ModelAndView();
+		try{
+			model.addObject("login", new LoginValidator());
+			model.setViewName("admin/manageUser");
+		} catch(Exception ex){
+			throw new SoftcakeException(ex);
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "ManageUser/SearchUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public DataTable<User> searchUserPending(@RequestBody SearchDataTable<User> searchDataTable,
+			final HttpServletResponse response) throws SoftcakeException {
+		DataTable<User> result = new DataTable<>();
+		try {
+			result = app.postDataTable("/apis/admin/searchUser", searchDataTable, User.class);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/ManageUser/LoadUserById/{userId}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
 	public String loadCorporation(@PathVariable String userId, 
 			final HttpServletResponse response) throws SoftcakeException  {
@@ -57,7 +70,7 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/User/DeleteUserById/{userId}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@RequestMapping(value = "/ManageUser/DeleteUserById/{userId}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
 	public String DeleteUserById(@PathVariable String userId, 
 			final HttpServletResponse response) throws SoftcakeException  {

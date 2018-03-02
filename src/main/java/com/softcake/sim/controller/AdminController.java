@@ -1,13 +1,25 @@
 package com.softcake.sim.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -23,14 +35,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.softcake.sim.beans.LoginValidator;
+import com.softcake.sim.beans.Predict;
 import com.softcake.sim.beans.ProgramMst;
 import com.softcake.sim.beans.RoleMst;
+import com.softcake.sim.beans.Sim;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.SoftcakeException;
 import com.softcake.sim.datatable.DataTable;
 import com.softcake.sim.datatable.SearchDataTable;
 import com.softcake.sim.utils.AppUtils;
+import com.softcake.sim.utils.Constants;
+
+import java.io.FileInputStream; 
 
 @Controller
 @RequestMapping("/Admin")
@@ -55,51 +73,70 @@ public class AdminController {
 		return model;
 	}
 	
-	@RequestMapping(value = "ManageUser", method = RequestMethod.GET)
-	public ModelAndView manageUser() throws SoftcakeException {
-		ModelAndView model = new ModelAndView();
-		try{
-			model.addObject("login", new LoginValidator());
-			model.setViewName("admin/manageUser");
-		} catch(Exception ex){
-			throw new SoftcakeException(ex);
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "SearchUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@RequestMapping(value = "ManageData/SearchSim", method = RequestMethod.POST, produces="application/json;charset=UTF-8" ,headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public DataTable<User> searchUserPending(@RequestBody SearchDataTable<User> searchDataTable,
+	public DataTable<Sim> searchCorporationPending(@RequestBody SearchDataTable<Sim> searchDataTable,
 			final HttpServletResponse response) throws SoftcakeException {
-		DataTable<User> result = new DataTable<>();
+		DataTable<Sim> result = null;
 		try {
-			result = app.postDataTable("/apis/admin/searchUser", searchDataTable, User.class);
-		} catch(Exception ex){
-			logger.error(ex);
-			throw new SoftcakeException(ex, response);  
-		}
+			result = app.postDataTable("/apis/admin/searchSim", searchDataTable, Sim.class);
+		} catch (Exception e) {
+    		logger.error(e);
+    		throw new SoftcakeException(e, response);
+        }
 		return result;
 	}
-	
-	@PostMapping("/UploadExcelFile")
-	public String uploadFilea(/*@RequestParam("file") MultipartFile file*/) throws IOException {
-	    InputStream in = null;
-	    File currDir = new File(".");
-	    String path = currDir.getAbsolutePath();
-	    //String fileLocation = path.substring(0, path.length() - 1) + file.getOriginalFilename();
-	    //FileOutputStream f = new FileOutputStream(fileLocation);
-	    int ch = 0;
-	    /*while ((ch = in.read()) != -1) {
-	        f.write(ch);
-	    }
-	    f.flush();
-	    f.close();*/
-	    //model.addAttribute("message", "File: " + file.getOriginalFilename() 
-	     // + " has been uploaded successfully!");
-	    return "excel";
+
+	@RequestMapping(value = "ManageData/UploadExcelFile", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadFilea(@RequestParam("file") MultipartFile file) throws Exception {
+	    String result = "";
+		InputStream inputStream= file.getInputStream();
+	    XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIterator = sheet.iterator();
+        int i = 0;
+        List<Sim> listSim = new ArrayList<Sim>();
+        while (rowIterator.hasNext()) 
+        {
+        	Row row = rowIterator.next();
+        	if(i == 0){
+        		i = 1;
+        		continue;
+        	}
+        	Sim sim = new Sim();
+        	if(row.getCell(0) != null){
+        		Cell cell_0 = row.getCell(1);
+        		if(cell_0.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
+        			int simNumber = (int) row.getCell(0).getNumericCellValue();
+                    sim.setSimNumber(Integer.toString(simNumber));
+        		}else{
+	        		sim.setSimNumber((String) row.getCell(1).getStringCellValue());
+        		}
+            }
+        	if(row.getCell(1) != null){
+        		Cell cell_1 = row.getCell(1);
+        		if(cell_1.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
+        			double price = (double) row.getCell(1).getNumericCellValue();
+                    sim.setPrice(BigDecimal.valueOf(price));
+        		}else{
+	        		String price = (String) row.getCell(1).getStringCellValue();
+	                sim.setPrice(new BigDecimal(price));
+        		}
+        	}
+        	if(row.getCell(2) != null){
+                String periodType = (String) row.getCell(2).getStringCellValue();
+                sim.setPeriodType(periodType);;
+            }
+        	listSim.add(sim);
+        }   
+        Map<String, List<Sim>> map = new HashMap<String, List<Sim>>();
+        map.put("list", listSim);
+        result = app.post("/apis/admin/saveSim", new Gson().toJson(map));
+	    return result;
 	}
 	
-	@GetMapping("RoleAndPrivilege")
+	@GetMapping("RolePrivilege")
 	public ModelAndView RoleAndPrivilege() throws SoftcakeException {
 		ModelAndView model = new ModelAndView();
 		try{
@@ -135,7 +172,7 @@ public class AdminController {
 			model.addObject("roleId", roleId); 
 			model.addObject("roleName", roleName); 
 			model.addObject(ROLEMODE_KEY, "EDIT"); 
-			model.setViewName("userManagement/rolePrivilegeDetail");
+			model.setViewName("admin/rolePrivilegeDetail");
 		} catch(Exception ex){
 			throw new SoftcakeException(ex);
 		}
@@ -166,7 +203,7 @@ public class AdminController {
 			model.addObject("roleId", roleId); 
 			model.addObject("roleName", roleName); 
 			model.addObject(ROLEMODE_KEY, "VIEW"); 
-			model.setViewName("userManagement/rolePrivilegeDetail");
+			model.setViewName("admin/rolePrivilegeDetail");
 		} catch(Exception ex){
 			throw new SoftcakeException(ex);
 		}
@@ -226,6 +263,45 @@ public class AdminController {
 		} catch(Exception ex){
 			logger.error(ex);
 			throw new SoftcakeException(ex, response);  
+		}
+		return result;
+	}
+	
+	@GetMapping("ManagePredict")
+	public ModelAndView GetPredict() throws SoftcakeException {
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("admin/predict");
+		} catch(Exception ex){
+			throw new SoftcakeException(ex);
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "ManagePredict/GetPredictById/{id}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String GetPredictById(@PathVariable int id,
+			final HttpServletResponse response) throws SoftcakeException {
+		String result = null;
+		try {
+			result = app.get("/apis/admin/getPredictById/" + id);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response); 
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "ManagePredict/UpdatePredict", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String saveRoleAndPrivilege(@RequestBody Predict str,
+			final HttpServletResponse response) throws SoftcakeException {
+		String result = null;
+		try {
+			result = app.post("/apis/admin/updatePredict", str);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response); 
 		}
 		return result;
 	}

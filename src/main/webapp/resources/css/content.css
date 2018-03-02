@@ -274,3 +274,12 @@
 .signin-display-error {
 	margin-left: 15px;
 }
+.dt-left {
+	text-align: left;
+}
+.dt-right {
+	text-align: right;
+}
+.dt-center {
+	text-align: center;
+}

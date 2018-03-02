@@ -2,22 +2,19 @@ package com.softcake.sim.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Sim extends BaseDomain implements Serializable {
 
-	private static final long serialVersionUID = -6487278368350499450L;
-	private int idSim;
 	private String periodType;
 	private BigDecimal price;
 	private String activeStatus;
 	private String simNumber;
+	private Date effectiveDate;
+	private String activeFlag;
+	private String merchantId;
+	private String bookingStatus;
 	
-	public int getIdSim() {
-		return idSim;
-	}
-	public void setIdSim(int idSim) {
-		this.idSim = idSim;
-	}
 	public String getPeriodType() {
 		return periodType;
 	}
@@ -41,6 +38,30 @@ public class Sim extends BaseDomain implements Serializable {
 	}
 	public void setSimNumber(String simNumber) {
 		this.simNumber = simNumber;
+	}
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+	public String getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(String activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+	public String getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
 	}
 	
 }

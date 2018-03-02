@@ -101,8 +101,10 @@ $(document).ready(function(){
 					xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
 				},
 				cache: false,
-				success: function (data) {
-					if(data != null){
+				success: function (data) {console.log(data);
+					if(data.programType == 'ADMIN'){
+						location.href = GetSiteRoot() + data.redirect;
+					}else{
 						location.reload();
 					}
 				},
@@ -135,7 +137,7 @@ $(document).ready(function(){
 						address: $('#signup #address').val().trim(),
 						province: $('#signup #province').val().trim(),
 						postcode: $('#signup #postcode').val().trim(),
-						mobile: $('#signup #mobile').val().trim(),
+						mobile: $('#signup #mobile').val().trim().replaceAll('-',''),
 						email: email,
 						prefix: $('#signup #prefix').val()
 					};
@@ -164,6 +166,10 @@ $(document).ready(function(){
 		sendPostAjax('/User/CheckDuplicateUser', {userId: this.value}, function(data){
 			if(data == '1'){
 				$('#signup #username').next().html('Username นี้มีในระบบแล้ว');
+				$('#signup #username').parent().parent().addClass('has-error');
+			}else{
+				$('#signup #username').next().html('');
+				$('#signup #username').parent().parent().removeClass('has-error');
 			}
 		});
 	});
@@ -173,6 +179,6 @@ $(document).ready(function(){
 		}	
 	});
 	$('#signup #postcode').mask('00000');
-	$('#signup #mobile').mask('0000000000');
+	$('#signup #mobile').mask('000-000-0000');
 });
 

@@ -238,7 +238,7 @@
 						"data": function ( d ) {
 							d.dataSearch = params;
 						},
-						"url": GetSiteRoot() + '/Admin/SearchUser',
+						"url": GetSiteRoot() + '/Admin/ManageUser/SearchUser',
 						"type": "POST",
 						"error" : function(jqXHR, textStatus, errorThrown){
 							displayErrorAjax(jqXHR, textStatus, errorThrown);
@@ -295,14 +295,14 @@
     	    $('#add-user-btn').click(function(){
     	    	$('#add-user-modal').modal('show');
     	    });
-    	    getDropDownList($('#searchRole'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadMasterSetup/ROLE', 'CODE', 'DESCRIPTION', null);
+    	    getDropDownList($('#searchRole'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', null);
 	    });
 	    
 	    openEdit = function(id){
 	    	setDefault();
-	    	sendGetAjax('/User/LoadUserById/' + id, function(data){
+	    	sendGetAjax('/Admin/ManageUser/LoadUserById/' + id, function(data){
 	    	 	getDropDownList($('#prefix'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', data.prefix);
-	    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadMasterSetup/ROLE', 'CODE', 'DESCRIPTION', data.role);
+	    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', data.role);
 	   			getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', data.province);
 	    		$('#userInfo #firstName').val(data.firstName);
 				$('#userInfo #lastName').val(data.lastName);
@@ -318,7 +318,7 @@
 	    addUser = function(){
 	    	setDefault();
     	 	getDropDownList($('#prefix'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', null);
-    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadMasterSetup/ROLE', 'CODE', 'DESCRIPTION', null);
+    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', null);
    			getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', null);
     		$('#userInfo').modal('show');
 	    }
@@ -342,7 +342,7 @@
 			  modal: true,
 			  buttons: {
 				"OK": function() {
-					sendGetAjax('/User/DeleteUserById/' + id, function(data){
+					sendGetAjax('/Admin/ManageUser/DeleteUserById/' + id, function(data){
 						if(data == 1){
 							$( "#dialog-confirm" ).dialog('close');
 							searchUser();
