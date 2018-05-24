@@ -2,30 +2,44 @@ package com.softcake.sim.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.SoftcakeException;
 import com.softcake.sim.datatable.DataTable;
@@ -259,8 +273,18 @@ public class AppUtils {
 	
 	
 	public User getUserLogin(){
-		 return (User) SecurityContextHolder.getContext()
-					.getAuthentication().getDetails();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication != null){
+			boolean hasUserRole = authentication.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ROLE_ANONYMOUS"));
+			if(!hasUserRole){
+				return (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+			}else {
+				return null;
+			}
+		}else {
+			return null;
+		}
 	}
 	
 	public String getRoleUserLogin(){
@@ -319,6 +343,32 @@ public class AppUtils {
 		return context;
 	}
 	
+	public void jsonResponse(HttpServletResponse response, boolean success, String errorCode){
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		response.setStatus(HttpStatus.OK.value());
+		Map<String, Object> obj = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		mapper.setDateFormat(dateFormat);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (success) {
+				obj.put("success", success);
+				obj.put("message", errorCode);
+			} else {
+				obj.put("success", success);
+				obj.put("message", errorCode);
+			}
+			out.println(mapper.writeValueAsString(obj));
+			out.close();
+		} catch (IOException e1) {
+			logger.error("outputFormJson-IOException => " + e1);
+		}
+	}
+	
 	private String encodeURL(String path) throws UnsupportedEncodingException{
 		String result = "";
 		String[] arrPath = path.split("/");
@@ -342,10 +392,38 @@ public class AppUtils {
 		return result;
 	}
 	
+	public int calculateSim(String simNumber){
+		int result = 0;
+		String[] ary = simNumber.replaceAll("-", "").split("");
+		for(int i = 0; i < ary.length; i++){
+			result += Integer.parseInt(ary[i]);
+		}
+		return result;
+	}
+	
+	public String parseSimFormat(String simNumber){
+		if(StringUtils.isEmpty(simNumber)) {
+			return "";
+		}
+		simNumber = simNumber.replaceAll("-", "");
+		if("-".equals(simNumber.substring(3, 4)) && "-".equals(simNumber.substring(6, 7)) && "-".equals(simNumber.substring(10, 11))) {
+			return simNumber;
+		}
+		return simNumber.substring(0, 3) + "-" + simNumber.substring(3, 6) + "-" + simNumber.substring(6, 10);
+	}
+	
+	public String removeSimFormat(String simNumber){
+		return simNumber.replaceAll("-", "");
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> Class<T> convertListClass(Object obj){
 		Class<List<Object>> clazz = (Class) List.class;
 		return (Class<T>) clazz;
+	}
+	
+	public String BigDecimalToCurrencyFormat(BigDecimal val) {
+		 return new DecimalFormat("#,###.00").format(val);
 	}
 
 	public String getApiUrl() {

@@ -12,19 +12,10 @@
            <div class="x_panel tile overflow_hidden">
              <div class="x_content">
                <div class="panel-round-bd">
+	            
 	               <div class="row">
-		               	<div class="col-md-12">
-							<h3 class="pull-left"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
-		               	</div>
-		            </div>
-	               <div class="row">
-		               	<div class="col-md-12">
-			               	<div class="pull-right">
-			               		<button class="btn btn-default"
-									onclick="openModalAdd('AddRolePrivilege');">
-									<i class="fa fa-plus-circle green"></i>&nbsp;&nbsp; Add Role
-								</button>
-			               	</div>
+	               		<div class="col-md-6">
+							<h3 class="pull-left"><i class="fab fa-whmcs" style="font-size:1.8em; color:Tomato;"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
 		               	</div>
 	               </div>
 	               <br/>
@@ -48,7 +39,7 @@
            </div>
         <script type="text/javascript">
 		
-			addNewIdModal = 'roleAndPrivilege';
+			searchMenu = 'ROLE';
 			var oldValueSearch = '';
 			var oldKeySearch = '';
 			

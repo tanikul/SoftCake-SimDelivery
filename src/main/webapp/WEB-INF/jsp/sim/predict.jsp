@@ -7,19 +7,17 @@
 <t:master>
 	<jsp:body>
 	<script src="<c:url value="/js/sim.js" />"></script>
-	<br/>
-	<br/>
-	<br/>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				 <div class="x_panel panel-round-bd">
 				  	<div class="form-group col-md-4 col-sm-4 col-xs-4">
-				    	<label for="exampleInputName2">กรอกเบอร์โทรศัพท์ 10 หลัก เพื่อทำนายเบอร์</label>
-				    	<input type="text" class="form-control" id="exampleInputName2">
+				    	<label for="mobileNo">กรอกเบอร์โทรศัพท์ 10 หลัก เพื่อทำนายเบอร์</label>
+				    	<input type="text" class="form-control" id="mobileNo">
+				    	<div class="help-block with-errors"></div>
 				  	</div>
 				  	
 				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-  		 			 	<button class="btn btn-warning button-flex orange-button" style="margin-top:24px;">วิเคราะห์เบอร์โทร</button>
+  		 			 	<button class="btn btn-warning button-flex orange-button" style="margin-top:24px;" id="searchPredict">วิเคราะห์เบอร์โทร</button>
   		 			</div>
 				 </div>
 			</div>
@@ -36,33 +34,30 @@
 	                 </div>
                 </div>
                 <div class="x_content">
-                   <div class="panel-round-bd number-panel">
-						<h2><font size="4" color="red">วิเคราะห์เบอร์  : </font><font size="5" color="red"><b>086-777-9217</b></font></h2>
-<br>
-		
+                   <div class="panel-round-bd number-panel" style="font-family:tahoma;">
+						<div id="show_data"><h2 style="color:red;font-family:rsu_bold;">ระบุเบอร์โทรศัพท์ก่อนเพื่อทำการวิเคราะห์</h2></div>
 
-
-	<p><font face="tahoma" color="#0033ff" size="4">   &nbsp;   <b>ผลรวม  <font  size="5">54</font></b>
-	 &nbsp; <b>คุณภาพ	<font  size="5"> &nbsp;58%</b></font></font></p>
+	<!-- <p><font face="tahoma" color="#0033ff" size="4">   &nbsp;   <b>ผลรวม  <font  size="5">54</font></b>
+	 &nbsp; <b>คุณภาพ &nbsp;58%</b></font></p>
 	<p><font face="tahoma" color="#0033ff" size="4"> &nbsp; &nbsp; &nbsp;   เกรด   D  :  เบอร์เริ่มเหนื่อย</font></p>
 					
-<p><font face="tahoma" color="#336600" size="3"><b>		
+<p><font face="tahoma" color="#336600" size="3" ></font><b>		
 
 		<li> เบอร์นี้ มีเลขรวมที่ดี และ
 
-		มีเลขภายในดี แต่มีเลขที่ต้องตัดคะแนนคือ  67 77 21	</b>
+		มีเลขภายในดี แต่มีเลขที่ต้องตัดคะแนนคือ  67 77 21	</li></b>
 				
  <font face="tahoma" color="#0033cc" size="3"> 
 
-		<li> เบอร์นี้ มีเลขภาย ส่งเสริมให้ใจกล้า กระฉับกระเฉง ว่องไว  จึงไม่เหมาะกับผู้ที่มีนิสัยใจร้อน
+		<li> เบอร์นี้ มีเลขภาย ส่งเสริมให้ใจกล้า กระฉับกระเฉง ว่องไว  จึงไม่เหมาะกับผู้ที่มีนิสัยใจร้อน</li>
 </font>
 <font face="tahoma" color="#424200" size="3">
-		<li> บทวิเคราะห์ตัวเลขด้านล่าง อยู่ที่คุณเลือก ว่าเบอร์ชุดนี้ เหมาะกับคุณหรือไม่ 
+		<li> บทวิเคราะห์ตัวเลขด้านล่าง อยู่ที่คุณเลือก ว่าเบอร์ชุดนี้ เหมาะกับคุณหรือไม่</li> 
 				</font></p>
 <br>
 
  
-<h2><font size="4" color="red">จุดเด่น ของเบอร์ : <b>086-777-9217</b></font></h3>
+<h2><font size="4" color="red">จุดเด่น ของเบอร์ : <b>086-777-9217</b></font></h2>
 <p><font face="tahoma"  color="#623100" size="3"> &nbsp; &nbsp;  
 
 
@@ -71,7 +66,7 @@
 </font></p> 
 <br>
  
-<h2><FONT face="Tahoma"   size="4"  color="red">วิเคราะห์ ผลรวมตัวเลข : <b>54</b></font></h3>  
+<h2><FONT face="Tahoma"   size="4"  color="red">วิเคราะห์ ผลรวมตัวเลข : <b>54</b></font></h2>  
  
 
 		<p><font face="tahoma" color="#006666" size="3"><b> กำลังพระเคราะห์ได้เลข 54 เป็นเลขที่แสดงถึงนิมิตแห่งความสำเร็จ </b></font></P>
@@ -86,7 +81,7 @@
  <br>
 
 
-<h2><font size="4" color="red">วิเคราะห์เลขภายใน : <b>086-777-9217</b></font></h3> 
+<h2><font size="4" color="red">วิเคราะห์เลขภายใน : <b>086-777-9217</b></font></h2> 
 <p>เลขภายในจะบอกถึง ความเป็นตัวตนของผู้ที่ใช้เบอร์มือถือนี้ มีรายละเอียดดังนี้</p> 
 
 
@@ -112,10 +107,7 @@
 
 <p><font face="tahoma" color="#ccffff" size="2">67</font>
 <font face="tahoma" size="3">  &nbsp;  เป็นศัตรูกับการเงินและความรัก เป็นทุกข์เป็นกังวล แม้มุ่งมั่นหาเงินจนมีรายได้ดี แต่ก็มีรายจ่ายสูงเช่นกัน เพราะมีคนช่วยใช้ภาระรับผิดชอบมาก และเจ้าตัวเองก็ใช้เงินเก่งอยู่แล้ว รสนิยมดี จัดว่าเป็นพวกเสพสุขนิยมตัวจริง ภายนอกมีความเป็นอยู่ที่ดูดี แต่เบื้องหลังความหรูหรานั้นมีหนี้สินเยอะแยะ ชักหน้าไม่ถึงหลัง หากปล่อยเครดิตใครไปให้ใครกู้ยืม ทวงยากไม่ได้คืน ความรักรุนแรง คุ้มดี คุ้มร้าย ยากที่จะเดาใจ บทดีก็ดีเหลือเกิน บทร้ายก็ต้องหลีกให้ทัน บางครั้งโรแมนติก มีเสน่ห์เร้าร้อน หากรักใครยอมทุ่มให้หมด แต่รักมักไม่สมหวัง มีอุปสรรค เช่น พลัดพราก แยกจาก หรืออยู่ห่างไกลกัน รักต้องรอ รักที่ต้องอดทน และมีปากเสียงกับคู่ของตนบ่อยครั้ง  อิทธิพลเลขชุดนี้ อาจทำอะไรก็ไม่ได้ดั่งใจ แต่ปัญหาทั้งหมดที่มารุมเร้า ก็ทำให้ผู้ใช้เลขคู่นี้แข็งแกร่งอย่างไร้ข้อสงสัย ระวังปัญหาสุขภาพ มดลูกสำหรับหญิง ต่อมลูกหมากสำหรับชาย สมรรถภาพทางเพศ และระบบกระเพาะปัสสาวะ</font></p> 
-
- 
-
-</td></tr> </table> 
+ -->
 						
 					</div>
                 </div>
@@ -125,8 +117,31 @@
 	    <script>
 	    
 	    $(document).ready(function(){
-    	   
-	    	
+    	   $('#mobileNo').mask('000-000-0000');
+    	   $('#mobileNo').keyup(function(e){
+    		   if(e.keyCode == 13){
+    			   $('#searchPredict').click();
+    		   }
+    	   });
+	       $('#searchPredict').click(function(){	
+	    	   if($('#mobileNo').val() == ''){
+					$('#mobileNo').parent().addClass('has-error has-danger');
+					$('#mobileNo').next().html('กรุณาระบุเบอร์โทรศัพท์');
+				}else{
+					$('#mobileNo').parent().removeClass('has-error has-danger');
+					$('#mobileNo').next().html('');
+		    	    var simNumber = $('#mobileNo').val().replaceAll('-','');
+					sendPostAjax('/Predict/GetDataPredict', { simNumber: simNumber}, function(data){
+						if(data.predictContent != null && data.predictContent != ''){
+							var header = "<h2 style=\"color:red\">วิเคราะห์เบอร์  : <b>" + $('#mobileNo').val() + "</b></h2><br/>";
+							$('#show_data').html(header + data.predictContent);
+						}else{
+							$('#show_data').html('<h2 style="color:red;font-family:rsu_bold;">ไม่พบข้อมูล</h2>');
+						}
+						console.log(data);
+					});
+				}
+	       });
 	    });
 	    	
 	    </script>

@@ -24,13 +24,13 @@ public class BaseDomain {
 	public String getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
-	public void setLastUpdatedBy(String lastUpdatedBy) {
+	public void setLastUpdateBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 	public Date getLastUpdatedDate() {
 		return lastUpdatedDate;
 	}
-	public void setLastUpdatedDate(Date lastUpdatedDate) {
+	public void setLastUpdateDate(Date lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 	

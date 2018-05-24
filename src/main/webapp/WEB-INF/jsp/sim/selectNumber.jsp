@@ -7,9 +7,28 @@
 <t:master>
 	<jsp:body>
 	<script src="<c:url value="/js/sim.js" />"></script>
-	<br/>
-	<br/>
-		
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<ul class="progress-tracker"> 
+	   			<li class="step-0-title progress-tracker-visited"> 
+	   				<span class="visible-md-block visible-lg-block desktop">1. เลือกเบอร์โทรศัพท์</span> 
+	   				<small class="visible-xs-block visible-sm-block mobile" >ห้อง</small> 
+	   			</li> 
+	   			<li class="step-1-title progress-tracker-active"> 
+	   				<span class="visible-md-block visible-lg-block desktop" >2. แสดงเบอร์ที่จอง</span> 
+	   				<small class="visible-xs-block visible-sm-block mobile">รายละเอียด</small> 
+	   			</li>
+	   			<li class="step-2-title"> 
+	   				<span class="visible-md-block visible-lg-block desktop">3. ยืนยันการจอง</span> 
+	   				<small class="visible-xs-block visible-sm-block mobile">จ่ายเงิน</small> 
+	   			</li> 
+	   			<li class="step-3-title"> 
+	   				<span class="visible-md-block visible-lg-block desktop" >4. การจองเสร็จสมบูรณ์!</span> 
+	   				<small class="visible-xs-block visible-sm-block mobile">เสร็จสิ้น</small> 
+	   			</li>
+	   		</ul>
+	   	</div>
+	</div>
 	<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel tile overflow_hidden">
@@ -37,64 +56,30 @@
                     <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center hidden-xs hidden-xxs">ผลรวม </div>
                   	<div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right"></div>
 				  </div>
-                  <div class="selected-item disable">
-                    <div class="row">
-                      <input type="radio" class="option-input radio" name="selected" value="061-714-8888">
-                      <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-6">
-                        <div class="row">
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-number">061-714-8888</div>
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-category">PLATINUM NUMBER</div>
-                        </div>
-                      </div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center txt-sum hidden-xxs">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        51</div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right txt-close pull-right">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        <i class="fa fa-times-circle"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="selected-item disable">
-                    <div class="row">
-                      <input type="radio" class="option-input radio" name="selected" value="061-714-8888">
-                      <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-6">
-                        <div class="row">
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-number">061-714-8888</div>
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-category">PLATINUM NUMBER</div>
-                        </div>
-                      </div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center txt-sum hidden-xxs">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        51</div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right txt-close pull-right">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        <i class="fa fa-times-circle"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="selected-item disable">
-                    <div class="row">
-                      <input type="radio" class="option-input radio" name="selected" value="061-714-8888">
-                      <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-6">
-                        <div class="row">
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-number">061-714-8888</div>
-                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-category">PLATINUM NUMBER</div>
-                        </div>
-                      </div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center txt-sum hidden-xxs">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        51</div>
-                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right txt-close pull-right">
-                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-                        <i class="fa fa-times-circle"></i>
-                      </div>
-                    </div>
-                  </div>                 
+				  <c:forEach var="item" items="${sims}">
+				   	  <div class="selected-item disable" id="mobile-${item.key}">
+	                    <div class="row">
+	                      <input type="radio" class="option-input radio" name="selected" value="${item.key}">
+	                      <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-6">
+	                        <div class="row">
+	                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-number">${app.parseSimFormat(item.key)}</div>
+	                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-category">PLATINUM NUMBER</div>
+	                        </div>
+	                      </div>
+	                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center txt-sum hidden-xxs">
+	                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
+	                        ${item.value.sumNumber}</div>
+	                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right txt-close pull-right">
+	                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
+	                        <i class="fa fa-times-circle" style="cursor:pointer;" onclick="removeMobile('${item.key}');"></i>
+	                      </div>
+	                    </div>
+	                  </div>
+				</c:forEach>             
                   <div class="row">
                       <div class="col-xxs-12 col-xs-12 col-sm-12 col-md-12">
                       	<div class="text-center" style="margin-top:20px;">
-	                      	<button class="btn-lg btn-round-solid bg-gd-submit">
+	                      	<button class="btn-round-solid bg-gd-submit" id="submit-btn">
 							   <span>ยืนยันการจอง</span>
 							</button>
 						</div>
@@ -119,11 +104,32 @@
 	    <script>
 	    
 	    $(document).ready(function(){
-    	    
+    	    $('#submit-btn').click(function(){
+    	    	sendGetAjax('/CheckSessionLogin', function(data){
+    	    		if(data == 0){
+    	    			openLogin();
+    	    		}else{
+    	    			var global = new Global();
+	    				window.location = global.contextPath() + 'SubmitConfirm'; 
+    	    		}
+    	    	});
+    	    });
 	    });
 	    function jumpToSim(){
 	    	var global = new Global();
 	    	window.location = global.contextPath();
+	    }
+	    
+	    function removeMobile(id){
+	    	var obj = {
+	    		simNumber: id
+	    	};
+	    	sendPostAjax('/Sim/RemoveSesionSim', obj, function(data){
+	    		$("#mobile-" + id).fadeOut("slow");
+	    		if(data == '' || data == 0){
+	    			window.location = global.contextPath();
+	    		}
+	    	});
 	    }
 	    </script>
 	</jsp:body>

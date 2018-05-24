@@ -15644,7 +15644,7 @@ var widgetsTabs = $.ui.tabs;
 
 
 
-$.widget( "ui.tooltip", {
+/*$.widget( "ui.tooltip", {
 	version: "1.12.1",
 	options: {
 		classes: {
@@ -16122,7 +16122,7 @@ if ( $.uiBackCompat !== false ) {
 			return tooltipData;
 		}
 	} );
-}
+}*/
 
 var widgetsTooltip = $.ui.tooltip;
 

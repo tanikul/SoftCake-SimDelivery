@@ -32,7 +32,7 @@ public class UserDetailService implements UserDetailsService {
 		return buildUserForAuthentication(user, authorities);
 	}
  
-	private org.springframework.security.core.userdetails.User buildUserForAuthentication(com.softcake.sim.beans.User user, 
+	private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user, 
 		List<GrantedAuthority> authorities) {
 		return new org.springframework.security.core.userdetails.User(user.getUserId(), user.getPassword(), authorities);
 	}

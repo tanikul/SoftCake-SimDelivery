@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.softcake.sim.beans.LoginValidator;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.SoftcakeException;
 import com.softcake.sim.datatable.DataTable;
 import com.softcake.sim.datatable.SearchDataTable;
 import com.softcake.sim.utils.AppUtils;
+import com.softcake.sim.utils.Constants;
 
 @Controller
 @RequestMapping("/Admin")
@@ -44,10 +44,11 @@ public class UserController {
 	
 	@RequestMapping(value = "ManageUser/SearchUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public DataTable<User> searchUserPending(@RequestBody SearchDataTable<User> searchDataTable,
+	public DataTable<User> SearchUser(@RequestBody SearchDataTable<User> searchDataTable,
 			final HttpServletResponse response) throws SoftcakeException {
 		DataTable<User> result = new DataTable<>();
 		try {
+			searchDataTable.getDataSearch().setUserType(Constants.USER_TYPE_ADMIN);
 			result = app.postDataTable("/apis/admin/searchUser", searchDataTable, User.class);
 		} catch(Exception ex){
 			logger.error(ex);
@@ -58,7 +59,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/ManageUser/LoadUserById/{userId}", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String loadCorporation(@PathVariable String userId, 
+	public String LoadUserById(@PathVariable String userId, 
 			final HttpServletResponse response) throws SoftcakeException  {
 		String result = null;
 		try {
@@ -80,6 +81,75 @@ public class UserController {
 		} catch (Exception e) {
 			logger.error(e);
 			throw new SoftcakeException(e, response);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/ManageUser/Register", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String Register(@RequestBody User user,
+			final HttpServletResponse response) throws SoftcakeException {
+		String str = "";
+		try {
+			str = app.post("/apis/user/register", user);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
+		}
+		return str;
+	}
+	
+	@RequestMapping(value = "/ManageUser/UpdateUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String UpdateUser(@RequestBody User user,
+			final HttpServletResponse response) throws SoftcakeException {
+		String str = "";
+		try {
+			str = app.post("/apis/user/updateUserAdmin", user);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
+		}
+		return str;
+	}
+	
+	@RequestMapping(value = "/ManageUser/EditUserCustomer", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String EditUserCustomer(@RequestBody User user,
+			final HttpServletResponse response) throws SoftcakeException {
+		String str = "";
+		try {
+			str = app.post("/apis/user/editUserCustomer", user);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
+		}
+		return str;
+	}
+	
+	@RequestMapping(value = "ManageCustomer", method = RequestMethod.GET)
+	public ModelAndView ManageCustomer() throws SoftcakeException {
+		ModelAndView model = new ModelAndView();
+		try{
+			model.addObject("login", new LoginValidator());
+			model.setViewName("admin/manageCustomer");
+		} catch(Exception ex){
+			throw new SoftcakeException(ex);
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "ManageCustomer/SearchCustomer", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public DataTable<User> SearchCustomer(@RequestBody SearchDataTable<User> searchDataTable,
+			final HttpServletResponse response) throws SoftcakeException {
+		DataTable<User> result = new DataTable<>();
+		try {
+			searchDataTable.getDataSearch().setUserType(Constants.USER_TYPE_CUSTOMER);
+			result = app.postDataTable("/apis/admin/searchUser", searchDataTable, User.class);
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
 		}
 		return result;
 	}

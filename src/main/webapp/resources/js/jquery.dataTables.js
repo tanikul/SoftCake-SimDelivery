@@ -997,7 +997,8 @@
 				"bAutoWidth",
 				"bSortClasses",
 				"bServerSide",
-				"bDeferRender"
+				"bDeferRender",
+				"userRole"
 			] );
 			_fnMap( oSettings, oInit, [
 				"asStripeClasses",
@@ -4168,7 +4169,6 @@
 		var previousSearch = settings.oPreviousSearch;
 		var features = settings.aanFeatures;
 		var input = '<input type="search" class="'+classes.sFilterInput+'"/>';
-	
 		var str = language.sSearch;
 		str = str.match(/_INPUT_/) ?
 			str.replace('_INPUT_', input) :
@@ -4179,63 +4179,48 @@
 				'class': classes.sFilter
 			} )
 			.append( $('<label/>' ).append( str ) );
-	
-		var searchFn = function() {
-			/* Update all other filter input elements for the new display */
-			var n = features.f;
-			var val = !this.value ? "" : this.value; // mental IE8 fix :-(
-	
-			/* Now do the filter */
-			if ( val != previousSearch.sSearch ) {
-				_fnFilterComplete( settings, {
-					"sSearch": val,
-					"bRegex": previousSearch.bRegex,
-					"bSmart": previousSearch.bSmart ,
-					"bCaseInsensitive": previousSearch.bCaseInsensitive
-				} );
-	
-				// Need to redraw, without resorting
-				settings._iDisplayStart = 0;
-				_fnDraw( settings );
-			}
-		};
-	
-		var searchDelay = settings.searchDelay !== null ?
-			settings.searchDelay :
-			_fnDataSource( settings ) === 'ssp' ?
-				400 :
-				0;
-	
-		var jqFilter = $('input', filter)
-			.val( previousSearch.sSearch )
-			.attr( 'placeholder', language.sSearchPlaceholder )
-			.on(
-				'keyup.DT search.DT input.DT paste.DT cut.DT',
-				searchDelay ?
-					_fnThrottle( searchFn, searchDelay ) :
-					searchFn
-			)
-			.on( 'keypress.DT', function(e) {
-				/* Prevent form submission */
-				if ( e.keyCode == 13 ) {
-					return false;
+		if(searchMenu == 'REQUESTSIM'){
+			str = '<div style=\"float:right;\">Search : <select id="selected-search-' + settings.sTableId + '" class="form-control input-sm">';
+			str += '<option value="">-- All --</option>';
+			str += '<option value="simNumber">เบอร์โทรศัพท์</option>';
+			str += '<option value="requestStatus">Request Status</option>';
+			str +='</select>  <span id="div-box-search-'+ settings.sTableId +'" style="display:inline-block;"><input type="text" id="search-box-' + settings.sTableId + '" class="form-control input-sm" value="" placeholder="Search" style="min-width:150px;" disabled="disabled"/></span>&nbsp;&nbsp;';
+			str += '<button class=\"btn btn-success\" onclick=\"searchRequestSim();\"><i class=\"fa fa-search\"></i></button>';
+			filter = $(str);
+		}else if(searchMenu == 'REQUESTSIMADMIN'){
+			str = '<div style=\"float:right;\">Search : <select id="selected-search-' + settings.sTableId + '" class="form-control input-sm">';
+			str += '<option value="">-- All --</option>';
+			str += '<option value="simNumber">เบอร์โทรศัพท์</option>';
+			str += '<option value="merchantId">รหัสลูกค้า</option>';
+			str += '<option value="requestStatus">Request Status</option>';
+			str +='</select>  <span id="div-box-search-'+ settings.sTableId +'" style="display:inline-block;"><input type="text" id="search-box-' + settings.sTableId + '" class="form-control input-sm" value="" placeholder="Search" style="min-width:150px;" disabled="disabled"/></span>&nbsp;&nbsp;';
+			str += '<button class=\"btn btn-success\" onclick=\"searchRequestSim();\"><i class=\"fa fa-search\"></i></button>';
+			filter = $(str);
+		}else if(searchMenu == 'ROLE'){
+			str = "<div style=\"float:right;\"><button class=\"btn btn-default\" onclick=\"openModalAdd('AddRolePrivilege');\" style=\"padding-bottom:3px;\">";
+			str +="<i class=\"fa fa-plus-circle green\"></i>&nbsp;&nbsp; Add Role</button></div>";
+			filter = $(str);
+		}else if(searchMenu == 'MANAGESIM'){
+			str = '<div style=\"float:right;\">Search : <select id="selected-search-' + settings.sTableId + '" class="form-control input-sm">';
+			str += '<option value="">-- All --</option>';
+			str += '<option value="simNumber">Mobile No.</option>';
+			str += '<option value="price">Price</option>';
+			str += '<option value="creditTerm">Credit Term</option>';
+			if(settings.sTableId.toUpperCase() == 'PENDINGTBL'){
+				if(settings.oFeatures.userRole.toUpperCase() == 'CHECKER'){
+					str += '<option value="operation">Operation</option>';
+				}else{
+					str += '<option value="authorizeStatus">Authorize Status</option>';
 				}
-			} )
-			.attr('aria-controls', tableId);
-	
-		// Update the input elements whenever the table is filtered
-		$(settings.nTable).on( 'search.dt.DT', function ( ev, s ) {
-			if ( settings === s ) {
-				// IE9 throws an 'unknown error' if document.activeElement is used
-				// inside an iframe or frame...
-				try {
-					if ( jqFilter[0] !== document.activeElement ) {
-						jqFilter.val( previousSearch.sSearch );
-					}
-				}
-				catch ( e ) {}
+			}else{
+				str += '<option value="bookingStatus">Booking Status</option>';
 			}
-		} );
+			str +='</select>  <span id="div-box-search-'+ settings.sTableId +'" style="display:inline-block;"><input type="text" id="search-box-' + settings.sTableId + '" class="form-control input-sm" value="" placeholder="Search" style="min-width:150px;" disabled="disabled"/></span>&nbsp;&nbsp;';
+			str += '<button class=\"btn btn-success\" onclick=\"searchManageSim(\'' + settings.sTableId + '\');\"><i class=\"fa fa-search\"></i></button>';
+			filter = $(str);
+		} else {
+			filter = '';
+		}
 	
 		return filter[0];
 	}
@@ -12967,6 +12952,7 @@
 			 * set a default use {@link DataTable.defaults}.
 			 *  @type boolean
 			 */
+			"userRole": '',
 			"bProcessing": null,
 	
 			/**
@@ -14336,9 +14322,12 @@
 	
 	
 	$.extend( DataTable.ext.classes, {
-		"sTable": "dataTable",
-		"sNoFooter": "no-footer",
+		/*"sTable": "dataTable",
+		"sNoFooter": "no-footer",*/
 	
+		"sTable": "",
+		"sNoFooter": "",
+		
 		/* Paging buttons */
 		"sPageButton": "paginate_button",
 		"sPageButtonActive": "current",

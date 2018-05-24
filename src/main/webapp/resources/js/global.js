@@ -43,7 +43,7 @@ var errMsg = {
 };
 
 var listTab = new Array();
-
+var searchMenu = '';
 function sendPostAjax(url, params, funcName){
 	$.ajax({
 		url: GetSiteRoot() + url,
@@ -53,11 +53,11 @@ function sendPostAjax(url, params, funcName){
 		contentType: "application/json; charset=utf-8",
 		beforeSend: function (xhr) {
 			xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
-			openOverlay();
-			lastActivity = new Date().getTime();
+			$.LoadingOverlay("show");
 		},
 		cache: false,
 		success: function (data) {
+			$.LoadingOverlay("hide");
 			if(data.hasOwnProperty('success') && data.hasOwnProperty('message')){
 				if(!data.success){
 					$("#dialog-confirm").dialog('close');
@@ -75,7 +75,8 @@ function sendPostAjax(url, params, funcName){
 			}
 			$('.tooltip').remove();
 		},
-		error: function (jqXHR, textStatus, errorThrown) {console.log(jqXHR);
+		error: function (jqXHR, textStatus, errorThrown) {
+			$.LoadingOverlay("hide");
 			if(jqXHR.status !== 200){
 				if(typeof jqXHR.responseJSON != 'undefined'){
 					if(typeof jqXHR.responseJSON.errorMessage != 'undefined'){
@@ -113,7 +114,6 @@ function sendGetAjax(url, funcName){
 		cache: false,
 		beforeSend: function (xhr) {
 			xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
-			lastActivity = new Date().getTime();
 		},
 		success: function (data) {
 			if(data.hasOwnProperty('success') && data.hasOwnProperty('message')){
@@ -162,6 +162,65 @@ function sendGetAjax(url, funcName){
 	});
 }
 
+function sendPostAjaxWithoutLoading(url, params, funcName){
+	$.ajax({
+		url: GetSiteRoot() + url,
+		method: "POST",
+		dataType: "json",
+		data: JSON.stringify(params),
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+		},
+		cache: false,
+		success: function (data) {
+			$.LoadingOverlay("hide");
+			if(data.hasOwnProperty('success') && data.hasOwnProperty('message')){
+				if(!data.success){
+					$("#dialog-confirm").dialog('close');
+					$("#dialog-message").dialog('close');
+					alertModal('Warning', data.message);
+					$('.tooltip').remove();
+				}else{
+					$("#dialog-confirm").dialog('close');
+					$("#dialog-message").dialog('close');
+					alertModal('Alert', data.message);
+					$('.tooltip').remove();
+				}
+			}else if(typeof funcName == 'function'){
+				funcName(data);
+			}
+			$('.tooltip').remove();
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			$.LoadingOverlay("hide");
+			if(jqXHR.status !== 200){
+				if(typeof jqXHR.responseJSON != 'undefined'){
+					if(typeof jqXHR.responseJSON.errorMessage != 'undefined'){
+						if(jqXHR.responseJSON.errorMessage.toUpperCase() == 'JAVAX.SERVLET.SERVLETEXCEPTION: INVALIDAUTHORIZATIONTOKEN' || 
+								jqXHR.responseJSON.errorMessage.toUpperCase() == 'INVALIDAUTHORIZATIONTOKEN'){
+							 $("#logoutForm").submit();
+							 return false;
+						}
+						$('.modal').modal('hide');
+						$("#dialog-confirm").dialog('close');
+						$("#dialog-message").dialog('close');
+						alertModal('Warning', jqXHR.responseJSON.errorMessage);
+						$('.tooltip').remove();
+					}
+				}else{
+					if(typeof jqXHR.statusText != 'undefined'){
+						$('.modal').modal('hide');
+						$("#dialog-confirm").dialog('close');
+						$("#dialog-message").dialog('close');
+						alertModal('Error', jqXHR.status + ' ' +  jqXHR.statusText);
+						$('.tooltip').remove();
+					}
+				}
+			}
+		}
+	});
+}
 
 function GetSiteRoot() {
     var rootPath = window.location.protocol + "//" + window.location.host;
@@ -185,7 +244,7 @@ function GetSiteRoot() {
 function displayErrorAjax(jqXHR, textStatus, errorThrown){
 	 $("#dialog-confirm").dialog('close');
 	 $("#dialog-message").dialog('close');
-	 closeOverlay();
+	 $.LoadingOverlay("hide");
 	 $('.tooltip').remove();
 	 if(jqXHR.status == 500){
 		 if(typeof jqXHR.responseJSON != 'undefined'){
@@ -199,7 +258,7 @@ function displayErrorAjax(jqXHR, textStatus, errorThrown){
 				 $('.tooltip').remove();
 			}
 		}
-	 }else if(jqXHR.status == 405){
+	 }else{
 		 alertModal('Error', jqXHR.statusText);
 		 $('.tooltip').remove();
 	 }

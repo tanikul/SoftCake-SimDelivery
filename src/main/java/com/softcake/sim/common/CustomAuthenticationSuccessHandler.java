@@ -2,26 +2,19 @@ package com.softcake.sim.common;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
 import com.google.gson.Gson;
 import com.softcake.sim.beans.User;
-import com.softcake.sim.utils.Constants;
 
 
 @Component
@@ -40,6 +33,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		GenerateMenu menu = (GenerateMenu) ApplicationContextHolder.getContext().getBean("generateMenu");
 		menu.init();
 		request.getSession().setAttribute("generateMenu", menu.getMenu());
+		request.getSession().setAttribute("generateFooter", menu.getMenuFooter());
 		request.getSession().setAttribute("userInfo", user);
 		
 		/*SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

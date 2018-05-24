@@ -10,7 +10,7 @@
 		
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-	      		<h4><b><i class="fas fa-user-plus" style="font-size:1.8em; color:Tomato;margin-right:10px;"></i> จัดการคำทำนาย</b></h4>
+	      		<h4><b><i class="fab fa-weixin" style="font-size:1.8em; color:Tomato;margin-right:10px;"></i> จัดการวิเคราะห์เบอร์</b></h4>
 	    	</div>
 	    </div>
 		<div class="row">
@@ -26,6 +26,7 @@
 								         <option value="${i}">${i}</option>
 								    </c:forEach>
 						    	</select>
+						    	<div class="help-block with-errors"></div>
 						  	</div>
 					  	</div>
 				  	</div>
@@ -83,24 +84,31 @@
 				});
 				
 				$('#save-btn').click(function(){
-					var obj = {
-						predictId: $('#predictId').val(),
-						predictContent: $('#predictContent').val()
-					};
-					sendPostAjax('/Admin/ManagePredict/UpdatePredict', obj, function(data){
-						if(data == 1){
-							alertModal('', 'บันทึกข้อมูลสำเร็จ');
-							$("#dialog-message").dialog({
-								  modal: true,
-								  buttons: {
-									Ok: function() {
-									  $(this).dialog("close");
-									  closeOverlay();
-									}
-								  }
-							});
-						}
-					});
+					if($('#predictId').val() == 0){
+						$('#predictId').parent().addClass('has-error has-danger');
+						$('#predictId').next().html('กรุณาระบุตัวเลข');
+					}else{
+						$('#predictId').parent().removeClass('has-error has-danger');
+						$('#predictId').next().html('');
+						var obj = {
+							predictId: $('#predictId').val(),
+							predictContent: tinymce.get('predictContent').getContent()
+						};
+						sendPostAjax('/Admin/ManagePredict/UpdatePredict', obj, function(data){
+							if(data == 1){
+								alertModal('', 'บันทึกข้อมูลสำเร็จ');
+								$("#dialog-message").dialog({
+									  modal: true,
+									  buttons: {
+										Ok: function() {
+										  $(this).dialog("close");
+										  closeOverlay();
+										}
+									  }
+								});
+							}
+						});
+					}
 				});
 			});
 		</script>

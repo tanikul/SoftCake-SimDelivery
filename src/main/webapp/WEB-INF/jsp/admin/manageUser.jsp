@@ -8,25 +8,21 @@
 	<jsp:body>
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
-      		<h4><b><i class="fas fa-user-plus" style="font-size:1.8em; color:Tomato;margin-right:10px;"></i> จัดการผู้ใช้งานระบบ</b></h4>
+      		<h4><b><i class="fas fa-user" style="font-size:1.8em; color:Tomato;margin-right:10px;"></i> จัดการผู้ใช้งานระบบ</b></h4>
     	</div>
     </div>
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			 <div class="panel-round-bd">
-			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
 			    	<label for="userId" class="control-label">User ID</label>
 			    	<input type="text" class="form-control" id="userId" placeholder="User ID">
 			  	</div>
-			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-			    	<label for="firstName" class="control-label">First Name</label>
-			    	<input type="text" class="form-control" id="firstName" placeholder="First Name">
+			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
+			    	<label for="firstName" class="control-label">Name</label>
+			    	<input type="text" class="form-control" id="name" placeholder="Name">
 			  	</div>
-			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-			    	<label for="lastName" class="control-label">Last Name</label>
-			    	<input type="text" class="form-control" id="lastName" placeholder="Last Name">
-			  	</div>
-			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
 			    	<label for="activeStatus" class="control-label">Role</label>
 			    	<select class="form-control" id="searchRole"></select>
 			  	</div>
@@ -61,10 +57,10 @@
                       <tr>
                           <th class="text-center" width="10%"><b>No.</b></th>
                           <th class="text-center" width="20%"><b>User ID</b></th>
-                          <th class="text-center" width="20%"><b>Firstname</b></th>
-						  <th class="text-center" width="10%"><b>Lastname</b></th>
+                          <th class="text-center" width="20%"><b>Name</b></th>
+                          <th class="text-center" width="15%"><b>Role</b></th>
                           <th class="text-center" width="20%"><b>Active Status</b></th>
-                          <th class="text-center" width="20%">Action</th>
+                          <th class="text-center" width="10%">Action</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -75,13 +71,14 @@
            </div>
          </div>
     </div>
-	<div class="modal fade" id="userInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	   <div class="modal-dialog modal-lg">
 	      <div class="modal-content">
 	       <div class="modal-header">
 	         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	         <h4 class="modal-title" id="myModalLabel">User Info</h4>
+	         User Info
 	       </div>
+	       <input type="hidden" id="mode">
 	       <div class="modal-body">
 	          <div class="container-fluid">
 					<div class="row">
@@ -90,17 +87,17 @@
 								<label><b>ชือ-นามสกุล</b></label>
 							</div>
 							<div class="col-sm-2">
-								<select id="prefix" class="form-control">
+								<select id="prefix-signup" class="form-control">
 									<option value="">--คำนำหน้า--</option>
 								</select>
 								<div class="help-block with-errors"></div>
 							</div>
 							<div class="col-sm-4">
-								<input type="text" id="firstName" class="form-control" placeholder="First Name" />
+								<input type="text" id="firstName-signup" class="form-control" placeholder="First Name" />
 								<div class="help-block with-errors"></div>
 							</div>
 							<div class="col-sm-4">
-								<input type="text" id="lastName" class="form-control" placeholder="Last Name"/>
+								<input type="text" id="lastName-signup" class="form-control" placeholder="Last Name"/>
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
@@ -111,12 +108,23 @@
 								<label><b>Username</b></label>
 							</div>
 							<div class="col-sm-4">
-								<input type="text" id="username" class="form-control" disabled="disabled"/>
+								<input type="text" id="username-signup" class="form-control" />
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" id="passworddiv">
+						<div class="col-sm-12 form-group">
+							<div class="col-sm-2">
+								<label><b>Password</b></label>
+							</div>
+							<div class="col-sm-4">
+								<input type="password" id="password-signup" class="form-control" />
+								<div class="help-block with-errors"></div>
+							</div>
+						</div>
+					</div>
+					<%-- <div class="row">
 						<div class="col-sm-12 form-group">
 							<div class="col-sm-2">
 								<label><b>ที่อยู่</b></label>
@@ -170,14 +178,14 @@
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					<div class="row">
 						<div class="col-sm-12 form-group">
 							<div class="col-sm-2">
 								<label><b>สิทธิ์ผู้ใช้ระบบ</b></label>
 							</div>
 							<div class="col-sm-4">
-								<select id="role" class="form-control"></select>
+								<select id="role-signup" class="form-control"></select>
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
@@ -189,20 +197,21 @@
 							</div>
 							<div class="col-sm-8">
 								<label class="radio-inline">
-								  <input type="radio" name="activeStatus" value="Y"> Enable
+								  <input type="radio" name="activeStatus" value="Y" checked> Active
 								</label>
 								<label class="radio-inline">
-								  <input type="radio" name="activeStatus" value="N"> Disable
+								  <input type="radio" name="activeStatus" value="N"> InActive
 								</label>
 							</div>
 						</div>
 					</div>
+					
 					<div class="row">
 						<div class="col-sm-12 form-group">
 							<div class="col-sm-2"></div>
 							<div class="col-sm-4">
 								 <div class="cont_btn">
-							     	<button class="btn btn-primary" id="btn_signup">Save</button>
+							     	<button class="btn btn-primary" id="btn_register">Save</button>
 							    </div>
 						    </div>
 					    </div>
@@ -212,9 +221,9 @@
 	    </div>
 	   </div>
 	 </div>
-	
+
 	<script>
-	    var params = {};
+		var params = {};
 	    $(document).ready(function(){
 	    	$('#user_table').DataTable();
     	    searchUser = function(){
@@ -248,12 +257,13 @@
 						{ "data": "userId" },
 						{ "data": "userId" },
 						{ "data": "firstName" },
-						{ "data": "lastName" },
+						{ "data": "roleJson.roleName" },
 						{ "data": "activeStatus" },
 						{ "data": "activeStatus" }
 					],
 					"drawCallback": function(settings) {
 						$.LoadingOverlay("hide");
+						$("*[data-toggle=tooltip]").tooltip();
 					},
 					"initComplete": function(settings, json) {
 					},
@@ -271,24 +281,27 @@
 				  'order': [0, 'desc'],
 				  "fnRowCallback": function(nRow, aData, index) {
 					  var setting = this.fnSettings();
-					  var edit =  "<a href='javascript:openEdit(\"" +aData.userId + "\");'><i class='fas fa-pencil-alt' style='font-size:1.2em; color:#8F8E8C;'></i></a>&nbsp;&nbsp;<a href='javascript:deleteUser(\"" + aData.userId + "\")'><i class='fas fa-trash-alt' style='font-size:1.2em; color:#8F8E8C;'></i></a>";
-						 
+					  var edit =  "<a href='javascript:openEdit(\"" +aData.userId + "\");'  data-toggle=\"tooltip\" data-original-title=\"Edit\"><i class='fas fa-pencil-alt' style='font-size:1.2em; color:#8F8E8C;'></i></a>&nbsp;&nbsp;<a href='javascript:deleteUser(\"" + aData.userId + "\")' data-toggle=\"tooltip\" data-original-title=\"Delete\"><i class='fas fa-trash-alt' style='font-size:1.2em; color:#8F8E8C;'></i></a>";
+				      var activeStatus = (aData.activeStatus == 'Y') ? "<i class='fa fa-check-circle green'></i>&nbsp;&nbsp;" + 'Active' : "<i class='fa fa-minus-circle red'></i>&nbsp;&nbsp;" + 'Not Active';
+					  
 					  $('td:eq(0)', nRow).html("<center>" + (setting._iDisplayStart + parseInt(index) + 1) + "<center>");
-					  $('td:eq(4)', nRow).html("<center>" + (aData.activeStatus == 'Y') ? 'Active' : 'Not Active' + "<center>");
+					  $('td:eq(2)', nRow).html(aData.prefixName + aData.firstName + ' ' + aData.lastName);
+					  $('td:eq(4)', nRow).html("<center>" + activeStatus + "<center>");
 					  $('td:eq(5)', nRow).html("<center>" + edit + "<center>");
 					  return nRow;
 					}
 				});
 			}
 
-    	    searchUser({});
+    	    searchUser();
     	    
     	    $('#search-btn').click(function(){
     	    	params = {
        	    		userId: $('#userId').val(),
-       	    		firstName: $('#firstName').val(),
-       	    		lastName: $('#lastName').val(),
-       	    		activeStatus: $('activeStatus').val()
+       	    		firstName: $('#name').val(),
+       	    		lastName: $('#name').val(),
+       	    		activeStatus: $('#activeStatus').val(),
+       	    		role: $('#searchRole').val()
        	    	};
     	    	searchUser();
     	    });
@@ -296,41 +309,163 @@
     	    	$('#add-user-modal').modal('show');
     	    });
     	    getDropDownList($('#searchRole'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', null);
+    	    
+    	    $('#btn_register').click(function(){
+    	    	errMsg.user = {
+					firstName: { id: $('#signup #firstName-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					lastName: { id: $('#signup #lastName-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					username: { id: $('#signup #username-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					password: { id: $('#signup #password-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					role: { id: $('#signup #role-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					prefix: { id: $('#signup #prefix-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+				};
+				if($('#mode').val() == 'A'){
+					if(checkValidate('user')){
+						sendPostAjaxWithoutLoading('/User/CheckDuplicateUser', {userId: $('#signup #username-signup').val()}, function(data){
+							if(data == 1){
+								 $('#signup #username-signup').parent().addClass('has-error has-danger');
+								$('#signup #username-signup').next().html('Username นี้มีในระบบแล้ว');
+							}else{
+								$('#signup #username-signup').parent().removeClass('has-error has-danger');
+								$('#signup #username-signup').next().html('');
+								/* var email = $('#signup #email').val().trim();
+								if(!validateEmail($('#signup #email'))){
+									$('#signup #email').next().html('รูปแบบ email ไม่ถูกต้อง');
+								}	 */
+								
+								var obj = { firstName: $('#signup #firstName-signup').val().trim(),
+									lastName: $('#signup #lastName-signup').val().trim(),
+									userId: $('#signup #username-signup').val().trim(),
+									password: $('#signup #password-signup').val().trim(),
+									/* address: $('#signup #address').val().trim(),
+									province: $('#signup #province').val().trim(),
+									postcode: $('#signup #postcode').val().trim(),
+									mobile: $('#signup #mobile').val().trim().replaceAll('-',''),
+									email: email,*/
+									prefix: $('#signup #prefix-signup').val(),
+									activeStatus: $("input[name='activeStatus']:checked").val(),
+									role: $('#role-signup').val()
+								};
+								sendPostAjax('/Admin/ManageUser/Register', obj, function(data){
+									if(data == 1){
+										$('.modal').modal('hide');
+										alertModal('', 'Save User Successful.');
+										$("#dialog-message").dialog({
+											  modal: true,
+											  buttons: {
+												Ok: function() {
+												  $(this).dialog("close");
+												  	closeOverlay();
+													searchUser();			
+												}
+											 }
+										});
+									}
+								});	
+							}
+						});
+					}
+				}else if($('#mode').val() == 'U'){
+					errMsg.user = {
+						firstName: { id: $('#signup #firstName-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+						lastName: { id: $('#signup #lastName-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+						username: { id: $('#signup #username-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+						role: { id: $('#signup #role-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+						prefix: { id: $('#signup #prefix-signup'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
+					};
+					if(checkValidate('user')){
+						var obj = { 
+							firstName: $('#signup #firstName-signup').val().trim(),
+							lastName: $('#signup #lastName-signup').val().trim(),
+							userId: $('#signup #username-signup').val().trim(),
+							/* address: $('#signup #address').val().trim(),
+							province: $('#signup #province').val().trim(),
+							postcode: $('#signup #postcode').val().trim(),
+							mobile: $('#signup #mobile').val().trim().replaceAll('-',''),
+							email: email,*/
+							prefix: $('#signup #prefix-signup').val(),
+							activeStatus: $("input[name='activeStatus']:checked").val(),
+							role: $('#role-signup').val()
+						};
+						sendPostAjax('/Admin/ManageUser/UpdateUser', obj, function(data){
+							if(data == 1){
+								$('.modal').modal('hide');
+								alertModal('', 'Save User Successful.');
+								$("#dialog-message").dialog({
+									  modal: true,
+									  buttons: {
+										Ok: function() {
+										  $(this).dialog("close");
+										  	closeOverlay();
+											searchUser();			
+										}
+									 }
+								});
+							}
+						});	
+					}
+				}
+			});
+    	    
+    	    $('#signup #username-signup').blur(function(){
+    	    	if(this.value.trim() != ''){
+					sendPostAjaxWithoutLoading('/User/CheckDuplicateUser', {userId: this.value}, function(data){
+						if(data == '1'){
+							$('#signup #username-signup').next().html('Username นี้มีในระบบแล้ว');
+							$('#signup #username-signup').parent().parent().addClass('has-error');
+						}else{
+							$('#signup #username-signup').next().html('');
+							$('#signup #username-signup').parent().parent().removeClass('has-error');
+						}
+					});
+    	    	}
+			});
 	    });
 	    
 	    openEdit = function(id){
 	    	setDefault();
 	    	sendGetAjax('/Admin/ManageUser/LoadUserById/' + id, function(data){
-	    	 	getDropDownList($('#prefix'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', data.prefix);
-	    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', data.role);
-	   			getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', data.province);
-	    		$('#userInfo #firstName').val(data.firstName);
-				$('#userInfo #lastName').val(data.lastName);
-				$('#userInfo #username').val(data.userId);
-				$('#userInfo #address').val(data.address);
-				$('#userInfo #postcode').val(data.postcode);
-				$('#userInfo #mobile').val(data.mobile);
-				$('#userInfo #email').val(data.email);
-				$('#userInfo').modal('show');
+	    	 	getDropDownList($('#prefix-signup'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', data.prefix);
+	    	 	getDropDownList($('#role-signup'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', data.role);
+	   			//getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', data.province);
+	   			$('#signup #mode').val('U');
+	    		$('#signup #firstName-signup').val(data.firstName);
+				$('#signup #lastName-signup').val(data.lastName);
+				$('#signup #username-signup').val(data.userId).attr('disabled', 'disabled');
+				$('#passworddiv').hide();
+				/* $('#signup #address').val(data.address);
+				$('#signup #postcode').val(data.postcode).mask('00000');
+				$('#signup #mobile').val(parseSimFormat(data.mobile));	
+				$('#signup #email').val(data.email); */
+				if(data.activeStatus == 'Y'){
+					$($("#signup input[name='activeStatus']").get(0)).attr('checked', true);
+				}else{
+					$($("#signup input[name='activeStatus']").get(1)).attr('checked', true);
+				}
+				$('#signup').modal('show');
 			});
 	    }
 	    
 	    addUser = function(){
 	    	setDefault();
-    	 	getDropDownList($('#prefix'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', null);
-    	 	getDropDownList($('#role'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', null);
-   			getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', null);
-    		$('#userInfo').modal('show');
+    	 	getDropDownList($('#prefix-signup'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', null);
+    	 	getDropDownList($('#role-signup'), '-- สิทธิ์ผู้ใช้ระบบ --', '/MasterSetup/LoadRole', 'CODE', 'DESCRIPTION', null);
+    	 	$('#passworddiv').show();
+   			//getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', null);
+   			$('#signup #mode').val('A');
+    		$('#signup').modal('show');
 	    }
 	    
 	    setDefault = function(){
-	    	$('#userInfo #firstName').val('');
-			$('#userInfo #lastName').val('');
-			$('#userInfo #username').val('');
-			$('#userInfo #address').val('');
-			$('#userInfo #postcode').val('');
-			$('#userInfo #mobile').val('');
-			$('#userInfo #email').val('');
+	    	$('#signup #firstName-signup').val('');
+			$('#signup #lastName-signup').val('');
+			$('#signup #username-signup').val('').removeAttr('disabled');
+			$('#signup #password-signup').val('').removeAttr('disabled');
+			/* $('#signup #address').val('');
+			$('#signup #postcode').val('');
+			$('#signup #mobile').val('');
+			$('#signup #email').val(''); */
+			$($("#signup input[name='activeStatus']").get(0)).attr('checked', true);
 	    }
 	    
 	    deleteUser = function(id){

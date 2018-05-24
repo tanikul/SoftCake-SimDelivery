@@ -19,11 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.softcake.sim.beans.JsonMapper;
 import com.softcake.sim.beans.LoginValidator;
 import com.softcake.sim.beans.User;
 import com.softcake.sim.common.CustomAuthenticationSuccessHandler;
 import com.softcake.sim.common.LoginAuthenticationProvider;
 import com.softcake.sim.common.SoftcakeException;
+import com.softcake.sim.common.VerifyRecaptcha;
 import com.softcake.sim.utils.AppUtils;
 import com.softcake.sim.utils.Constants;
 
@@ -39,9 +45,9 @@ public class LoginController {
 	@Qualifier("customAuthenticationSuccessHandler")
 	CustomAuthenticationSuccessHandler authenSuccess;
 	
-	@Autowired
+	/*@Autowired
 	@Qualifier("authenticationManager")
-	LoginAuthenticationProvider loginProvider;
+	LoginAuthenticationProvider loginProvider;*/
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(HttpServletRequest request, 
@@ -70,6 +76,28 @@ public class LoginController {
 		return model;
 	}
 	 
+	@RequestMapping(value = "/CheckSessionLogin", method = RequestMethod.GET)
+	@ResponseBody
+	public String searchSim(final HttpServletRequest request,
+			final HttpServletResponse response) throws SoftcakeException {
+		String str = "1";
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+			if(authentication != null){
+				boolean hasUserRole = authentication.getAuthorities().stream()
+				          .anyMatch(r -> r.getAuthority().equals("ROLE_ANONYMOUS"));
+				if(hasUserRole){
+					str = "0";
+				}
+			}
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex, response);  
+		}
+		return str;
+	}
+	
 	@RequestMapping(value = "/Logins", method = RequestMethod.POST)
 	 public String login(HttpServletRequest request,
 			 HttpServletResponse response,
@@ -81,8 +109,8 @@ public class LoginController {
 			List<GrantedAuthority> grantedAuths = new ArrayList<>();
             JsonMapper<User> result = new JsonMapper<>(u, User.class);
             grantedAuths.add(new SimpleGrantedAuthority(result.getResult().getRole()));*/
-			Authentication authen = loginProvider.authenticate(new UsernamePasswordAuthenticationToken(username, ""));
-			authenSuccess.onAuthenticationSuccess(request, response, authen);
+			/*Authentication authen = loginProvider.authenticate(new UsernamePasswordAuthenticationToken(username, ""));
+			authenSuccess.onAuthenticationSuccess(request, response, authen);*/
 		} catch(Exception ex){
 			logger.error(ex);
 			throw new SoftcakeException(ex); 
@@ -114,6 +142,7 @@ public class LoginController {
 	 public ModelAndView start(HttpServletRequest request) throws SoftcakeException {
 		 ModelAndView model = new ModelAndView();
 		 try{
+			 model.addObject("simsJson", new Gson().toJson(request.getSession().getAttribute("Sims")));
 			 model.addObject("login", new LoginValidator());
 			 model.setViewName("sim/simContent");
 		 }catch(Exception ex){
@@ -125,16 +154,25 @@ public class LoginController {
 	 
 	@RequestMapping(value = "/User/Signup", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String Signup(@RequestBody User user,
+	public String Signup(@RequestBody String str,
 			final HttpServletResponse response) throws SoftcakeException {
-		String str = "";
+		String result = "";
+		ObjectMapper mapper = new ObjectMapper();
 		try {
-			str = app.postWithoutAuthen("/user/signup", user);
+			JsonNode node = mapper.readTree(str);
+			String recaptcha = mapper.convertValue(node.get("recaptcha"), String.class);
+			Map<String, Object> captcha = VerifyRecaptcha.verify(recaptcha);
+            if(captcha.get("CODE").equals(200)){
+				User user = mapper.convertValue(node.get("user"), User.class);
+				result = app.postWithoutAuthen("/user/signup", user);
+            }else {
+            	throw new Exception(captcha.get("MSG").toString());  
+            }
 		} catch(Exception ex){
 			logger.error(ex);
 			throw new SoftcakeException(ex, response);  
 		}
-		return str;
+		return result;
 	}
 	
 	@RequestMapping(value = "/User/CheckDuplicateUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
@@ -144,6 +182,20 @@ public class LoginController {
 		String result = null;
 		try {
 			result = app.postWithoutAuthen("/user/checkDuplicateUser",  str.get("userId"));
+		} catch (Exception e) {
+			logger.error(e);
+			throw new SoftcakeException(e, response);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/User/CheckDuplicateEmail", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String CheckDuplicateEmail(@RequestBody Map<String, String> str, 
+			final HttpServletResponse response) throws SoftcakeException  {
+		String result = null;
+		try {
+			result = app.postWithoutAuthen("/user/checkDuplicateEmail",  str.get("email"));
 		} catch (Exception e) {
 			logger.error(e);
 			throw new SoftcakeException(e, response);
@@ -176,4 +228,65 @@ public class LoginController {
 		}
 		return Constants.SUCCESS;
 	}
+	
+	@RequestMapping(value = "/User/ForgotPassword", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String ForgotPassword(@RequestBody String str,
+			 final HttpServletResponse response) throws SoftcakeException {
+		String result = "";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			JsonNode node = mapper.readTree(str);
+			String recaptcha = mapper.convertValue(node.get("recaptcha"), String.class);
+			String email = mapper.convertValue(node.get("email"), String.class);
+			Map<String, Object> captcha = VerifyRecaptcha.verify(recaptcha);
+            if(captcha.get("CODE").equals(200)){
+            	result = app.postWithoutAuthen("/forgotPassword", email);
+            }else {
+            	throw new Exception(captcha.get("MSG").toString());  
+            }
+		}catch(Exception ex){
+			 logger.error(ex);
+			 throw new SoftcakeException(ex, response);
+		}
+		return result;
+    }
+	
+	@RequestMapping(value = "/ForgotPassword", method = RequestMethod.GET)
+	public ModelAndView ForgotPassword(@RequestParam("email") String email,
+			 @RequestParam("id") String id,
+			 final HttpServletResponse response) throws SoftcakeException {
+		ModelAndView model = new ModelAndView();
+		try {
+			User user = new User();
+			user.setEmail(email);
+			user.setForgotPassword(id);
+			String data = app.postWithoutAuthen("/selectUserByEmailAndForgotPassword", user);
+			if(data == null) {
+				return new ModelAndView("redirect:/" + app.getWebUrl());
+			}
+			User result = new JsonMapper<>(data, User.class).getResult(); 
+			model.addObject("user", result);
+			model.setViewName("/member/forgotPassword");
+		}catch(Exception ex){
+			 logger.error(ex);
+			 throw new SoftcakeException(ex, response);
+		}
+		return model;
+   }
+	
+	@RequestMapping(value = "/ForgotPassword/SaveResetPassword", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String ForgotPassword(@RequestBody User user,
+			 final HttpServletResponse response) throws SoftcakeException {
+		String result = "";
+		try {
+			result = app.postWithoutAuthen("/saveResetPassword", user);
+		}catch(Exception ex){
+			 logger.error(ex);
+			 throw new SoftcakeException(ex, response);
+		}
+		return result;
+    }
+	
 }

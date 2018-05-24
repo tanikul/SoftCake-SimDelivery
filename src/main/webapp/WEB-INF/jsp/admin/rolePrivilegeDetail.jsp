@@ -14,7 +14,7 @@
                <div class="panel-round-bd">
 	               <div class="row">
 	               	<div class="col-md-12">
-						<h3 class="pull-left"><i class="fa fa-address-book-o"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
+						<h3 class="pull-left"><i class="fab fa-whmcs" style="font-size:1.8em; color:Tomato;"></i>&nbsp;&nbsp; <label for="roleTitle" style="vertical-align: middle" >Role and privilege</label></h3>
 	               	</div>
 	            </div>
                	<div class="row">
@@ -244,13 +244,26 @@
 					],
 					
 					"createdRow": function ( row, data, index ) {
+						var maker = false;
+						var checker = false;
+						var maker = (data.exceptRole != null && data.exceptRole.toUpperCase().indexOf('MAKER') > -1) ? 'disabled="disabled"' : '';
+						var checker = (data.exceptRole != null && data.exceptRole.toUpperCase().indexOf('CHECKER') > -1) ? 'disabled="disabled"' : '';
+						var viewer = (data.exceptRole != null && data.exceptRole.toUpperCase().indexOf('VIEWER') > -1) ? 'disabled="disabled"' : '';
 						var group_name = data.programGroup.replace(/\s/g,'');
 						$(row).addClass( 'collapse in '+group_name );
-						$('td', row).eq(0).html('<div style="padding-left: 20px;">'+data.programName+'</div>');
-						$('td', row).eq(1).html('<div class="radio"><input type="radio" id="none'+data.programId+'"name="'+ data.programId +'"></div>');
-						$('td', row).eq(2).html('<div class="radio"><input type="radio" id="viewer'+data.programId+'"name="'+ data.programId +'"></div>');
-						$('td', row).eq(3).html('<div class="radio"><input type="radio" id="maker'+data.programId+'"name="'+ data.programId +'"></div>');
-						$('td', row).eq(4).html('<div class="radio"><input type="radio" id="checker'+data.programId+'"name="'+ data.programId +'"></div>');
+						var programType = (data.programType == 'ADMIN') ? 'Admin' : 'Customer';
+						$('td', row).eq(0).html('<div style="padding-left: 20px;">'+data.programName + ' (' + programType +')</div>');
+						if(data.disableFlag == 'Y'){
+							$('td', row).eq(1).html('<div class="radio"><input type="radio" id="none'+data.programId+'"name="'+ data.programId +'" disabled="disabled"></div>');
+							$('td', row).eq(2).html('<div class="radio"><input type="radio" id="viewer'+data.programId+'"name="'+ data.programId +'" disabled="disabled"></div>');
+							$('td', row).eq(3).html('<div class="radio"><input type="radio" id="maker'+data.programId+'"name="'+ data.programId +'" disabled="disabled"></div>');
+							$('td', row).eq(4).html('<div class="radio"><input type="radio" id="checker'+data.programId+'"name="'+ data.programId +'" disabled="disabled"></div>');
+						}else{
+							$('td', row).eq(1).html('<div class="radio"><input type="radio" id="none'+data.programId+'"name="'+ data.programId +'"></div>');
+							$('td', row).eq(2).html('<div class="radio"><input type="radio" id="viewer'+data.programId+'"name="'+ data.programId +'"' + viewer + '></div>');
+							$('td', row).eq(3).html('<div class="radio"><input type="radio" id="maker'+data.programId+'"name="'+ data.programId +'"' + maker + '></div>');
+							$('td', row).eq(4).html('<div class="radio"><input type="radio" id="checker'+data.programId+'"name="'+ data.programId +'"' + checker + '></div>');
+						}
 						$('td', row).eq(5).html('<b>'+ data.programGroup +'</b>');
 						programList[index] = data.programId;
 					 } ,

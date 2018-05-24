@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 public class User extends BaseDomain implements Serializable {
 
 	private static final long serialVersionUID = 2863585162742337849L;
@@ -18,15 +19,22 @@ public class User extends BaseDomain implements Serializable {
 	private String activeStatus;
 	private Date lastLoggedOn;
 	private String role;
+	private String userType;
+	private String nickName;
+	private String line;
+	private String website;
 	private String address;
 	private int province;
-	private int provinceStr;
+	private String provinceStr;
 	private String postcode;
 	private String mobile;
 	private String email;
 	private String activateEmail;
 	private RoleJson roleJson;
     private List<PrivilegeJson> privilegeJsons;
+    private String forgotPassword;
+    private int cntBooking;
+    private int cntRequest;
 	
 	public String getUserId() {
 		return userId;
@@ -100,12 +108,6 @@ public class User extends BaseDomain implements Serializable {
 	public void setProvince(int province) {
 		this.province = province;
 	}
-	public int getProvinceStr() {
-		return provinceStr;
-	}
-	public void setProvinceStr(int provinceStr) {
-		this.provinceStr = provinceStr;
-	}
 	public String getPostcode() {
 		return postcode;
 	}
@@ -141,6 +143,54 @@ public class User extends BaseDomain implements Serializable {
 	}
 	public void setPrivilegeJsons(List<PrivilegeJson> privilegeJsons) {
 		this.privilegeJsons = privilegeJsons;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getLine() {
+		return line;
+	}
+	public void setLine(String line) {
+		this.line = line;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+	public String getProvinceStr() {
+		return provinceStr;
+	}
+	public void setProvinceStr(String provinceStr) {
+		this.provinceStr = provinceStr;
+	}
+	public String getForgotPassword() {
+		return forgotPassword;
+	}
+	public void setForgotPassword(String forgotPassword) {
+		this.forgotPassword = forgotPassword;
+	}
+	public int getCntBooking() {
+		return cntBooking;
+	}
+	public void setCntBooking(int cntBooking) {
+		this.cntBooking = cntBooking;
+	}
+	public int getCntRequest() {
+		return cntRequest;
+	}
+	public void setCntRequest(int cntRequest) {
+		this.cntRequest = cntRequest;
 	}
 	
 }

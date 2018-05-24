@@ -14,7 +14,8 @@
         http://www.springframework.org/schema/util/spring-util.xsd">
         
  	<context:component-scan base-package="com.softcake.sim.*" />
-    
+ 	
+    <mvc:resources mapping="/bootstrap/**" location="/resources/bootstrap/" />
 	<mvc:resources mapping="/css/**" location="/resources/css/" />
 	<mvc:resources mapping="/fonts/**" location="/resources/fonts/" />
 	<mvc:resources mapping="/font-awesome/**" location="/resources/font-awesome/" />
@@ -44,7 +45,7 @@
 	</bean>
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="100000" />
+		<property name="maxUploadSize" value="999999" />
 	</bean>
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	    <property name="locations">

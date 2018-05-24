@@ -23,7 +23,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.softcake.sim.beans.JsonMapper;
 import com.softcake.sim.beans.ListPrivileges;
 import com.softcake.sim.beans.PrivilegeJson;
@@ -40,8 +39,8 @@ public class RequestFilter implements Filter {
 	
 	
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-	        Arrays.asList("", "Profile", "Logout", "fonts", "font-awesome", "vendors", "images",
-	        		"js", "css")));
+	        Arrays.asList("", "Profile", "Logout", "ChangePassword", "fonts", "font-awesome", "vendors", "images",
+	        		"js", "css", "User", "bootstrap")));
 	
 	@Override
     public void destroy() {

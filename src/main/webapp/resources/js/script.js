@@ -183,7 +183,7 @@ function checkValidate(type){
 									}
 								}else if($(div).parent().parent().hasClass('form-group')){
 									$(div).parent().parent().addClass('has-error has-danger');
-									if($(div).next().hasClass('form-group')){
+									if($(div).next().hasClass('form-group')){console.log(1);
 										$(div).parent().next().html('<ul class="list-unstyled"><li>' + msg[j] + '</li></ul>');
 										if(typeof errMsg[type][x].exceptBlur != 'boolean'){
 											$('.bootstrap-select').on('change', function(){
@@ -195,7 +195,7 @@ function checkValidate(type){
 												}
 											});
 										}
-									}else if($(div).parent().next().hasClass('help-block')){
+									}else if($(div).parent().next().hasClass('help-block')){console.log(2);
 										$(div).parent().next().html('<ul class="list-unstyled"><li>' + msg[j] + '</li></ul>');
 										if(typeof errMsg[type][x].exceptBlur != 'boolean'){
 											$('.bootstrap-select').on('change', function(){
@@ -207,6 +207,16 @@ function checkValidate(type){
 												}
 											});
 										}	
+									}else if($(div).next().hasClass('input-group-addon')){
+											$('<ul class="list-unstyled"><li>' + msg[j] + '</li></ul>').insertAfter($(div).next().next());
+											if(typeof errMsg[type][x].exceptBlur != 'boolean'){
+												$(div).on('blur', function(){
+													if($(this).val() != ''){
+														$(this).parent().parent().removeClass('has-error has-danger');
+														$(this).next().next().html('');
+													}
+												});
+											}
 									}else{
 										$(div).next().html('<ul class="list-unstyled"><li>' + msg[j] + '</li></ul>');
 										if(typeof errMsg[type][x].exceptBlur != 'boolean'){
@@ -271,3 +281,63 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
 };
+
+function parseSimFormat(simNumber){
+	if(simNumber == '' || simNumber == null){
+		return '';
+	}
+	return simNumber.slice(0, 3) + '-' + simNumber.slice(3, 6) + '-' + simNumber.slice(6, 10);
+}
+
+function convertDateFormat(str){
+	if(str == null || str == '') return str;
+	if(str.indexOf('-') == -1){
+		return str;
+	}else{
+		var s = str.split('-');
+		return s[2] + '/' + s[1] + '/' + s[0];
+	}
+}
+
+function parseDateForSave(str){
+	if(str == null || str == ''){
+		return null;
+	}
+	var s = str.split('/');
+	if(s.length < 3){
+		return null;
+	}
+	return s[2] + '-' + s[1] + '-' + s[0];
+}
+
+function activeTab(tab){
+	for(var i = 0; i < listTab.length; i++){
+		if(listTab[i] == tab){
+			$('#' + listTab[i] + 'Li').addClass('active');
+			$('#' + listTab[i] + 'Tab').show();
+		}else{
+			$('#' + listTab[i] + 'Li').removeClass('active');
+			$('#' + listTab[i] + 'Tab').hide();
+		}
+	}
+}
+
+function activeUrl(){
+	var loc = window.location.pathname.replace('/SimDelivery', '');
+	if(loc.startsWith('/RequestSimCard')){ 
+		$('#menu_ele_7').addClass('active'); 
+	}else if(loc.startsWith('/Predict')){ 
+		$('#menu_ele_8').addClass('active'); 
+	}else if(loc.startsWith('/Admin/RolePrivilege') || loc.startsWith('/Admin/ManageUser') || loc.startsWith('/Admin/ManageCustomer')){ 
+		$('#menu_ele_1').addClass('active'); 
+	}else if(loc.startsWith('/Admin/ManagePredict')){
+		$('#menu_ele_4').addClass('active'); 
+	}else if(loc.startsWith('/Admin/ManageBooking') || loc.startsWith('/Admin/ManageRequest')){
+		$('#menu_ele_9').addClass('active'); 
+	}else if(loc.startsWith('/Admin/ManageData')){
+		$('#menu_ele_3').addClass('active'); 
+	}else{ 
+		$('#menu_ele_6').addClass('active'); 
+	}
+	$('.main-nav').show();
+}

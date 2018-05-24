@@ -117,7 +117,6 @@
  </div>
  <script>
  $(document).ready(function(){
-	 console.log($('#userInfo #username'));
  	$('#btn_signup').click(function(){
 		if(checkValidate('user')){
 			var email = $('#signup #email').val();

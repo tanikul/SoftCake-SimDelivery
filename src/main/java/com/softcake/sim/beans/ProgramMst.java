@@ -41,7 +41,8 @@ public class ProgramMst extends BaseDomain implements Serializable {
 	private String defaultChecker;
 	private String mode;
 	private int roleId;
-	
+	private String elementId;
+	private String position;
 	
 	public int getRoleId() {
 		return roleId;
@@ -86,7 +87,7 @@ public class ProgramMst extends BaseDomain implements Serializable {
 	
 	public ProgramMst(){}
 	
-	public ProgramMst(int programId, String programName, String programRef, String programType, int programLevel, String programGroup, int groupLevel, String activeStatus){
+	public ProgramMst(int programId, String programName, String programRef, String programType, int programLevel, String programGroup, int groupLevel, String activeStatus, String elementId, String position){
 		this.setProgramId(programId);
 		this.setProgramName(programName);
 		this.setProgramRef(programRef);
@@ -95,6 +96,8 @@ public class ProgramMst extends BaseDomain implements Serializable {
 		this.setProgramGroup(programGroup);
 		this.setActiveStatus(activeStatus);
 		this.setGroupLevel(groupLevel);
+		this.setElementId(elementId);
+		this.setPosition(position);
 	}
 	
 	public int getProgramId() {
@@ -163,6 +166,22 @@ public class ProgramMst extends BaseDomain implements Serializable {
 	public void setActiveStatus(String activeStatus) {
 		this.activeStatus = activeStatus;
 	}
+	public String getElementId() {
+		return elementId;
+	}
+
+	public void setElementId(String elementId) {
+		this.elementId = elementId;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	@Override
 	public String toString() {
 		return "ProgramMst [programId=" + programId + ", programName=" + programName + ", programRef=" + programRef
