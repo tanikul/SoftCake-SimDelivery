@@ -5,6 +5,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <c:url value="/j_spring_security_check" var="loginUrl" />
 <%@ page import = "java.io.*,java.util.*" %>
+<%@page import="com.softcake.sim.common.FBConnection"%>
+<%
+	FBConnection fbConnection = new FBConnection();
+%>
 <spring:message code="captcha.siteKey" var="siteKey"/>
 <link rel="stylesheet" href="<c:url value="/css/login-popup.css"/>">
 
@@ -22,108 +26,108 @@
 			  	<div id="signup" style="display:none;">
 			      <div class="container-fluid form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">ชือ-นามสกุล</label>
-						<div class="col-sm-2">
+						<label class="col-sm-2 col-xs-12 control-label">ชือ-นามสกุล</label>
+						<div class="col-sm-2 col-xs-12">
 							<select id="prefix" class="form-control">
 								<option value="">--คำนำหน้า--</option>
 							</select>
 							<div class="help-block with-errors"></div>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="firstName" class="form-control" placeholder="First Name" />
 							<div class="help-block with-errors"></div>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="lastName" class="form-control" placeholder="Last Name"/>
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">ชื่อผู้ใช้ระบบ</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">ชื่อผู้ใช้ระบบ</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="username-signup" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">รหัสผ่าน</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">รหัสผ่าน</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="password" id="password-signup" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">ยืนยันรหัสผ่าน</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">ยืนยันรหัสผ่าน</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="password" id="confirm-password-signup" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">ที่อยู่</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">ที่อยู่</label>
+						<div class="col-sm-4 col-xs-12">
 							<textarea id="address" class="form-control" style="height:150px;"></textarea>
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">จังหวัด</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">จังหวัด</label>
+						<div class="col-sm-4 col-xs-12">
 							<select id="province" class="form-control"></select>
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">รหัสไปรษณีย์</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">รหัสไปรษณีย์</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="postcode" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">เบอร์โทรศัพท์</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">เบอร์โทรศัพท์</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="mobile" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">อีเมล์</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">อีเมล์</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="email" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Line ID</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">Line ID</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="line" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Website</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">Website</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="website" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">ชื่อ/ฉายาหมอดู</label>
-						<div class="col-sm-4">
+						<label class="col-sm-2 col-xs-12 control-label">ชื่อ/ฉายาหมอดู</label>
+						<div class="col-sm-4 col-xs-12">
 							<input type="text" id="nickname" class="form-control" />
 							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-sm-2"></div>
-						<div class="col-sm-4">
+						<div class="col-sm-2 col-xs-12"></div>
+						<div class="col-sm-4 col-xs-12">
 							<div id="captcha2"></div>
 						    <div class="help-block with-errors"></div>
 					    </div>
 				    </div>
 					<div class="form-group">
-						<div class="col-sm-2"></div>
+						<div class="col-sm-2 col-xs-12"></div>
 						<div class="col-sm-4 checkbox">
 						    <label>
 						      <input type="checkbox" id="confirm"> ยอมรับ <a href="<c:url value="/Condition"/>" target="_blank">เงื่อนไขการใช้บริการ</a>
@@ -132,10 +136,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-4">
-					     <button class="btn_sign" id="btn_signup">สมัครเข้าใช้บริการ</button>
-				    </div>
+						<div class="col-sm-2 col-xs-12"></div>
+						<div class="col-sm-4 col-xs-12">
+						     <button class="btn_sign" id="btn_signup">สมัครเข้าใช้บริการ</button>
+					    </div>
 				    </div>
 				</div>
 		      </div>
@@ -156,7 +160,10 @@
 					  <div class="help-block" style="margin-left:15px;font-size:12px;"></div>
 			      </div>
 			      <div class="form-group">
-			      <a href="javascript:forgotPassword();" class="link_forgot_pass d_block" >ลืมพาสเวิร์ด</a>  
+			      	<a href="javascript:fb_login();" > <img id="fb-login-btn" src="<c:url value="/images/facebookloginbutton.png" />" /></a>
+				  </div>
+			      <div class="form-group">
+			      	<a href="javascript:forgotPassword();" class="link_forgot_pass d_block" >ลืมพาสเวิร์ด</a>  
 			      </div>
 			      <div class="form-group">
 				      <div class="cont_btn" style="margin-left: 100px;margin-top: 20px;">
@@ -220,4 +227,5 @@
         });
       };
     </script>
+    
 <script src="<c:url value="/js/login.js" />"></script>

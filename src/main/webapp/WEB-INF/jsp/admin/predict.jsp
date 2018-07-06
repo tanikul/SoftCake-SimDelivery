@@ -17,7 +17,7 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				 <div class="panel-round-bd">
 				 	<div class="row">
-					 	<div class="col-md-2 col-sm-2 col-xs-2">
+					 	<div class="col-md-2 col-sm-4 col-xs-12">
 						  	<div class="form-group">
 						    	<label for="predictId" class="control-label">ระบุตัวเลข</label>
 						    	<select class="form-control" id="predictId">
@@ -31,7 +31,7 @@
 					  	</div>
 				  	</div>
 				  	<div class="row">
-					 	<div class="col-md-8 col-sm-8 col-xs-8">
+					 	<div class="col-md-8 col-sm-8 col-xs-12">
 						  	<div class="form-group" id="predictContents">
 						    	<label for="predictContent" class="control-label">คำทำนาย</label>
 						    	<textarea class="form-control" id="predictContent" placeholder="พิมพ์ข้อความที่นี่" style="height:150px;"></textarea>
@@ -41,7 +41,7 @@
 				  	<div class="row">
 					 	<div class="col-md-2 col-sm-2 col-xs-2">
 						  	<div class="form-group">
-				 			 	<button class="btn btn-primary button-flex" id="save-btn" style="margin-top:24px;">Save</button>
+				 			 	<button class="btn btn-primary button-flex" id="save-btn" >Save</button>
 				 			</div>
 		 				</div>
 		 			</div>

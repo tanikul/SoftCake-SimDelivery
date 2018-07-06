@@ -8,30 +8,23 @@
 	<jsp:body>
 	<script src="<c:url value="/js/sim.js" />"></script>
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				 <div class="x_panel panel-round-bd">
-				  	<div class="form-group col-md-4 col-sm-4 col-xs-4">
-				    	<label for="mobileNo">กรอกเบอร์โทรศัพท์ 10 หลัก เพื่อทำนายเบอร์</label>
-				    	<input type="text" class="form-control" id="mobileNo">
-				    	<div class="help-block with-errors"></div>
-				  	</div>
-				  	
-				  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
-  		 			 	<button class="btn btn-warning button-flex orange-button" style="margin-top:24px;" id="searchPredict">วิเคราะห์เบอร์โทร</button>
-  		 			</div>
-				 </div>
+			<div class="col-md-12 col-sm-12 col-xs-12 x_panel panel-round-bd">
+			  	<div class="form-group col-md-4 col-sm-12 col-xs-12">
+			    	<label for="mobileNo">กรอกเบอร์โทรศัพท์ 10 หลัก เพื่อทำนายเบอร์</label>
+			    	<input type="text" class="form-control" id="mobileNo">
+			    	<div class="help-block with-errors"></div>
+			  	</div>
+			  	
+			  	<div class="form-group col-md-2 col-sm-2 col-xs-2">
+	 			 	<button class="btn btn-warning button-flex orange-button" id="searchPredict">วิเคราะห์เบอร์โทร</button>
+	 			</div>
 			</div>
 		</div>
 	<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel tile overflow_hidden">
               	<div class="row" style="margin:10px">
-              		<div class="col-md-6 col-sm-6 col-xs-6">
-		                <div class="x_title">
-		                  <h3><img src="<c:url value="/images/phone.png" />" style="height: 40px;margin-bottom: 10px;"/> เบอร์โทรศัพท์ <img src="<c:url value="/images/truemove.png" />" style="height: 40px;margin-bottom: 10px;"/></h3>
-		                  <div class="clearfix"></div>
-	                  </div>
-	                 </div>
+	                  <b id="logo-phone"><img src="<c:url value="/images/phone.png" />" style="height: 40px;margin-bottom: 10px;"/> เบอร์โทรศัพท์ <img src="<c:url value="/images/truemove.png" />" id="truemove-logo"style="height: 40px;margin-bottom: 10px;"/></b>
                 </div>
                 <div class="x_content">
                    <div class="panel-round-bd number-panel" style="font-family:tahoma;">

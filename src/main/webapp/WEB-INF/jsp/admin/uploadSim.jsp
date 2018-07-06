@@ -19,92 +19,90 @@
       		<h4><i class="fas fa-mobile-alt" style="font-size:1.8em; color:Tomato;margin-right:10px;"></i> <b>จัดการซิมการ์ด</b></h4>
     	</div>
     </div>
-	<div class="row">
-		<div class="col-md-12 col-sm-12 col-xs-12">
-             <c:if test="${role eq maker}" >
-	             <div class="x_panel tile overflow_hidden">
-	               <div class="x_content">
-	                 	<div class="panel-round-bd">
-	                 		<div class="form-group">
-		                 		<label class="radio-inline">
-								  <input type="radio" name="type_input" value="1" checked="checked"> <b>เพิ่มเบอร์โดยการอัพโหลดไฟล์</b>
-								</label>
-								<label class="radio-inline">
-								  <input type="radio" name="type_input" value="2"> <b>เพิ่มเบอร์โดยการกรอกข้อมูล</b>
-								</label>
+		<c:if test="${role eq maker}" >
+           <div class="row">
+             <div class="col-md-12 col-sm-12 col-xs-12 panel-round-bd">
+               	<div class="form-group">
+                		<label class="radio-inline">
+					  <input type="radio" name="type_input" value="1" checked="checked"> <b>เพิ่มเบอร์โดยการอัพโหลดไฟล์</b>
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="type_input" value="2"> <b>เพิ่มเบอร์โดยการกรอกข้อมูล</b>
+					</label>
+				</div>
+				<div id="type_input_1">
+					 <form method="POST" id="uploadForm" enctype="multipart/form-data" action="<c:url value="/Admin/ManageData/UploadExcelFile"/>">
+						  <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
+						 <div class="row">
+							<div class="col-md-4 col-sm-4 col-xs-12">
+								<div class="form-group">
+								    <label for="exampleInputEmail1">อัพโหลดไฟล์</label>
+								    <input type="file" class="form-control" id="file" name="file" accept=".xls,.xlsx"> 
+								    
+								 </div>				
 							</div>
-							<div id="type_input_1">
-								 <form method="POST" id="uploadForm" enctype="multipart/form-data" action="<c:url value="/Admin/ManageData/UploadExcelFile"/>">
-									  <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
-									 <div class="row">
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-											    <label for="exampleInputEmail1">อัพโหลดไฟล์</label>
-											    <input type="file" class="form-control" id="file" name="file" accept=".xls,.xlsx"> 
-											    
-											 </div>				
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-2 col-sm-2 col-xs-2">
-											<label><a href="<c:url value="/Admin/ManageData/OpenExample"/>">ตัวอย่างไฟล์</a></label>
-											<div class="form-group"></div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-1 col-sm-1 col-xs-1"> 
-											<button type="submit" class="btn btn-primary">Upload</button>
-										 </div>
-									</div> 
-								</form> 
+						</div>
+						<div class="row">
+							<div class="col-md-2 col-sm-2 col-xs-12">
+								<label><a href="<c:url value="/Admin/ManageData/OpenExample"/>">ตัวอย่างไฟล์</a></label>
+								<div class="form-group"></div>
 							</div>
-							<div id="type_input_2" style="display:none;">
-								<div class="row">
-									<div class="col-md-4 col-sm-4 col-xs-4">
-										<div class="form-group">
-										    <label for="exampleInputEmail1">Mobile No.</label>
-										    <input type="text" class="form-control" id="mobile">
-										  </div>
-									</div>
-									<div class="col-md-4 col-sm-4 col-xs-4">
-										<div class="form-group">
-										    <label for="exampleInputEmail1">Price</label>
-										    <div class="input-group">
-										      <input type="text" class="form-control" id="price">
-										      <div class="input-group-addon">บาท</div>
-										    </div>
-										  </div>
-									</div>
-									<div class="col-md-4 col-sm-4 col-xs-4">
-										<div class="form-group">
-										    <label for="exampleInputEmail1">Credit Term</label>
-										    <div class="input-group">
-										      <input type="text" class="form-control" id="creditTerm">
-										      <div class="input-group-addon">วัน</div>
-										    </div>
-										  </div>
-									</div>
-									<!-- <div class="col-md-3 col-sm-3 col-xs-3">
-										<div class="form-group">
-										    <label for="exampleInputEmail1">Recieved Date</label>
-										    <div class="input-group">
-										      <input type="text" class="form-control" id="recievedDate">
-										      <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
-										    </div>
-										  </div>
-									</div> -->
-								</div>
-								<div class="row">
-									<div class="col-md-1 col-sm-1 col-xs-1">
-										<button type="button" class="btn btn-primary">Save</button>
-									</div>
-								</div>
-							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-sm-1 col-xs-1"> 
+								<button type="submit" class="btn btn-primary">Upload</button>
+							 </div>
+						</div> 
+					</form> 
+				</div>
+				<div id="type_input_2" style="display:none;">
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Mobile No.</label>
+							    <input type="text" class="form-control" id="mobile">
+							  </div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Price</label>
+							    <div class="input-group">
+							      <input type="text" class="form-control" id="price">
+							      <div class="input-group-addon">บาท</div>
+							    </div>
+							  </div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-6">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Credit Term</label>
+							    <div class="input-group">
+							      <input type="text" class="form-control" id="creditTerm">
+							      <div class="input-group-addon">วัน</div>
+							    </div>
+							  </div>
+						</div>
+						<!-- <div class="col-md-3 col-sm-3 col-xs-3">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Recieved Date</label>
+							    <div class="input-group">
+							      <input type="text" class="form-control" id="recievedDate">
+							      <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
+							    </div>
+							  </div>
+						</div> -->
 					</div>
-				 </div>
-	    		</div>
+					<div class="row">
+						<div class="col-md-1 col-sm-1 col-xs-1">
+							<button type="button" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+				
+				</div>
+			</div>
+				<br/>
     		</c:if>
-    		<br/>
+    		<div class="row">
     		<div class="panel-round-bd">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-xs-12">
@@ -186,7 +184,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>	
 	<div class="modal fade" id="modalSim" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	   <div class="modal-dialog">

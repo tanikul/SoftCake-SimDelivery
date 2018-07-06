@@ -41,6 +41,7 @@ import com.softcake.sim.beans.JsonMapper;
 import com.softcake.sim.beans.LoginValidator;
 import com.softcake.sim.beans.Predict;
 import com.softcake.sim.beans.ProgramMst;
+import com.softcake.sim.beans.RequestMst;
 import com.softcake.sim.beans.RequestSim;
 import com.softcake.sim.beans.RoleMst;
 import com.softcake.sim.beans.Sim;
@@ -266,7 +267,7 @@ public class AdminController {
 	        		Cell cell_0 = row.getCell(0);
 	        		if(cell_0.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
 	        			int simNumber = (int) cell_0.getNumericCellValue();
-	                    sim.setSimNumber(Integer.toString(simNumber));
+	                    sim.setSimNumber("0" + simNumber);
 	        		}else{
 		        		sim.setSimNumber((String) cell_0.getStringCellValue());
 	        		}
@@ -316,6 +317,43 @@ public class AdminController {
 	@RequestMapping(value = "ManageData/OpenExample", method = RequestMethod.GET)
 	@ResponseBody
 	public String openExample(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+	    String result = "";
+	    try {
+	    	String path = request.getServletContext().getRealPath("/resources/example/Sim.xlsx");
+	    	File downloadFile = new File(path);
+	        FileInputStream inStream = new FileInputStream(downloadFile); 
+	        ServletContext context = request.getServletContext(); 
+	        String mimeType = context.getMimeType(path);
+	        if (mimeType == null) {        
+	           mimeType = "application/octet-stream";
+	        }
+	        response.setContentType(mimeType);
+	        response.setContentLength((int) downloadFile.length());
+	        String headerKey = "Content-Disposition";
+	        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+	        response.setHeader(headerKey, headerValue);
+	        OutputStream outStream = response.getOutputStream();
+	         
+	        byte[] buffer = new byte[4096];
+	        int bytesRead = -1;
+	         
+	        while ((bytesRead = inStream.read(buffer)) != -1) {
+	            outStream.write(buffer, 0, bytesRead);
+	        }
+	         
+	        inStream.close();
+	        outStream.close();  
+	    }catch(Exception ex){
+	    	throw new SoftcakeException(ex);
+	    }
+	    
+	    return result;
+	}
+	
+	@RequestMapping(value = "ManageRequest/OpenExample", method = RequestMethod.GET)
+	@ResponseBody
+	public String ManageRequestOpenExample(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 	    String result = "";
 	    try {
@@ -754,11 +792,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ManageRequest/SearchRequestSim", method = RequestMethod.POST, produces="application/json;charset=UTF-8" ,headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String SearchRequestSim(@RequestBody SearchDataTable<RequestSim> searchDataTable,
+	public String SearchRequestSim(@RequestBody SearchDataTable<RequestMst> searchDataTable,
 			final HttpServletResponse response) throws SoftcakeException {
 		String result = null;
 		try {
-			DataTable<RequestSim> data = app.postDataTable("/apis/admin/searchRequestSim", searchDataTable, RequestSim.class);
+			DataTable<RequestMst> data = app.postDataTable("/apis/admin/searchRequestSim", searchDataTable, RequestMst.class);
 			result = new Gson().toJson(data);
 		} catch (Exception e) {
     		logger.error(e);
@@ -779,6 +817,78 @@ public class AdminController {
 			throw new SoftcakeException(e, response);
 		}
 		return result;
+	}
+	
+	@RequestMapping(value = "ManageRequest/UploadExcelFile", method = RequestMethod.POST)
+	@ResponseBody
+	public String UploadExcelFile(@RequestParam("file") MultipartFile file,
+			@RequestParam("requestMstId") String requestMstId,
+			HttpServletResponse response) throws Exception {
+	    String result = "";
+	    try {
+			InputStream inputStream= file.getInputStream();
+		    XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+	        XSSFSheet sheet = workbook.getSheetAt(0);
+	        Iterator<Row> rowIterator = sheet.iterator();
+	        int i = 0;
+	        List<RequestSim> listSim = new ArrayList<RequestSim>();
+	        while (rowIterator.hasNext()) 
+	        {
+	        	Row row = rowIterator.next();
+	        	if(i == 0){
+	        		i = 1;
+	        		continue;
+	        	}
+	        	RequestSim sim = new RequestSim();
+	        	if(row.getCell(0) != null){
+	        		Cell cell_0 = row.getCell(0);
+	        		if(cell_0.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
+	        			int simNumber = (int) cell_0.getNumericCellValue();
+	        			sim.setSimNumber("0" + simNumber);
+	        		}else{
+		        		sim.setSimNumber((String) cell_0.getStringCellValue());
+	        		}
+	            }
+	        	if(row.getCell(1) != null){
+	        		Cell cell_1 = row.getCell(1);
+	        		if(cell_1.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
+	        			int creditTerm = (int) cell_1.getNumericCellValue();
+	                    sim.setCreditTerm(creditTerm + "");
+	        		}else{
+		        		String creditTerm = (String) cell_1.getStringCellValue();
+		                sim.setCreditTerm(creditTerm);
+	        		}
+	        	}
+	        	if(row.getCell(2) != null){
+	        		Cell cell_2 = row.getCell(2);
+	        		if(cell_2.getCellType() == Cell.CELL_TYPE_NUMERIC) { 
+	        			double price = (double) cell_2.getNumericCellValue();
+	                    sim.setPrice(BigDecimal.valueOf(price));
+	        		}else{
+		        		String price = (String) cell_2.getStringCellValue();
+		                sim.setPrice(new BigDecimal(price));
+	        		}
+	        	}
+	        	if (DateUtil.isCellDateFormatted(row.getCell(3))){
+	        		Cell cell_3 = row.getCell(3);
+	        		sim.setRecievedDate(cell_3.getDateCellValue());
+	        	}
+	        	/*if(row.getCell(4) != null){
+	                String activeStatus = (String) row.getCell(4).getStringCellValue();
+	                sim.setActiveStatus(activeStatus);
+	            }*/
+	        	sim.setRequestMstId(requestMstId);
+	        	listSim.add(sim);
+	        }   
+	        Map<String, List<RequestSim>> map = new HashMap<String, List<RequestSim>>();
+	        map.put("list", listSim);
+	        result = app.post("/apis/admin/saveSimByRequest", listSim);
+	    }catch(Exception ex){
+	    	app.jsonResponse(response, false, ex.getMessage());
+    		return null;
+	    }
+	    
+	    return result;
 	}
 	
 	@RequestMapping(value = "SetupEmail", method = RequestMethod.GET)

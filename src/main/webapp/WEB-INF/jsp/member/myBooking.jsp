@@ -15,20 +15,20 @@
 	    </div>
 	    <div class="panel-round-bd">
 			<div class="row">
-				<div class="col-md-4 col-sm-4 col-xs-4">
+				<div class="col-md-4 col-sm-4 col-xs-12">
 				   <div class="form-group">
 				    <label for="bookingNo">Booking No.</label>
 				    <input type="text" class="form-control" id="bookingNo">
 				  </div>
 				</div>
-				<div class="col-md-4 col-sm-4 col-xs-4">
+				<div class="col-md-4 col-sm-4 col-xs-12">
 				   <div class="form-group">
 					    <label for="bookingNo">Mobile No.</label>
 					    <input type="text" class="form-control" id="mobileNo">
 					  </div>
 				 </div>
-				 <div class="col-md-3 col-sm-3 col-xs-3">
-				    <button type="button" class="btn btn-warning" style="margin-top:25px;" id="search">Search</button>
+				 <div class="col-md-3 col-sm-3 col-xs-12">
+				    <button type="button" class="btn btn-warning" id="search-btn">Search</button>
 				 </div>
 			</div>
 		</div>
@@ -349,7 +349,7 @@
 		    var data = ('${data}' == 'null' || '${data}' == '') ? null : JSON.parse('${data}');
 		    loadTable(data);
 		    
-		    $('#search').click(function(){
+		    $('#search-btn').click(function(){
 		    	var obj = {
 		    		bookingId: $('#bookingNo').val(),
 		    		mobileNo: $('#mobileNo').val().replaceAll('-','')

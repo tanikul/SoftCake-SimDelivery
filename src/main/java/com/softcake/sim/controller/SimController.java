@@ -43,6 +43,7 @@ import com.google.gson.Gson;
 import com.softcake.sim.beans.Booking;
 import com.softcake.sim.beans.JsonMapper;
 import com.softcake.sim.beans.LoginValidator;
+import com.softcake.sim.beans.RequestMst;
 import com.softcake.sim.beans.RequestSim;
 import com.softcake.sim.beans.Sim;
 import com.softcake.sim.beans.User;
@@ -257,6 +258,14 @@ public class SimController {
 		 ModelAndView model = new ModelAndView();
 		 try{
 			 model.setViewName("sim/request");
+			 List<String> simRequest = new ArrayList<>();
+			 if(request.getSession().getAttribute("Sims") != null) {
+				 HashMap<String, Sim> sims = (HashMap<String, Sim>) request.getSession().getAttribute("Sims");
+				 for(Map.Entry<String, Sim> sim : sims.entrySet()) {
+					 simRequest.add(sim.getKey());
+				 }
+			 }
+			 model.addObject("simRequest", new Gson().toJson(simRequest));
 		 }catch(Exception ex){
 			 logger.error(ex);
 			 throw new SoftcakeException(ex);
@@ -288,7 +297,7 @@ public class SimController {
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/RequestSimCard/SaveRequestSim", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String SaveRequestSim(@RequestBody RequestSim obj,
+	public String SaveRequestSim(@RequestBody RequestMst obj,
 			final HttpServletRequest request,
 			final HttpServletResponse response) throws SoftcakeException {
 		String result = "";
@@ -304,7 +313,7 @@ public class SimController {
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/RequestSimCard/CancelRequestSim", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String CancelRequestSim(@RequestBody RequestSim obj,
+	public String CancelRequestSim(@RequestBody RequestMst obj,
 			final HttpServletRequest request,
 			final HttpServletResponse response) throws SoftcakeException {
 		String result = "";

@@ -330,11 +330,9 @@ function activeUrl(){
 		$('#menu_ele_8').addClass('active'); 
 	}else if(loc.startsWith('/Admin/RolePrivilege') || loc.startsWith('/Admin/ManageUser') || loc.startsWith('/Admin/ManageCustomer')){ 
 		$('#menu_ele_1').addClass('active'); 
-	}else if(loc.startsWith('/Admin/ManagePredict')){
-		$('#menu_ele_4').addClass('active'); 
 	}else if(loc.startsWith('/Admin/ManageBooking') || loc.startsWith('/Admin/ManageRequest')){
 		$('#menu_ele_9').addClass('active'); 
-	}else if(loc.startsWith('/Admin/ManageData')){
+	}else if(loc.startsWith('/Admin/ManageData') || loc.startsWith('/Admin/ManagePredict')){
 		$('#menu_ele_3').addClass('active'); 
 	}else{ 
 		$('#menu_ele_6').addClass('active'); 

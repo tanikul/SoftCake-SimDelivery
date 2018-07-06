@@ -134,11 +134,11 @@ a.flag-th {
 
 .bottom-menu-wrapper {
     background-color: #eb232a;
-    height: 60px;
+    height: 60px; 
 	border-bottom: 1px solid rgba(200,200,200,0.5);
+	padding: 15px 10px;
 }
 .main-nav {
-    margin-top: 15px;
     font-family: rsu_bold;
     font-size: 1.2em;
 }
@@ -1448,7 +1448,7 @@ input:checked + .slider-bold:before {
     margin-bottom: -5px;
     padding-right: 10px;
 }
-.navbar-nav > li {
+.navbar-nav {
     position: relative;
 }
 .user-menu > ul {
@@ -1587,4 +1587,17 @@ input:checked + .slider-bold:before {
 
 .main-nav ul li a {
 	color: #fff;
+}
+
+a#openup {
+  display: none;
+}
+.cf:before, .cf:after { content:""; display:table; }
+.cf:after { clear:both; }
+.cf { zoom:1; } /* For IE 6/7 (trigger hasLayout) */
+
+.top-right-menu > img {
+   	width: 45px;
+    height: 45px;
+    margin-right: 15px;
 }

@@ -12,15 +12,15 @@
 	   		<ul class="progress-tracker"> 
 	   			<li class="step-0-title progress-tracker-visited"> 
 	   				<span class="visible-md-block visible-lg-block desktop">1. เลือกเบอร์โทรศัพท์</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile" >ห้อง</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile" >เลือก</small> 
 	   			</li> 
 	   			<li class="step-1-title progress-tracker-visited"> 
 	   				<span class="visible-md-block visible-lg-block desktop" >2. แสดงเบอร์ที่จอง</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile">รายละเอียด</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile">เบอร์ที่จอง</small> 
 	   			</li>
 	   			<li class="step-2-title progress-tracker-active"> 
 	   				<span class="visible-md-block visible-lg-block desktop">3. ยืนยันการจอง</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile">จ่ายเงิน</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile">ยืนยัน</small> 
 	   			</li> 
 	   			<li class="step-3-title"> 
 	   				<span class="visible-md-block visible-lg-block desktop" >4. การจองเสร็จสมบูรณ์!</span> 

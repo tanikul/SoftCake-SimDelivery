@@ -6,16 +6,18 @@ import java.util.Date;
 import java.util.List;
 
 public class RequestSim extends BaseDomain implements Serializable {
-
+	
 	private static final long serialVersionUID = -5086627613902240209L;
 	private String simNumber;
+	private String requestMstId;
 	private String requestStatus;
 	private String merchantId;
 	private Date recievedDate;
 	private int sumNumber;
-	private String activeStatus;
 	private BigDecimal price;
 	private String creditTerm;
+	private String authorizedBy;
+	private Date autjorizedDate;
 	private List<String> exceptSimNumber;
 	private List<String> exceptStatus;
 	
@@ -49,12 +51,6 @@ public class RequestSim extends BaseDomain implements Serializable {
 	public void setSumNumber(int sumNumber) {
 		this.sumNumber = sumNumber;
 	}
-	public String getActiveStatus() {
-		return activeStatus;
-	}
-	public void setActiveStatus(String activeStatus) {
-		this.activeStatus = activeStatus;
-	}
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -79,4 +75,23 @@ public class RequestSim extends BaseDomain implements Serializable {
 	public void setExceptStatus(List<String> exceptStatus) {
 		this.exceptStatus = exceptStatus;
 	}
+	public String getRequestMstId() {
+		return requestMstId;
+	}
+	public void setRequestMstId(String requestMstId) {
+		this.requestMstId = requestMstId;
+	}
+	public String getAuthorizedBy() {
+		return authorizedBy;
+	}
+	public void setAuthorizedBy(String authorizedBy) {
+		this.authorizedBy = authorizedBy;
+	}
+	public Date getAutjorizedDate() {
+		return autjorizedDate;
+	}
+	public void setAutjorizedDate(Date autjorizedDate) {
+		this.autjorizedDate = autjorizedDate;
+	}
+	
 }

@@ -23,13 +23,13 @@
 								  <table id="bookingTbl" class="table table-bordered table-striped" style="width:100%">
 									<thead>
 									<tr>
-									   <th class="text-center">เบอร์โทรศัพท์</th>
-									   <th class="text-center">ผลรวมเบอร์</th>
-									   <th class="text-center">ราคา</th>
-									   <th class="text-center">Credit Term</th>
+									   <th class="text-center" style="width:5%;"></th>
+									   <th class="text-center">Request No.</th>
+									   <th class="text-center">เงื่อนไขการ Request</th>
+									   <th class="text-center">วันที่ทำการ Request</th>
+									   <th class="text-center">Request Status</th>
 									   <th class="text-center">รหัสลูกค้า</th>
-						                <th class="text-center">Request Status</th>
-						                <th class="text-center">Action</th>
+						               <th class="text-center">Action</th>
 									</tr>
 									</thead>
 									<tbody>
@@ -52,51 +52,85 @@
 		       </div>
 		       <input type="hidden" id="mode">
 		       <div class="modal-body">
-		          <div class="container-fluid">
-						<div class="row">
-							<div class="col-sm-12 form-group">
-								<div class="col-sm-3">
-									<label><b>เบอร์โทรศัพท์</b></label>
+					<div class="row">
+			             <div class="col-md-12 col-sm-12 col-xs-12">
+			               	<div class="form-group">
+			                		<label class="radio-inline">
+								  <input type="radio" name="type_input" value="1" checked="checked"> <b>เพิ่มเบอร์โดยการอัพโหลดไฟล์</b>
+								</label>
+								<label class="radio-inline">
+								  <input type="radio" name="type_input" value="2"> <b>เพิ่มเบอร์โดยการกรอกข้อมูล</b>
+								</label>
+							</div>
+							<div id="type_input_1">
+								 <form method="POST" id="uploadForm" enctype="multipart/form-data" action="<c:url value="/Admin/ManageRequest/UploadExcelFile"/>">
+									  <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
+									 <input type="hidden" name="requestMstId" id="requestMstId" value=""/>
+									 <div class="row">
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<div class="form-group">
+											    <label for="exampleInputEmail1">อัพโหลดไฟล์</label>
+											    <input type="file" class="form-control" id="file" name="file" accept=".xls,.xlsx"> 
+											    
+											 </div>				
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<label><a href="<c:url value="/Admin/ManageRequest/OpenExample"/>">ตัวอย่างไฟล์</a></label>
+											<div class="form-group"></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-1 col-sm-1 col-xs-1"> 
+											<button type="submit" class="btn btn-primary">Upload</button>
+										 </div>
+									</div> 
+								</form> 
+							</div>
+							<div id="type_input_2" style="display:none;">
+								<div class="row">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="form-group">
+										    <label for="exampleInputEmail1">Mobile No.</label>
+										    <input type="text" class="form-control" id="mobile">
+										  </div>
+									</div>
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<div class="form-group">
+										    <label for="exampleInputEmail1">Price</label>
+										    <div class="input-group">
+										      <input type="text" class="form-control" id="price">
+										      <div class="input-group-addon">บาท</div>
+										    </div>
+										  </div>
+									</div>
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<div class="form-group">
+										    <label for="exampleInputEmail1">Credit Term</label>
+										    <div class="input-group">
+										      <input type="text" class="form-control" id="creditTerm">
+										      <div class="input-group-addon">วัน</div>
+										    </div>
+										  </div>
+									</div>
+									<!-- <div class="col-md-3 col-sm-3 col-xs-3">
+										<div class="form-group">
+										    <label for="exampleInputEmail1">Recieved Date</label>
+										    <div class="input-group">
+										      <input type="text" class="form-control" id="recievedDate">
+										      <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
+										    </div>
+										  </div>
+									</div> -->
 								</div>
-								<div class="col-sm-5">
-									<input type="text" id="mobileNo" class="form-control" disabled/>
+								<div class="row">
+									<div class="col-md-1 col-sm-1 col-xs-1">
+										<button type="button" class="btn btn-primary">Save</button>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-12 form-group">
-								<div class="col-sm-3">
-									<label><b>ราคา</b></label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" id="price" class="form-control" /> 
-									<div class="help-block with-errors"></div>
-								</div>
-								<div class="col-sm-1">บาท</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 form-group">
-								<div class="col-sm-3">
-									<label><b>Credit Term</b></label>
-								</div>
-								<div class="col-sm-5">
-									<input type="text" id="creditTerm" class="form-control" />
-									<div class="help-block with-errors"></div>
-								</div>
-								<div class="col-sm-1"> วัน</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 form-group">
-								<div class="col-sm-3"></div>
-								<div class="col-sm-5">
-									 <div class="cont_btn">
-								     	<button class="btn btn-primary" id="save-btn">Save</button>
-								    </div>
-							    </div>
-						    </div>
-					    </div>
 					</div>
 		       </div>
 		    </div>
@@ -109,6 +143,41 @@
 		var oldValueSearch = '';
 		var oldKeySearch = '';
 		  
+		function format ( d ) {console.log(d);
+			 var str = '';
+			if(d.requestStatus == 'R'){
+				str += '<div class="row">';
+				str += '<div class="col-md-3">';
+				str += '<div class="panel panel-danger">';
+				str += '<div class="panel-heading">';
+   	     		str += '<div class="panel-title" style="font-size:12px;">Reject Reason</div>';
+      			str += '</div>';
+      			str += '<div class="panel-body">' + d.rejectReason + '</div></div>';
+				str += '</div>';
+			}
+			str += '<div class="col-md-10" style="float:right;">';
+			str += '<table class="table table-bordered table-striped">';
+			str += '<thead><tr>';
+			str += '<th style=\"text-align:center;\">Mobile No.</th>';
+			str += '<th style=\"text-align:center;\">Price</th>';
+			str += '<th style=\"text-align:center;\">Credit Term</th>';
+			str += '<th style=\"text-align:center;\">ผลรวมเบอร์</th>';
+			str += '<th style=\"text-align:center;\">Status</th>';
+			str += '</tr></thead><tbody>';
+			for(var x in d.requestSim){
+				str += '<tr>';
+		        str += '<td style=\"text-align:center;\">' + parseSimFormat(d.requestSim[x].simNumber) + '</td>';
+		        str += '<td style=\"text-align:right;\">' + numeral(d.requestSim[x].price).format('0,0.00') + '</td>';
+		        str += '<td style=\"text-align:center;\">' + d.requestSim[x].creditTerm + '</td>';
+		        str += '<td style=\"text-align:center;\">' + d.requestSim[x].sumNumber + '</td>';
+		        str += '<td style=\"text-align:center;\">' + d.requestSim[x].requestStatus + '</td>';
+		        str += '</tr>';
+			}
+			
+			str += '</tbody></table></div></div>'; 	 
+		    return str;
+		}
+		
 		function loadTable(params){
 			if ($.fn.DataTable.isDataTable('#bookingTbl')) {
 				$('#bookingTbl').DataTable().destroy();
@@ -126,6 +195,11 @@
 						$.LoadingOverlay("show");
 					},
 					"data": function ( d ) {
+						var exceptStatus = [];
+						exceptStatus[0] = 'A';
+						params.requestSim = new Array();
+						params.requestSim[0] = {};
+						params.requestSim[0].exceptStatus = exceptStatus;
 						d.dataSearch = params;
 						if(typeof order != 'undefined'){
 							if(order != '' && order != null){
@@ -141,12 +215,17 @@
 					} 
 				},  
 				"columns": [
-					{ "data": "simNumber" },
-					{ "data": "sumNumber" },
-					{ "data": "price" },
-					{ "data": "creditTerm" },
-					{ "data": "merchantId" },
+					{
+		                "className":      'details-control',
+		                "orderable":      false,
+		                "data":           null,
+		                "defaultContent": ''
+		            },
+					{ "data": "requestId" },
+					{ "data": "requestTypeStr" },
+					{ "data": "requestDate" },
 					{ "data": "requestStatus" },
+					{ "data": "merchantId" },
 					{ "data": null }
 				],
 		        "columnDefs" : [{
@@ -159,68 +238,30 @@
 					$("*[data-toggle=tooltip]").tooltip();
 				},
 		    	"fnRowCallback" : function(nRow, aData, index) {
-		    		/* var bookingStatus = "";
-					var upload = '';
-					var del = '';
-		    		var edit = '';
-					if(aData.bookingStatus == 'N'){
-						bookingStatus = "<span class='label label-danger'>" + '<spring:message code="label.rejectBooking" />' + "</span>";
-						upload = "<a href=\"javascript:openUpload('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Upload Slip\"><i class=\"fas fa-cloud-upload-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-						del = "<a href=\"javascript:rejectBooking('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Reject Booking\"><i class=\"fa fa-trash-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-						edit = "<a href=\"javascript:viewBooking('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"View Booking\"><i class=\"far fa-file-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-					}else if(aData.bookingStatus == 'W'){
-						bookingStatus = "<span class='label label-warning'>" + '<spring:message code="label.wait" />' + "</span>";
-						upload = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Upload Slip\"><i class=\"fas fa-cloud-upload-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD;cursor:not-allowed;\"></i></span>";	
-						del = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Cancel Booking\"><i class=\"fa fa-trash-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD;cursor:not-allowed;\"></i></span>";	
-						edit = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"View Booking\"><i class=\"far fa-file-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD;cursor:not-allowed;\"></i></span>";
-					}else if(aData.bookingStatus == 'Y'){
-						del = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Cancel Booking\"><i class=\"fa fa-trash-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD; cursor:not-allowed;\"></i></span>";
-						upload = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Upload Slip\"><i class=\"fas fa-cloud-upload-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD;cursor:not-allowed;\"></i></span>";	
-						bookingStatus = "<span class='label label-success'>" + '<spring:message code="label.approveBooking" />' + "</span>";
-						edit = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"View Booking\"><i class=\"far fa-file-alt fa-2x\" style=\"font-size:1.2em; color:#BDBDBD;cursor:not-allowed;\"></i></span>";	
-					}else if(aData.bookingStatus == 'P'){
-						bookingStatus = "<span class='label label-default'>" + '<spring:message code="label.pendingPaid" />' + "</span>";
-						upload = "<a href=\"javascript:openUpload('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Upload Slip\"><i class=\"fas fa-cloud-upload-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-						del = "<a href=\"javascript:rejectBooking('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Cancel Booking\"><i class=\"fa fa-trash-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
-						edit = "<a href=\"javascript:viewBooking('" + aData.bookingId + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"View Booking\"><i class=\"far fa-file-alt fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-					}
-					var url = '<c:url value="/" />';
-		    		$('td:eq(2)', nRow).html("<center>" + bookingStatus + "<center>");
-					$('td:eq(3)', nRow).html(numeral(aData.sumPrice).format('0,0.00'));
-					if(aData.slip == '' || aData.slip == null){
-						$('td:eq(4)', nRow).html('<center>-</center>');
-					}else{
-						$('td:eq(4)', nRow).html('<center><a href="' + url + 'MyBooking/OpenSlip/' + aData.bookingId + '" target="_blank"><i class="far fa-credit-card" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a></center>');
-					}
-					$('td:eq(5)', nRow).html("<center>" + upload + '&nbsp;&nbsp;'+ edit + '&nbsp;&nbsp;' + del + "</center>");  */
 					var requestStatus = '';
 					var reject = '';
 					var approve = '';
-					var creditTerm = '<center>-</center>';
-					var price = '<center>-</center>';
 					if(aData.requestStatus == 'W'){
 						requestStatus = "<span class='label label-warning'>" + '<spring:message code="label.waitRequest" />' + "</span>";
 						reject = "<a href=\"javascript:rejectRequest('" + aData.simNumber + "', '" + aData.requestStatus + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Reject Request\"><i class=\"fa fa-times fa-2x\" style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";	
-						approve = "<a href=\"javascript:approveRequest('" + aData.simNumber + "', '" + aData.requestStatus + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Approve Request\"><i class=\"fa fa-check fa-2x\"  style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
+						approve = "<a href=\"javascript:approveRequest('" + aData.requestId + "', '" + aData.requestStatus + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Approve Request\"><i class=\"fa fa-check fa-2x\"  style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
 					}else if(aData.requestStatus == 'C'){
-						creditTerm = '<span style="float:right">' + aData.creditTerm + '</span>';
-						price = '<span style="float:right">' + numeral(aData.price).format('0,0.00') + '</span>';
 						requestStatus = "<span class='label label-danger'>" + '<spring:message code="label.cancelRequest" />' + "</span>";
 						reject = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Reject Request\"><i class=\"fa fa-times fa-2x\" style=\"font-size:1.2em; color:#BDBDBD; cursor:not-allowed;\"></i></span>";
-						approve = "<a href=\"javascript:approveRequest('" + aData.simNumber + "', '" + aData.requestStatus + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Approve Request\"><i class=\"fa fa-check fa-2x\"  style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
+						approve = "<a href=\"javascript:approveRequest('" + aData.requestId + "', '" + aData.requestStatus + "');\" class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Approve Request\"><i class=\"fa fa-check fa-2x\"  style=\"font-size:1.2em; color:#8F8E8C;\"></i></a>";
 					}else if(aData.requestStatus == 'Y'){
-						creditTerm = '<span style="float:right">' + aData.creditTerm + '</span>';
-						price = '<span style="float:right">' + numeral(aData.price).format('0,0.00') + '</span>';
 						requestStatus = "<span class='label label-success'>" + '<spring:message code="label.approveRequest" />' + "</span>";
 						reject = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Reject Request\"><i class=\"fa fa-times fa-2x\" style=\"font-size:1.2em; color:#BDBDBD; cursor:not-allowed;\"></i></span>";
 						approve = "<span class=\"text-muted\" data-toggle=\"tooltip\" data-original-title=\"Approve Request\"><i class=\"fa fa-check fa-2x\" style=\"font-size:1.2em; color:#BDBDBD; cursor:not-allowed;\"></i></span>";
 					}
-					$('td:eq(0)', nRow).html(parseSimFormat(aData.simNumber));
-					$('td:eq(2)', nRow).html(price);
-					$('td:eq(3)', nRow).html(creditTerm);
-					$('td:eq(5)', nRow).html("<center>" + requestStatus + "<center>");
+					$('td:eq(2)', nRow).html(aData.requestTypeStr + ' - ' + aData.requestValue);
+					$('td:eq(3)', nRow).html("<center>" + convertDateFormat(aData.requestDate) + "</center>");
+					$('td:eq(4)', nRow).html("<center>" + requestStatus + "<center>");
 					$('td:eq(6)', nRow).html("<center>" + approve + '&nbsp;&nbsp;' + reject + "</center>"); 
-		    		return nRow;
+					if(aData.requestSim.length == 0){
+						$('td:eq(0)', nRow).removeClass('details-control sorting_1');
+					}
+					return nRow;
 		    	},"initComplete": function(settings, json) {
 					if(settings.oFeatures.bFilter){
 						$('#selected-search-' + settings.sTableId).change(function(){
@@ -231,6 +272,23 @@
 					}
 		    	},
 		    });
+			
+			$('#bookingTbl tbody').unbind('click');
+			$('#bookingTbl tbody').on('click', 'td.details-control', function () {
+		        var tr = $(this).closest('tr');
+		        var row = table.row( tr );
+		        if ( row.child.isShown() ) {
+		            // This row is already open - close it
+		            row.child.hide();
+		            tr.removeClass('shown');
+		        }
+		        else {
+		            // Open this row
+		            row.child( format(row.data()) ).show();
+		            tr.addClass('shown');
+		        }
+		        $("*[data-toggle=tooltip]").tooltip();
+		     }); 
 		}
 		
 		function searchRequestSim(){
@@ -316,7 +374,7 @@
 			});
 		}
 		
-		function approveRequest(simNumber, status){
+		function approveRequest(requestId, status){
 			if(status == 'C'){
 				confirmModal('', 'ยืนยันการยกเลิกการจองเบอร์ ' + parseSimFormat(simNumber));
 				$( "#dialog-confirm" ).dialog({
@@ -349,9 +407,10 @@
 					}
 				});
 			}else if(status == 'W'){
-				$('#detail #mobileNo').val(parseSimFormat(simNumber));
+				$('#detail #mobileNo').val('');
 				$('#detail #price').val('').mask("#,##0.00", {reverse: true});
 				$('#detail #creditTerm').val('').mask("#,##0", {reverse: true});
+				$('#uploadForm #requestMstId').val(requestId);
 				$('#detail #save-btn').click(function(){
 					errMsg.sim = {
 						price: { id: $('#detail #price'), rule : ['require'], msg : ['กรุุณากรอกข้อมูล'] },
@@ -378,6 +437,73 @@
 		
 		$(document).ready(function() {
 		    loadTable({});
+		    $('#type_input_2 #mobile').mask('000-000-0000');
+	    	$('#type_input_2 #price').mask("#,##0.00", {reverse: true});
+	    	$("#type_input_2 #recievedDate").datepicker({
+	    		format: 'dd/mm/yyyy'
+	    	});
+	    	$('#type_input_2 #creditTerm').mask("#,##0", {reverse: true});
+		    $('input[name="type_input"]').change(function(){
+	        	if(this.value == 1){
+	        		$('#type_input_2').hide();
+	        		$('#type_input_1').show();
+	        	}else{
+	        		$('#type_input_1').hide();
+	        		$('#type_input_2').show();
+	        	}
+	        });
+	        $('form').on('submit', uploadFiles);
+			$('input[type=file]').on('change', prepareUpload);
+		
+			function uploadFiles(event)
+			{
+			    event.stopPropagation(); 
+			    event.preventDefault(); 
+			
+			    var form = document.forms[1];
+    			var formData = new FormData(form);
+			    $.ajax({
+			        url: $('#uploadForm').attr('action'),
+			        type: 'POST',
+			        data: formData,
+			        cache: false,
+			        dataType: 'json',
+			        processData: false, // Don't process the files
+			        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			        beforeSend: function (xhr) {
+						xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+						$.LoadingOverlay("show");
+					},
+			        success: function(data, textStatus, jqXHR)
+			        {
+			        	$.LoadingOverlay("hide");
+			        	$('#detail').modal('hide');
+			        	if(data.hasOwnProperty('success') && data.hasOwnProperty('message')){
+							if(!data.success){
+								$("#dialog-confirm").dialog('close');
+								$("#dialog-message").dialog('close');
+								alertModal('Error', data.message);
+								$('.tooltip').remove();
+							}else{
+								$("#dialog-confirm").dialog('close');
+								$("#dialog-message").dialog('close');
+								alertModal('Alert', data.message);
+								$('.tooltip').remove();
+							}
+						}else if(data == 1){
+			            	loadTable({});
+			            }
+			        },
+			        error: function(jqXHR, textStatus, errorThrown)
+			        {
+			            displayErrorAjax(jqXHR, textStatus, errorThrown);
+			        }
+			    });
+			}
+			function prepareUpload(event)
+			{
+			  files = event.target.files;
+			}
 		 });
 		</script>
 	</jsp:body>

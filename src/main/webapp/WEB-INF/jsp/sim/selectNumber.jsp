@@ -12,15 +12,15 @@
 			<ul class="progress-tracker"> 
 	   			<li class="step-0-title progress-tracker-visited"> 
 	   				<span class="visible-md-block visible-lg-block desktop">1. เลือกเบอร์โทรศัพท์</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile" >ห้อง</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile" >เลือก</small> 
 	   			</li> 
 	   			<li class="step-1-title progress-tracker-active"> 
 	   				<span class="visible-md-block visible-lg-block desktop" >2. แสดงเบอร์ที่จอง</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile">รายละเอียด</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile">เบอร์ที่จอง</small> 
 	   			</li>
 	   			<li class="step-2-title"> 
 	   				<span class="visible-md-block visible-lg-block desktop">3. ยืนยันการจอง</span> 
-	   				<small class="visible-xs-block visible-sm-block mobile">จ่ายเงิน</small> 
+	   				<small class="visible-xs-block visible-sm-block mobile">ยืนยัน</small> 
 	   			</li> 
 	   			<li class="step-3-title"> 
 	   				<span class="visible-md-block visible-lg-block desktop" >4. การจองเสร็จสมบูรณ์!</span> 
@@ -34,10 +34,7 @@
               <div class="x_panel tile overflow_hidden">
               	<div class="row" style="margin:10px">
               		<div class="col-md-6 col-sm-6 col-xs-6">
-		                <div class="x_title">
-		                  <h3><img src="<c:url value="/images/phone.png" />" style="height: 40px;margin-bottom: 10px;"/> เบอร์ที่คุณเลือก</h3>
-		                  <div class="clearfix"></div>
-	                  </div>
+		                  <b id="logo-phone"><img src="<c:url value="/images/phone.png" />"/> เบอร์โทรศัพท์ <img src="<c:url value="/images/truemove.png" />" id="truemove-logo"/></b>
 	                 </div>
 	                  <div class="col-md-6 col-sm-6 col-xs-6">
 	                  	<button class="btn-lg btn-round-solid bg-blue-weight pull-right btn-select-num" onclick="jumpToSim();">
@@ -51,26 +48,19 @@
 
                   <div class="clearfix" style="height:10px"></div>
                   <div class="head">
-                    <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-3">เบอร์สวย </div>
-                    <div class="col-xxs-3 col-xs-3 col-sm-3 col-md-3 hidden-sm hidden-xs hidden-xxs">ประเภทซิม  </div>
-                    <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center hidden-xs hidden-xxs">ผลรวม </div>
-                  	<div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right"></div>
+                    <div class="col-xxs-6 col-xs-5 col-sm-4 col-md-3">เบอร์สวย </div>
+                    <div class="col-sm-4 col-md-3 hidden-xs hidden-xxs">ประเภทซิม  </div>
+                    <div class="col-xxs-5 col-xs-4 col-sm-2 col-md-4 text-center">ผลรวม </div>
+                  	<div class="col-xxs-1 col-xs-3 col-sm-2 col-md-2 text-right"></div>
 				  </div>
 				  <c:forEach var="item" items="${sims}">
 				   	  <div class="selected-item disable" id="mobile-${item.key}">
 	                    <div class="row">
 	                      <input type="radio" class="option-input radio" name="selected" value="${item.key}">
-	                      <div class="col-xxs-6 col-xs-6 col-sm-6 col-md-6">
-	                        <div class="row">
-	                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-number">${app.parseSimFormat(item.key)}</div>
-	                          <div class="col-xxs-12 col-xs-12 col-sm-16 col-md-6 txt-category">PLATINUM NUMBER</div>
-	                        </div>
-	                      </div>
-	                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-4 text-center txt-sum hidden-xxs">
-	                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
-	                        ${item.value.sumNumber}</div>
-	                      <div class="col-xxs-2 col-xs-2 col-sm-2 col-md-2 text-right txt-close pull-right">
-	                        <div class="visible-xxs visible-xs visible-sm" style="margin-top:5px"></div>
+                          <div class="col-xxs-6 col-xs-5 col-sm-4 col-md-3 txt-number">${item.key}</div>
+                          <div class="col-sm-4 col-md-3 hidden-xs hidden-xxs txt-category">PLATINUM NUMBER</div>
+	                      <div class="col-xxs-5 col-xs-4 col-sm-2 col-md-4 text-center">${item.value.sumNumber}</div>
+	                      <div class="col-xxs-1 col-xs-3 col-sm-2 col-md-2 text-right txt-close">
 	                        <i class="fa fa-times-circle" style="cursor:pointer;" onclick="removeMobile('${item.key}');"></i>
 	                      </div>
 	                    </div>

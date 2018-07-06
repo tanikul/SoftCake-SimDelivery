@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Softcake</title>
-	<meta name="description" content="">
+	<title>เบอร์มงคล เบอร์ดี vipsim.co</title>
+	<meta name="description" content="เบอร์มงคล เบอร์ดี  เบอร์รวย เบอร์หวย เบอร์แพลทตินัม">
 	<meta name="csrf-token" content="${_csrf.token}">
 	<link rel="icon" href="<c:url value="/css/img/favicon.ico" />">
 	<meta charset="utf-8">
@@ -63,7 +63,7 @@
  								<a href="/"><img src="<c:url value="/images/logo.png" />"></a>
  							</div>
  							<div class="top-right-menu pull-right">
- 								<img src="<c:url value="/images/user.png" />"style="width: 45px;height: 45px;margin-right:15px;"> 
+ 								<img src="<c:url value="/images/user.png" />"> 
  								<c:choose>
  									<c:when test="${sessionScope.userInfo.userId eq null}">
  										<a href="javascript:openLogin();" id="not-login"><span>เข้าสู่ระบบ / สมัครสมาชิก</span></a>
@@ -104,8 +104,9 @@
  					</div>
  					<div class="bottom-menu-wrapper"> 
  						<div class="wrapper clearfix"> 
-	 						<nav class="main-nav" style="display:none;"> 
-			  					<ul> 
+	 						<nav class="main-nav cf" style="display:none;"> 
+	 							<a href="#" id="openup">MENU</a>
+			  					<ul class="cf"> 
 				  					<%-- <li class="current"><a href="<c:url value="/" />">เบอร์สวยคัดพิเศษ</a></li>
 				  					<li><a href="<c:url value="/" />">ขอเบอร์ที่ไม่มีในระบบ</a></li>
 				  					<li><a href="<c:url value="/Predict" />">คำนวณผลรวมเบอร์</a></li>
@@ -120,6 +121,7 @@
 				  						</div>
 				  					</li> --%>
 				  					<%=request.getSession().getAttribute("generateMenu") %>
+				  					
 			  					</ul>
 		  					</nav> 
  						</div>
@@ -204,13 +206,34 @@
 	  			<%-- <div class="main-nav"><ul class="clearfix"><%=request.getSession().getAttribute("generateMenu") %></ul></div> --%>
 	  			</div>
 	  				
-	  			<p>© 2560 บมจ.โทเทิ่ล แอ็คเซ็ส คอมมูนิเคชั่น</p>
+	  			<p>© Copyright 2018 vipsim.co</p>
 	  		</div>
 	  		 </div>
 	  		  
   		    </footer>
   		<script>activeUrl();</script>
-  		
+  		<script type="text/javascript">
+  			$(function() {
+				 menu = $('nav ul');
+			
+			  $('#openup').on('click', function(e) {
+			    e.preventDefault(); menu.slideToggle();
+			  });
+			  
+			 /*  $(window).resize(function(){
+			    var w = $(this).width(); if(w > 480 && menu.is(':hidden')) {
+			      menu.removeAttr('style');
+			    }
+			  }); */
+			  
+			  $('nav li').on('click', function(e) {                
+			    var w = $(window).width(); if(w < 480 ) {
+			      menu.slideToggle(); 
+			    }
+			  });
+			  $('.open-menu').height($(window).height()); 
+			});
+  		</script>
   	</body>
   			
   		

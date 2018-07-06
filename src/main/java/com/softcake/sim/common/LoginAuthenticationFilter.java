@@ -37,22 +37,33 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 	@Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		try {
-			Map<String, Object> captcha = VerifyRecaptcha.verify(request.getParameter("recaptcha"));
-            if(captcha.get("CODE").equals(200)){
-            	String username = request.getParameter("username");
-    	        String password = request.getParameter("password");
-    	        User userParam = new User(); 
-    	        userParam.setUserId(username);
-    	        userParam.setPassword(password);
-    	        String token = app.postWithoutAuthen("/login", userParam);
-    	        List<GrantedAuthority> grantedAuths = new ArrayList<>();
-    	        JsonMapper<User> user = new JsonMapper<>(token, User.class);
-    	        grantedAuths.add(new SimpleGrantedAuthority(user.getResult().getRole()));
-    	        AbstractAuthenticationToken authentication =  new CustomUsernamePasswordAuthenticationToken(username, user.getResult().getTokenId(), grantedAuths, user.getResult());
-    	        return authentication;
-            } else {
-            	throw new BadCredentialsException(captcha.get("MSG").toString());
-            }
+			if(request.getParameter("email") != null) {
+				User userParam = new User(); 
+				userParam.setEmail(request.getParameter("email"));
+				String token = app.postWithoutAuthen("/checkLoginWithEmail", userParam);
+				JsonMapper<User> user = new JsonMapper<>(token, User.class);
+				List<GrantedAuthority> grantedAuths = new ArrayList<>();
+				grantedAuths.add(new SimpleGrantedAuthority(user.getResult().getRole()));
+	    	    AbstractAuthenticationToken authentication =  new CustomUsernamePasswordAuthenticationToken(user.getResult().getUserId(), user.getResult().getTokenId(), grantedAuths, user.getResult());
+	    	    return authentication;
+			}else {
+				Map<String, Object> captcha = VerifyRecaptcha.verify(request.getParameter("recaptcha"));
+	            if(captcha.get("CODE").equals(200)){
+	            	String username = request.getParameter("username");
+	    	        String password = request.getParameter("password");
+	    	        User userParam = new User(); 
+	    	        userParam.setUserId(username);
+	    	        userParam.setPassword(password);
+	    	        String token = app.postWithoutAuthen("/login", userParam);
+	    	        List<GrantedAuthority> grantedAuths = new ArrayList<>();
+	    	        JsonMapper<User> user = new JsonMapper<>(token, User.class);
+	    	        grantedAuths.add(new SimpleGrantedAuthority(user.getResult().getRole()));
+	    	        AbstractAuthenticationToken authentication =  new CustomUsernamePasswordAuthenticationToken(username, user.getResult().getTokenId(), grantedAuths, user.getResult());
+	    	        return authentication;
+	            } else {
+	            	throw new BadCredentialsException(captcha.get("MSG").toString());
+	            }
+			}
 		}catch(Exception ex){
     		throw new BadCredentialsException(ex.getMessage());
     	}

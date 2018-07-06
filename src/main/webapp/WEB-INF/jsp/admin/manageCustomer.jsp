@@ -12,35 +12,33 @@
     	</div>
     </div>
 	<div class="row">
-		<div class="col-md-12 col-sm-12 col-xs-12">
-			 <div class="panel-round-bd">
-			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
-			    	<label for="userId" class="control-label">User ID</label>
-			    	<input type="text" class="form-control" id="userId" placeholder="User ID">
-			  	</div>
-			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
-			    	<label for="firstName" class="control-label">Name</label>
-			    	<input type="text" class="form-control" id="name" placeholder="Name">
-			  	</div>
-			  	<div class="form-group col-md-3 col-sm-3 col-xs-3">
-			    	<label for="activeStatus" class="control-label">Active Status</label>
-			    	<select class="form-control" id="activeStatus">
-			    		<option value="">-- เลือกทั้งหมด --</option>
-			    		<option value="Y">Active</option>
-			    		<option value="N">Not Active</option>
-			    	</select>
-			  	</div>
-			  	<div class="form-group col-md-1 col-sm-1 col-xs-1">
-	 			 	<button class="btn btn-warning button-flex orange-button" id="search-btn" style="margin-top:24px;">ค้นหา</button>
-	 			</div>
-			 </div>
+		<div class="col-md-12 col-sm-12 col-xs-12 panel-round-bd">
+		  	<div class="form-group col-md-3 col-sm-3 col-xs-12">
+		    	<label for="userId" class="control-label">User ID</label>
+		    	<input type="text" class="form-control" id="userId" placeholder="User ID">
+		  	</div>
+		  	<div class="form-group col-md-3 col-sm-3 col-xs-12">
+		    	<label for="firstName" class="control-label">Name</label>
+		    	<input type="text" class="form-control" id="name" placeholder="Name">
+		  	</div>
+		  	<div class="form-group col-md-3 col-sm-3 col-xs-12">
+		    	<label for="activeStatus" class="control-label">Active Status</label>
+		    	<select class="form-control" id="activeStatus">
+		    		<option value="">-- เลือกทั้งหมด --</option>
+		    		<option value="Y">Active</option>
+		    		<option value="N">Not Active</option>
+		    	</select>
+		  	</div>
+		  	<div class="form-group col-md-1 col-sm-1 col-xs-1">
+ 			 	<button class="btn btn-warning button-flex orange-button" id="search-btn">ค้นหา</button>
+ 			</div>
 		</div>
 	</div>
+	<br/>
 	<div class="row">
-		<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="col-md-12 col-sm-12 col-xs-12 panel-round-bd">
            <div class="x_panel tile overflow_hidden">
              <div class="x_content">
-               <div class="panel-round-bd number-panel">
 				<table id="user_table" class="table table-bordered table-striped" style="width:100%;margin-top:20px;">
                   <thead>
                       <tr>
@@ -54,7 +52,6 @@
                   <tbody>
                   </tbody>
               </table>
-			  </div>
              </div>
            </div>
          </div>

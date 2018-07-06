@@ -12,8 +12,11 @@ function sign_up(){
 	 password.parent().find('.help-block').html('');
 	 getDropDownList($('#prefix'), '-- คำนำหน้า --', '/MasterSetup/LoadMasterSetup/PREFIX', 'CODE', 'DESCRIPTION', '');
 	 getDropDownList($('#province'), '-- เลือกจังหวัด --', '/MasterSetup/LoadProvince', 'CODE', 'DESCRIPTION', '');
-		
-	 $('.modal-dialog').width(800);
+	 if($( window ).width() <= 598){
+		 $('.modal-dialog').width($( window ).width() - 20);
+	 }else{
+	 	$('.modal-dialog').width(800);
+	 }
 	 //$('#loginModal').modal('show');
 	 //$('#loginModal').css('margin-left', '-375px').css('margin-top', '100px');
 	 //$('#loginModal').css('margin-left', '-375px');
@@ -306,5 +309,70 @@ forgotPassword = function(){
 	$('.modal-dialog').css('width','');
 	$('#loginModal').modal('hide');
 	$('#forgotPassword').modal('show');
+}
+
+window.fbAsyncInit = function() {
+
+  FB.init({
+    appId: '1588787291248609',  
+    xfbml: true,
+    version: 'v3.0'
+  });
+  FB.AppEvents.logPageView();
+  FB.getLoginStatus(function(response) {
+    
+  });
+};
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {
+    return;
+  }
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function fb_login() {
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      	FB.api('/me', 'GET', {
+    		fields: 'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email'
+  		}, function(response) {
+			$.ajax({
+				url: GetSiteRoot() + '/j_spring_security_check',
+				method: "POST",
+				dataType: "json",
+				data: {
+					 email: response.email 
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+				},
+				cache: false,
+				success: function (data) {
+					if(data.programType == 'ADMIN'){
+						location.href = GetSiteRoot() + data.redirect;
+					}else{
+						location.reload();
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if(jqXHR.status !== 200){
+						if(typeof jqXHR.statusText != 'undefined'){
+							$('#display_error').html(jqXHR.responseText);
+							grecaptcha.reset();
+						}
+					}
+				}
+			});
+    	 }); 
+     }
+  }, {
+    scope: 'email'
+  }); 
 }
 
