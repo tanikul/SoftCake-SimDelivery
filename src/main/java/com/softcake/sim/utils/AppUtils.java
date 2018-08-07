@@ -396,7 +396,9 @@ public class AppUtils {
 		int result = 0;
 		String[] ary = simNumber.replaceAll("-", "").split("");
 		for(int i = 0; i < ary.length; i++){
-			result += Integer.parseInt(ary[i]);
+			if(!StringUtils.isEmpty(ary[i])) {
+				result += Integer.parseInt(ary[i]);
+			}
 		}
 		return result;
 	}

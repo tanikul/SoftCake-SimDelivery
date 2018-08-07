@@ -224,6 +224,7 @@ function sendPostAjaxWithoutLoading(url, params, funcName){
 
 function GetSiteRoot() {
     var rootPath = window.location.protocol + "//" + window.location.host;
+    console.log(rootPath);
     if (window.location.hostname == "localhost") {
         var path = window.location.pathname;
         if (path.indexOf("/") == 0) {
@@ -235,8 +236,12 @@ function GetSiteRoot() {
             rootPath = rootPath + "/" + path;
         }
     }else{
-    	var web = window.location.pathname.split("/", 2);
+    	/*var web = window.location.pathname.split("/", 2);
+    	console.log(window.location.pathname);
+    	console.log(web);
     	rootPath = rootPath + '/' + web[1];
+    	console.log(rootPath);*/
+    	rootPath = 'https://vipsim.co';
     }
     return rootPath;
 }

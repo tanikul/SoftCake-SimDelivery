@@ -12,7 +12,10 @@ public class PropertyHolderSystem {
 
 	@Value("${role.viewer}") 
 	private String viewer;
-
+	
+	@Value("${web.default.url}") 
+	private String defaultUrl;
+	
 	public String getChecker() {
 		return checker;
 	}
@@ -35,5 +38,14 @@ public class PropertyHolderSystem {
 
 	public void setViewer(String viewer) {
 		this.viewer = viewer;
+	}
+
+	public String getDefaultUrl() {
+		return defaultUrl;
+	}
+
+	public void setDefaultUrl(String defaultUrl) {
+		this.defaultUrl = defaultUrl;
 	}	
+	
 }

@@ -49,6 +49,47 @@ public class LoginController {
 	@Qualifier("authenticationManager")
 	LoginAuthenticationProvider loginProvider;*/
 	
+	@RequestMapping(value = "/TestPost", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String TestPost(HttpServletRequest request,
+			 HttpServletResponse response/*,
+			 @RequestParam("username") String username,
+			 @RequestParam("password") String password*/) throws SoftcakeException {
+		String u = null;
+		try {	
+			/*u = app.postWithoutAuthen("/login", user);
+			List<GrantedAuthority> grantedAuths = new ArrayList<>();
+           JsonMapper<User> result = new JsonMapper<>(u, User.class);
+           grantedAuths.add(new SimpleGrantedAuthority(result.getResult().getRole()));*/
+			/*Authentication authen = loginProvider.authenticate(new UsernamePasswordAuthenticationToken(username, ""));
+			authenSuccess.onAuthenticationSuccess(request, response, authen);*/
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex); 
+		}
+      return Constants.SUCCESS;
+  }
+	@RequestMapping(value = "/TestGet", method = RequestMethod.GET, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String TestGet(HttpServletRequest request,
+			 HttpServletResponse response/*,
+			 @RequestParam("username") String username,
+			 @RequestParam("password") String password*/) throws SoftcakeException {
+		String u = null;
+		try {	
+			/*u = app.postWithoutAuthen("/login", user);
+			List<GrantedAuthority> grantedAuths = new ArrayList<>();
+           JsonMapper<User> result = new JsonMapper<>(u, User.class);
+           grantedAuths.add(new SimpleGrantedAuthority(result.getResult().getRole()));*/
+			/*Authentication authen = loginProvider.authenticate(new UsernamePasswordAuthenticationToken(username, ""));
+			authenSuccess.onAuthenticationSuccess(request, response, authen);*/
+		} catch(Exception ex){
+			logger.error(ex);
+			throw new SoftcakeException(ex); 
+		}
+      return Constants.SUCCESS;
+  }
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(HttpServletRequest request, 
 			HttpServletResponse responses, 
@@ -177,11 +218,31 @@ public class LoginController {
 	
 	@RequestMapping(value = "/User/CheckDuplicateUser", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
 	@ResponseBody
-	public String CheckDuplicateUser(@RequestBody Map<String, String> str, 
+	public String CheckDuplicateUser(@RequestBody String str, 
 			final HttpServletResponse response) throws SoftcakeException  {
 		String result = null;
+		ObjectMapper mapper = new ObjectMapper();
 		try {
-			result = app.postWithoutAuthen("/user/checkDuplicateUser",  str.get("userId"));
+			JsonNode node = mapper.readTree(str);
+			String userId = mapper.convertValue(node.get("userId"), String.class);
+			result = app.postWithoutAuthen("/user/checkDuplicateUser",  userId);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new SoftcakeException(e, response);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/User/CheckEmailInSystem", method = RequestMethod.POST, produces="application/json;charset=UTF-8",headers = {"Accept=text/xml, application/json"})
+	@ResponseBody
+	public String CheckEmailInSystem(@RequestBody String str, 
+			final HttpServletResponse response) throws SoftcakeException  {
+		String result = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			JsonNode node = mapper.readTree(str);
+			String email = mapper.convertValue(node.get("email"), String.class);
+			result = app.postWithoutAuthen("/user/checkEmailInSystem",  email);
 		} catch (Exception e) {
 			logger.error(e);
 			throw new SoftcakeException(e, response);

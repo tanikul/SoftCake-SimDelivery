@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="https://vipsim.co/jsp/tlds/customTags" prefix="custom"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@tag pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -93,8 +94,7 @@
 									        </li>
       
  										 </ul>
-		  								<c:url value="/j_spring_security_logout" var="logoutUrl" />
-  										<form action="${logoutUrl}" method="post" id="logoutForm">
+  										<form action="<c:url value="/j_spring_security_logout"/>" method="post" id="logoutForm">
 										 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 									  </form>
  									</c:otherwise>

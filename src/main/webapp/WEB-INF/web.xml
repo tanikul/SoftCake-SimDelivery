@@ -51,4 +51,10 @@
         org.springframework.web.context.ContextLoaderListener
     </listener-class>
   </listener>
+  <jsp-config>
+  <taglib>
+  	<taglib-uri>https://vipsim.co/jsp/tlds/customTags</taglib-uri>
+  	<taglib-location>/WEB-INF/custom.tld</taglib-location>
+  </taglib>
+  </jsp-config>
 </web-app>

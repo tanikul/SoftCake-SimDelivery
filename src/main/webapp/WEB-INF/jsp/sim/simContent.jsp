@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ taglib uri="https://vipsim.co/jsp/tlds/customTags" prefix="custom"%>
 <t:master>
 	<jsp:body>
 	<script src="<c:url value="/js/sim.js" />"></script>
@@ -112,7 +112,6 @@
 	    <script>
 	    
 	    $(document).ready(function(){
-	    	
     	    var sim = new Sim();
     	    simsJson = ('${simsJson}' == 'null' || '${simsJson}' == '') ? null : JSON.parse('${simsJson}');
 			if(simsJson != null){

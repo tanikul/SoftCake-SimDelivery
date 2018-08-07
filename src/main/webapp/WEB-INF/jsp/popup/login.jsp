@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<c:url value="/j_spring_security_check" var="loginUrl" />
+<%@ taglib uri="https://vipsim.co/jsp/tlds/customTags" prefix="custom"%>
 <%@ page import = "java.io.*,java.util.*" %>
 <%@page import="com.softcake.sim.common.FBConnection"%>
 <%

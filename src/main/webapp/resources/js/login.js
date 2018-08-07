@@ -1,7 +1,7 @@
 function sign_up(){ 
 	 $('#signin').hide();
 	 $('#signup').show();
-	 
+	 $('#signup :input').val('');
 	 document.querySelectorAll('.ul_tabs > li')[0].className = ""; 
 	 document.querySelectorAll('.ul_tabs > li')[1].className = "active"; 
 	 var username = $('#signup #username-signup');
@@ -341,32 +341,42 @@ function fb_login() {
       	FB.api('/me', 'GET', {
     		fields: 'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email'
   		}, function(response) {
-			$.ajax({
-				url: GetSiteRoot() + '/j_spring_security_check',
-				method: "POST",
-				dataType: "json",
-				data: {
-					 email: response.email 
-				},
-				contentType: "application/x-www-form-urlencoded; charset=utf-8",
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
-				},
-				cache: false,
-				success: function (data) {
-					if(data.programType == 'ADMIN'){
-						location.href = GetSiteRoot() + data.redirect;
-					}else{
-						location.reload();
-					}
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					if(jqXHR.status !== 200){
-						if(typeof jqXHR.statusText != 'undefined'){
-							$('#display_error').html(jqXHR.responseText);
-							grecaptcha.reset();
+  			sendPostAjax('/User/CheckEmailInSystem', { email: 'ultraman_taro_16@hotmail.com'}, function(data){
+				if(data == 1){
+					$.ajax({
+						url: GetSiteRoot() + '/j_spring_security_check',
+						method: "POST",
+						dataType: "json",
+						data: {
+							 email: response.email 
+						},
+						contentType: "application/x-www-form-urlencoded; charset=utf-8",
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+						},
+						cache: false,
+						success: function (data) {
+							if(data.programType == 'ADMIN'){
+								location.href = GetSiteRoot() + data.redirect;
+							}else{
+								location.reload();
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							if(jqXHR.status !== 200){
+								if(typeof jqXHR.statusText != 'undefined'){
+									$('#display_error').html(jqXHR.responseText);
+									grecaptcha.reset();
+								}
+							}
 						}
-					}
+					});
+				}else if(data == 0){
+		    		openLogin();
+		    		sign_up();
+					$('#signup #email').val('ultraman_taro_16@hotmail.com');
+					$('#signup #firstName').val(response.first_name);
+					$('#signup #lastName').val(response.last_name);
 				}
 			});
     	 }); 
